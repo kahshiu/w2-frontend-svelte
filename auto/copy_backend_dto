@@ -1,0 +1,12 @@
+# source1='../../backend/src/routes/assignments/dto'
+source_dto='../backend/src/helpers/dto'
+destination_dto='src/lib/shared/dto'
+
+echo "To remove files in $destination_dto:"
+for file in "$destination_dto"/*; do
+  echo "$file"
+done
+
+rm -rf "$destination_dto"/*
+mkdir -p "$destination_dto"
+cp -r "$source_dto"/* "$destination_dto"

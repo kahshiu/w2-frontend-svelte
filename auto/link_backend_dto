@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Specify the source directory
+rel_source_dto='../backend/src/helpers/dto'
+abs_source_dto=$(realpath "$rel_source_dto")
+
+rel_destination_dto='src/lib/shared/dto'
+mkdir -p "$rel_destination_dto"
+abs_destination_dto=$(realpath "$rel_destination_dto")
+
+# Check if the destination directory exists, create it if not
+
+# Loop through each folder in the source directory and create symbolic links in the destination directory
+for folder in "$abs_source_dto"/*; do
+
+  # Extract the folder name without the path
+  foldername=$(basename "$folder")
+  echo $folder
+
+  # Create a symbolic link for the folder in the destination directory
+  ln -s "$folder" "$abs_destination_dto/$foldername"
+
+  echo "Symbolic link created for folder: $abs_destination_dto/$foldername"
+done
+
+echo "Symbolic links creation completed."

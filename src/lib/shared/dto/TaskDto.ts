@@ -1,0 +1,43 @@
+import type { RemarksDto } from "./JsonDto";
+import { FeeType, InvoiceStatusCode, PaymentStatusCode, ServiceType, TaskStatusCode } from "./enums";
+
+export interface TaskDto {
+    taskId: number;
+    svcYear: number;
+    svcId: number;
+    svcTypeId: ServiceType;
+    ownerId: number;
+    svcProviderId: number;
+    picId: number;
+    closingStock: number;
+    dateDue: Date;
+    dateReady: Date;
+    dateQueriesReceived: Date;
+    dateQueriesReplied: Date;
+    dateAuditPageSigned: Date;
+    dateTaxPageSigned: Date;
+    dateCosecAccPageSigned: Date;
+    dateSendbackClient: Date;
+    dateSendbackAuditor: Date;
+    dateReportScanned: Date;
+    dateLate: Date;
+    dateDocsReceived: Date;
+    dateDraftReviewed: Date;
+    dateDraftReturned: Date;
+    dateClientSigned: Date;
+    dateSubmitted: Date;
+    submission1: string;
+    revision1: string;
+    revision2: string;
+    revisionMth11: string;
+    engagementType: string;
+    feeType: FeeType;
+    fee: number;
+    feePaidDate: Date;
+    taskStatusCode: TaskStatusCode;
+    invoiceNo: string;
+    invoiceAmount: number;
+    invoiceStatusCode: InvoiceStatusCode;
+    paymentStatusCode: PaymentStatusCode;
+    remarks: RemarksDto[];
+}

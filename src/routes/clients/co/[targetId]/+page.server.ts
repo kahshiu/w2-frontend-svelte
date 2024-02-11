@@ -1,6 +1,7 @@
-import { LIST_CO_CLIENT, fetchDefinition, fetchJson } from "$lib/shared/ajax";
-import type { ClientCoDto } from "$lib/shared/dto/ProfileDto";
-import { error } from "@sveltejs/kit";
+import { fetchDefinition, fetchJson, LIST_CO_CLIENT, SAVE_CO_CLIENT, WAY_FRONTEND } from "$lib/shared/ajax";
+import type { ClientCoDto, ProfileDto } from "$lib/shared/dto/ProfileDto";
+import { error, redirect } from "@sveltejs/kit";
+import type { Actions } from "./$types";
 
 export const load = async () => {
   const defResult = await fetchDefinition()
@@ -16,8 +17,6 @@ export const load = async () => {
   }
 }
 
-
-/*
 export const actions: Actions = {
   save: async (event) => {
     const { request } = event;
@@ -25,11 +24,10 @@ export const actions: Actions = {
     const entityId = formData.get("entityId") as number | null;
     const method = entityId !== null && entityId > 0 ? "PATCH" : "POST";
 
-    const resp = await fetchJson<ProfileDto[]>(SAVE_SERVICE_PROVIDER, {
+    const resp = await fetchJson<ProfileDto[]>(SAVE_CO_CLIENT, {
       method,
       body: formData,
     })
-    redirect(303, `${WAY_FRONTEND}/svc-providers/co/${resp.result}`)
+    redirect(303, `${WAY_FRONTEND}/clients/co/${resp.result}`)
   }
 }
-*/

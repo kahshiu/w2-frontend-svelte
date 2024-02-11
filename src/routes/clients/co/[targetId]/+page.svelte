@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
 	import ClientCoForm from '$lib/components/ClientCoForm.svelte';
-	import type { DefinitionStore } from '$lib/shared/dto/DefinitionDto';
 	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto.js';
 	import { dtStrISO } from '$lib/shared/utils';
 
@@ -82,6 +81,7 @@
 			definitions={data.definitions}
 			entityId={targetEntity.entityId}
 			entityName={targetEntity.entityName}
+			entitySubtype={targetEntity.entitySubtype}
 			coRegNoOld={targetEntity.coRegNoOld}
 			coRegNoNew={targetEntity.coRegNoNew}
 			dateIncorp={dtStrISO(targetEntity.dateIncorp ?? '')}
@@ -89,10 +89,10 @@
 			incomeTaxBranch={targetEntity.incomeTaxBranch}
 			incomeTaxNo={targetEntity.incomeTaxNo}
 			employerNo={targetEntity.employerNo}
-			directorName={targetEntity.directorDetails.name}
-			directorIc={targetEntity.directorDetails.ic}
-			directorLogin={targetEntity.directorDetails.login}
-			directorPwd={targetEntity.directorDetails.pwd}
+			directorName={targetEntity.directorDetails?.name}
+			directorIc={targetEntity.directorDetails?.ic}
+			directorLogin={targetEntity.directorDetails?.login}
+			directorPwd={targetEntity.directorDetails?.pwd}
 			contactDetails={targetEntity.contactDetails}
 			entityStatus={targetEntity.entityStatus}
 			profileStatus={targetEntity.profileStatus}

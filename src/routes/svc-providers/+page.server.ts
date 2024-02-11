@@ -14,7 +14,6 @@ export const load = async () => {
     error(404, { message: respSvcProviders.message })
   }
 
-  console.log("testing")
   return {
     definitions: respDef.result,
     svcProviders: respSvcProviders.result,

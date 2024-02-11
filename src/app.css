@@ -474,6 +474,16 @@ hr {
   margin-bottom: var(--spacing-medium);
 }
 
+label {
+  font-size: var(--font-size-small);
+}
+
+label.label-selected {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+  font-style: italic;
+}
+
 .field-label,
 .field-spacing {
   margin-bottom: var(--spacing-x-small);
@@ -488,13 +498,7 @@ hr {
 
 /** form elements **/
 input[type="text"],
-input[type="submit"],
-input[type="button"],
-select,
-button,
-textarea {}
-
-input[type="text"],
+input[type="date"],
 textarea {
   min-width: 15rem;
   border-radius: 0.3rem;
@@ -563,6 +567,14 @@ input[type="button"].reset,
 button.reset {
   font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);
+}
+
+.radio-selected {
+  /*
+  border: 1px solid black;
+  */
+  font-weight: var(--font-weight-bold);
+  font-style: italic;
 }
 
 /** button casing **/

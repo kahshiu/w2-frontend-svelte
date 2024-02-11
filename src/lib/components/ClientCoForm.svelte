@@ -4,6 +4,7 @@
 	import { EntityStatus, ProfileStatus } from '$lib/shared/dto/enums';
 	import { dtStrISO } from '$lib/shared/utils';
 	import ContactForm from './forms/ContactForm.svelte';
+	import RadioGroup from './forms/RadioGroup.svelte';
 	import RemarksHistory from './forms/RemarksHistory.svelte';
 
 	export let definitions: DefinitionStore;
@@ -38,6 +39,7 @@
 				name="entityName"
 				id="entityName"
 				placeholder="Type name here"
+				required
 				bind:value={entityName}
 			/>
 		</div>
@@ -45,52 +47,17 @@
 
 	<div class="form-field">
 		<label class="field-label" for="entityName">Company Type:</label>
-		<div>
-			{#each definitions.entitySubtype as item}
-				<div class="field-spacing">
-					<input
-						type="radio"
-						name="entitySubtype"
-						id="entitySubtype{item.code}"
-						value={item.code}
-						bind:group={entitySubtype}
-					/>
-					<label for="entitySubtype{item.code}">{item.label}</label>
-				</div>
-			{/each}
-		</div>
+		<RadioGroup fieldName="entitySubtype" options={definitions.entityStatus} selectedItem={entitySubtype} />
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="entityStatus">Company status:</label>
-		{#each definitions.entityStatus as item}
-			<div class="field-spacing">
-				<input
-					type="radio"
-					name="entityStatus"
-					id="entityStatus{item.code}"
-					value={item.code}
-					bind:group={entityStatus}
-				/>
-				<label for="entityStatus{item.code}">{item.label}</label>
-			</div>
-		{/each}
+		<RadioGroup fieldName="entityStatus" options={definitions.entityStatus} selectedItem={entityStatus} />
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="entityStatus">Profile status:</label>
-		{#each definitions.profileStatus as item}
-			<div class="field-spacing">
-				<input
-					type="radio"
-					name="profileStatus"
-					id="profileStatus{item.code}"
-					value={item.code}
-					bind:group={profileStatus}
-				/>
-				<label for="profileStatus{item.code}">{item.label}</label>
-			</div>
-		{/each}
+		<RadioGroup fieldName="profileStatus" options={definitions.profileStatus} selectedItem={profileStatus} />
 	</div>
 
 	<div class="form-field">

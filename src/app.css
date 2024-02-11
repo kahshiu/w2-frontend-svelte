@@ -342,6 +342,11 @@ html {
   padding-bottom: var(--spacing-x-small);
 }
 
+h1 {
+  font-variant: small-caps;
+  letter-spacing: var(--letter-spacing-loose);
+}
+
 .left-footer {
   float: left;
 }
@@ -351,8 +356,30 @@ html {
 }
 
 /** components **/
-.breadcrumb ul {
-  padding-left: 0rem;
+a:visited,
+a:link {
+  display: inline-block;
+  width: 100%;
+  color: var(--color-blue-600);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+a:hover {
+  padding-top: var(--spacing-small);
+  padding-bottom: var(--spacing-small);
+  font-weight: var(--font-weight-bold);
+  text-decoration: underline;
+}
+
+nav ul {
+  list-style-type: none;
+  padding-left: var(--spacing-medium);
+}
+
+nav div,
+nav li {
+  margin-bottom: var(--spacing-small)
 }
 
 .breadcrumb ul>li {
@@ -462,6 +489,20 @@ select {
   padding: var(--spacing-2x-small) var(--spacing-x-small);
 }
 
+input[type="radio"],
+input[type="checkbox"] {
+  margin: var(--spacing-2x-small);
+  transform: scale(1.5)
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0px 0px 4px black
+}
+
+
+
 input[type="submit"],
 input[type="button"],
 input[type="reset"],
@@ -488,7 +529,7 @@ button:hover {
 input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active,
-button:hover {
+button:active {
   border: 1px solid black;
   background-color: var(--color-gray-400);
   color: white;
@@ -500,16 +541,6 @@ input[type="button"].reset,
 button.reset {
   font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);
-}
-
-input[type="text"]:focus {
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-  margin: var(--spacing-2x-small);
-  transform: scale(1.5)
 }
 
 /* tooltip */
@@ -539,11 +570,3 @@ input[type="checkbox"] {
 }
 
 /* Show tooltip on hover */
-a {
-  display: inline-block;
-  width: 100%;
-}
-
-li {
-  margin-bottom: var(--spacing-small)
-}

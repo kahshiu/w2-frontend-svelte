@@ -57,12 +57,12 @@
 </div>
 
 <main>
-	<div class="breadcrumb">
+	<nav class="breadcrumb">
 		<ul>
 			<li><a href="/svc-providers">List of Service Provider</a></li>
 			<li>{entityName} [ID: {entityId}]</li>
 		</ul>
-	</div>
+	</nav>
 
 	<h2>
 		{#if entityId > 0}

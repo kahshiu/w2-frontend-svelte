@@ -4,14 +4,14 @@
 		<ul>
 			<li><a href="/">Home</a></li>
 			<li>
-				<span>Profiler</span>
+				<div>Profiler</div>
 				<ul>
 					<li><a href="/clients">Clients</a></li>
 					<li><a href="/svc-providers">Service Provider</a></li>
 				</ul>
 			</li>
 			<li>
-				<span>Task</span>
+				<div>Task</div>
 				<ul>
 					<li><a href="/tasks/mass-tasks">Task Creation</a></li>
 					<li><a href="/tasks/pic-tasks">Task by PIC</a></li>

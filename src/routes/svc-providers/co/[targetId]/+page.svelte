@@ -36,23 +36,7 @@
 
 <div>
 	<h1>MasterList</h1>
-	<div class="button-group">
-		<a class="button" href="/svc-providers/co/new">New Company Service Provider</a>
-		<a class="button" href="/svc-providers/co/new">New Company Service Provider</a>
-		<a class="button" href="/svc-providers/co/new">New Company Service Provider</a>
-	</div>
-	<div class="button-group">
-		<a class="button" style="" href="">asdfasdf</a>
-		<a class="button" style="" href="">asdfasdf</a>
-		<a class="button" style="" href="">asdfasdf</a>
-		<a class="button" style="" href="">asdfasdf</a>
-		<a class="button" style="" href="">asdfasdf</a>
-	</div>
-	<div class="button-group">
-		<button>asdfasdf</button>
-		<button>asdfasdf</button>
-		<button>asdfasdf</button>
-	</div>
+	<a class="button mb-small" href="/svc-providers/co/new">New Company Service Provider</a>
 	<nav>
     <input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />
 		<ul class="sidebar">

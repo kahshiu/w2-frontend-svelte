@@ -9,7 +9,6 @@ import type { ProfileDto, SvcProviderCoDto } from "$lib/shared/dto/ProfileDto";
 import { error, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoadEvent } from "./$types";
 
-
 export const load = async (event: PageServerLoadEvent) => {
   const defResult = await fetchDefinition()
 

@@ -22,7 +22,7 @@
 		if (v.length > 0) {
 			svcProviderFiltered = data.svcProviders.filter((p) => {
 				const n = p.entityName.toLowerCase();
-				return n.match(v);
+				return new RegExp(v).test(n);
 			});
 		} else {
 			svcProviderFiltered = data.svcProviders;
@@ -40,7 +40,7 @@
 	<nav>
     <input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />
 		<ul class="sidebar">
-			{#each data.svcProviders as item, key}
+			{#each svcProviderFiltered as item}
 				<li><a href="/svc-providers/co/{item.entityId}">{item.entityName}</a></li>
 			{/each}
 		</ul>

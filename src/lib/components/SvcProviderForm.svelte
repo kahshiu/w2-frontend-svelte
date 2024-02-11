@@ -22,27 +22,24 @@
 			type="text"
 			id="entityName"
 			name="entityName"
-			placeholder="Type here"
-			class="stretch-half"
+			placeholder="Type name here"
 			bind:value={entityName}
 		/>
 	</div>
 	<div class="form-field">
 		<label class="field-label" for="entityStatus">Company Status:</label>
-		<div>
-			{#each definitions.entityStatus as item}
-				<div class="field-spacing">
-					<input
-						type="radio"
-						name="entityStatus"
-						id="entityStatus{item.code}"
-						value={item.code}
-						bind:group={entityStatus}
-					/>
-					<label for="entityStatus{item.code}">{item.label}</label>
-				</div>
-			{/each}
-		</div>
+		{#each definitions.entityStatus as item}
+			<div class="field-spacing">
+				<input
+					type="radio"
+					name="entityStatus"
+					id="entityStatus{item.code}"
+					value={item.code}
+					bind:group={entityStatus}
+				/>
+				<label for="entityStatus{item.code}">{item.label}</label>
+			</div>
+		{/each}
 	</div>
 </div>
 

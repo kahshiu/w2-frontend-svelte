@@ -432,6 +432,11 @@ table th.narrow {
   min-width: 3.5rem;
 }
 
+table td.wide,
+table th.wide {
+  min-width: 23.5rem;
+}
+
 table td.center,
 table th.center {
   text-align: center;
@@ -494,11 +499,13 @@ textarea {
   min-width: 15rem;
   border-radius: 0.3rem;
   padding: var(--spacing-2x-small) var(--spacing-x-small);
+  font-size: var(--font-size-medium);
 }
 
 select {
   min-width: 16.2rem;
   padding: var(--spacing-2x-small) var(--spacing-x-small);
+  font-size: var(--font-size-medium);
 }
 
 input[type="radio"],
@@ -524,6 +531,7 @@ button {
   border: 1px solid var(--color-blue-600);
   border-radius: 0.3rem;
   background-color: var(--color-blue-50);
+  font-size: var(--font-size-medium);
   color: var(--color-blue-600);
   cursor: pointer;
   transition: all 0.3s;

@@ -31,7 +31,6 @@
 		/>
 		<div class="form-actions">
 			<input type="submit" value="Save" />
-			<input class="reset" type="button" value="Cancel" />
 		</div>
 	</form>
 </main>

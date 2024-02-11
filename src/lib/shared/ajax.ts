@@ -1,5 +1,8 @@
+import { error } from "@sveltejs/kit";
+import type { DefinitionStore } from "./dto/DefinitionDto";
 import { config } from "./globals";
 
+export const WAY_FRONTEND = `http://localhost:5173`;
 export const WAY_BACKEND = `http://${config.backend.host}:${config.backend.port}/api`;
 
 export const GET_DIAGNOSTICS_VERSION = `${WAY_BACKEND}/diagnostics/version`;
@@ -34,4 +37,12 @@ export const fetchJson = async <TResult>(url: RequestInfo, options?: RequestInit
       message: "Error fetching data from server"
     };
   }
+}
+
+export const fetchDefinition = async () => {
+  const respDef = await fetchJson<DefinitionStore>(GET_DEFINITIONS);
+  if (respDef.result === null) {
+    error(404, { message: respDef.message })
+  }
+  return respDef.result
 }

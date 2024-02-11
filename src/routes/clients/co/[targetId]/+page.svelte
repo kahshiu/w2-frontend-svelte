@@ -57,21 +57,21 @@
 		</ul>
 	</nav>
 
-	<h2>Update Company Client Details</h2>
+	<h2>Update Company Client</h2>
 
 	<div class="button-group">
 		<input
 			type="button"
 			value="Service Folders"
 			on:click={() => {
-				goto('/profiles/clients/com/services?targetId=' + data.targetId);
+				goto(`/clients/co/${data.targetId}/services`);
 			}}
 		/>
 		<input
 			type="button"
 			value="Folder Tasks"
 			on:click={() => {
-				goto('/profiles/clients/com/services?targetId=' + data.targetId);
+				goto(`/clients/co/${data.targetId}/tasks`);
 			}}
 		/>
 	</div>

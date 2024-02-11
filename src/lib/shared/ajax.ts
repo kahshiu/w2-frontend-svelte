@@ -14,7 +14,7 @@ export const SAVE_SERVICE_PROVIDER = `${WAY_BACKEND}/profiles/service-providers/
 // export const SAVE_SERVICE_PROVIDER_INDIVIDUAL = `${WAY_BACKEND}/profiles/service-providers/indi`;
 
 export const LIST_CO_CLIENT = `${WAY_BACKEND}/profiles/clients/co/list`;
-export const GET_CO_CLIENT = `${WAY_BACKEND}/profiles/client/co`;
+export const GET_CO_CLIENT = `${WAY_BACKEND}/profiles/clients/co`;
 export const SAVE_CO_CLIENT = `${WAY_BACKEND}/profiles/clients/co`;
 export const GET_CO_CLIENT_SERVICES = `${WAY_BACKEND}/profiles/clients/co/services`;
 export const SAVE_CO_CLIENT_SERVICES = `${WAY_BACKEND}/profiles/clients/co/services`;

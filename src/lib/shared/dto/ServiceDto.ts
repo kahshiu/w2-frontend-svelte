@@ -11,10 +11,10 @@ export interface ServiceDto {
     svcStatusCode: ServiceStatusCode;
 }
 
-type ServiceKeys = keyof typeof ServiceType
+export type ServiceKeys = keyof typeof ServiceType
 export type ServiceDataset = Record<ServiceKeys, ServiceDto | null>
 
-export class ServiceFilterDto {
+export interface ServiceFilterDto {
     svcId: number;
     svcTypeId: ServiceType;
     listOfSvcTypeIds: ServiceType[];

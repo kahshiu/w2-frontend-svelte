@@ -525,10 +525,10 @@ textarea:focus {
 }
 
 a.button,
+button,
 input[type="submit"],
 input[type="button"],
-input[type="reset"],
-button {
+input[type="reset"] {
   min-width: 5rem;
   box-sizing: content-box;
   padding: var(--spacing-x-small) var(--spacing-medium);
@@ -541,6 +541,15 @@ button {
   transition: all 0.3s;
 }
 
+a.button.small,
+button.small,
+input[type="submit"].small,
+input[type="button"].small,
+input[type="reset"].small {
+  padding: var(--spacing-2x-small) var(--spacing-x-small);
+  font-size: var(--font-size-small);
+}
+
 a.button:hover,
 input[type="submit"]:hover,
 input[type="button"]:hover,
@@ -550,6 +559,12 @@ button:hover {
   background-color: var(--color-gray-600);
   color: white;
 }
+
+a.button:disabled,
+button:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+input[type="reset"]:disabled,
 
 a.button:active,
 input[type="submit"]:active,
@@ -608,4 +623,34 @@ button.reset {
   visibility: visible;
 }
 
-/* Show tooltip on hover */
+/** data details **/
+.data-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.data-4-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/** display details **/
+.disp-4-col {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 2fr;
+}
+
+.disp-4-col div,
+.data-4-col div {
+  padding: var(--spacing-2x-small) var(--spacing-medium);
+  margin-bottom: var(--spacing-3x-small);
+}
+
+.disp-4-col div:nth-child(odd) {
+  background-color: var(--color-blue-50);
+  border: 1px solid var(--color-blue-600);
+}
+
+.hidden {
+  display: none;
+}

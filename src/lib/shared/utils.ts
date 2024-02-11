@@ -3,6 +3,8 @@ export const strPadded2 = (num: number) => num.toString().padStart(2, '0');
 
 export const isEmptyObj = (obj: any) => Object.keys(obj).length === 0;
 
+export const filledObj = (obj: any) => !isEmptyObj(obj);
+
 // SECTION: date helpers 
 interface DateFormatterOptions extends Intl.DateTimeFormatOptions {
   locale: string;
@@ -11,7 +13,6 @@ interface DateFormatterOptions extends Intl.DateTimeFormatOptions {
 export const defaultFormatOptions: DateFormatterOptions = {
   locale: "en-GB",
   dateStyle: "medium",
-  timeStyle: "short",
   hour12: true,
 };
 
@@ -28,8 +29,8 @@ export const dtFormatter = (date: Date, options = defaultFormatOptions) => {
   }
 };
 
-export const dtStrFormatter = (str: string, options = dtrStrFormatOption) => {
-  if (str === "") return "";
+export const dtStrFormatter = (str: string | null | undefined, options = dtrStrFormatOption) => {
+  if (str === null || str === undefined || str === "") return "";
   return dtFormatter(new Date(str), options);
 };
 

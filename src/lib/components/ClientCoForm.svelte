@@ -47,7 +47,7 @@
 
 	<div class="form-field">
 		<label class="field-label" for="entityName">Company Type:</label>
-		<RadioGroup fieldName="entitySubtype" options={definitions.entityStatus} selectedItem={entitySubtype} />
+		<RadioGroup fieldName="entitySubtype" options={definitions.entitySubtype} selectedItem={entitySubtype} />
 	</div>
 
 	<div class="form-field">

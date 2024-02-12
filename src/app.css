@@ -370,14 +370,18 @@ a:link {
 }
 
 a:hover {
-  padding-top: var(--spacing-small);
-  padding-bottom: var(--spacing-small);
   font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-looser);
 }
 
 a.button {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-normal);
+}
+
+a.button:hover {
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
 }
 
 nav ul {
@@ -475,6 +479,7 @@ hr {
 }
 
 label {
+  cursor: pointer;
   font-size: var(--font-size-small);
 }
 
@@ -649,6 +654,10 @@ button.reset {
 .disp-4-col div:nth-child(odd) {
   background-color: var(--color-blue-50);
   border: 1px solid var(--color-blue-600);
+}
+
+.gray-text {
+  color: var(--color-gray-400)
 }
 
 .b-bottom {

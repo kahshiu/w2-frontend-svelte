@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import ServiceFolder from '$lib/components/ServiceFolder.svelte';
 	import ClientCo from '$lib/components/disp/ClientCo.svelte';
 	import { MyDefinition } from '$lib/shared/MyDefinition';
 	import type { SvcProviderCoDto, ClientCoDto, StaffSvelteDto } from '$lib/shared/dto/ProfileDto';
 	import type { ServiceDataset, ServiceKeys } from '$lib/shared/dto/ServiceDto.js';
+	import { ServiceStatusCode } from '$lib/shared/dto/enums';
 	import { filledObj } from '$lib/shared/utils.js';
 
 	export let data;
@@ -65,6 +66,13 @@
 		return isFilled.length == 0;
 	};
 
+  const isSelected = (target: number | null, curr: number | null) => {
+    if(target === null || curr === null) return false;
+    return target === curr;
+  }
+
+	let years = [];
+
 	afterNavigate(() => {
 		resetEntity(data.targetId);
 	});
@@ -95,7 +103,17 @@
 	<h3><u>Client Details</u></h3>
 	<ClientCo {myDefinition} {targetEntity} />
 
-  <h3><u>Service Details</u></h3>
+	<h3><u>Folder Details</u></h3>
+	<div class="button-group">
+		<input
+			type="button"
+			class="small"
+			value="Manage Service Folders"
+			on:click={() => {
+				goto(`/clients/co/${data.targetId}/services`);
+			}}
+		/>
+	</div>
 	{#if isArrayOfEmptyObj(data.services)}
 		-- No service folders to show --
 	{:else}
@@ -112,7 +130,11 @@
 			<tbody>
 				{#each Object.entries(data.services) as [key, value]}
 					{#if filledObj(value)}
-						<tr>
+						<tr
+							class={[ServiceStatusCode.SUSPENDED].includes(value?.svcStatusCode)
+								? 'gray-text'
+								: ''}
+						>
 							<td class="narrow">
 								{value?.svcId}
 							</td>
@@ -135,13 +157,64 @@
 		</table>
 	{/if}
 
-  <h3><u>Task Creation</u></h3>
-  <form method="POST" action="?/save">
-    <div class="form-col-2">
-      <div class="form-field">
-        <input type="hidden" readonly name="entityId" value={data.targetId} />
-        <pre>
+	<h3><u>Task Creation</u></h3>
 
+	<form method="POST" action="?/save">
+		<ul>
+			<li>You should create folders first, then add tasks to it.</li>
+			<li>You cannot add tasks to SUSPENDED folders.</li>
+		</ul>
+		<table>
+			<thead>
+				<tr>
+					<th>Types of Task</th>
+					<th>PIC</th>
+					<th>Ext. SP</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each Object.entries(data.services) as [key, value]}
+					{@const isDisabled = [ServiceStatusCode.SUSPENDED].includes(value.svcStatusCode)}
+					{#if filledObj(value)}
+						<tr>
+							<td>
+								<input
+									type="checkbox"
+									value={value.svcTypeId}
+									id={`svcTypeId-${value.svcTypeId}`}
+									name="listOfSvcTypeIds"
+									disabled={isDisabled}
+								/>
+								<label class="field-label" for={`svcTypeId-${value.svcTypeId}`}>
+									{myDefinition.findEntry('serviceType', value?.svcTypeId)}
+								</label>
+							</td>
+							<td>
+								<select name={'asdf'} disabled={isDisabled}>
+                  <option value="0" selected={value.defaultPicId === null}> -- Unassigned -- </option>
+									{#each data.svcProviders[0].staff as item}
+										<option value={item.entityId} selected={isSelected(value.defaultPicId, item.entityId)}>{item.staffName}</option>
+									{/each}
+								</select>
+							</td>
+							<td>
+								<select name={'asdf'} disabled={isDisabled}>
+                  <option value="0" selected={value.defaultSvcProviderId === null}> -- Unassigned -- </option>
+									{#each data.svcProviders as item}
+										<option value={item.entityId} selected={isSelected(value.defaultSvcProviderId, item.entityId)}>{item.entityName}</option>
+									{/each}
+								</select>
+							</td>
+						</tr>
+					{/if}
+				{/each}
+			</tbody>
+		</table>
+
+		<div class="form-col-2">
+			<div class="form-field">
+				<input type="hidden" readonly name="entityId" value={data.targetId} />
+				<pre>
         year 
         svc_id (folder)
         svc_type_id (known)
@@ -151,11 +224,9 @@
         table sortable
         existing records by year/ type/ pic, sp
         </pre>
-      </div>
-    </div>
-    
-
-  </form>
+			</div>
+		</div>
+	</form>
 
 	<br />
 </main>

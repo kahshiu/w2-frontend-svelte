@@ -194,6 +194,7 @@
 			{/if}
 		{/each}
 		<div class="form-actions">
+			<p> If you do encounter unresponsive save, please "view all" folders. There are invalid form fields, esp Folder Status  </p>
 			<input type="submit" value="Save" />
 		</div>
 	</form>

@@ -6,7 +6,7 @@
 	import type { SvcProviderCoDto, ClientCoDto, StaffSvelteDto } from '$lib/shared/dto/ProfileDto';
 	import type { ServiceDataset, ServiceKeys } from '$lib/shared/dto/ServiceDto.js';
 	import { ServiceStatusCode } from '$lib/shared/dto/enums';
-	import { filledObj } from '$lib/shared/utils.js';
+	import { filledObj, isEmptyObj } from '$lib/shared/utils.js';
 
 	export let data;
 
@@ -59,9 +59,10 @@
 		return targetCo?.entityName ?? unassignedName;
 	};
 
-	const isArrayOfEmptyObj = (arr: any[]) => {
-		const isFilled = Object.entries(arr).filter(([key, value]) => filledObj(value));
-		return isFilled.length == 0;
+	const isArrayOfEmptyObj = <T,>(arr: T[]) => {
+		// NOTE: cant find even 1 filled, means all empty
+		const isFilled = arr.find((value) => filledObj(value));
+		return isFilled === undefined;
 	};
 
 	const isSelected = (target: number | null, curr: number | null) => {
@@ -134,7 +135,7 @@
 			}}
 		/>
 	</div>
-	{#if isArrayOfEmptyObj(data.services)}
+	{#if isArrayOfEmptyObj(Object.values(data.services))}
 		-- No service folders to show --
 	{:else}
 		<table class="border-all">
@@ -244,10 +245,10 @@
 
 		<h4>Years</h4>
 		<input type="hidden" readonly name="entityId" value={data.targetId} />
-    <div class="row-add">
-      <input type="number" name="newYear" min="1980" max="2100" bind:value={newYear} />
-      <input type="button" class="small" on:click={(e) => addYear()} value="Add" />
-    </div>
+		<div class="row-add">
+			<input type="number" name="newYear" min="1980" max="2100" bind:value={newYear} />
+			<input type="button" class="small" on:click={(e) => addYear()} value="Add" />
+		</div>
 		<ul class="years-field">
 			{#each years as item, key}
 				<li>

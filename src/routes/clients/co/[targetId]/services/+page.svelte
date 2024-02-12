@@ -95,9 +95,9 @@
 	</nav>
 	<h2>Create Service Folders</h2>
 
+	<h3><u>Client Details</u></h3>
 	<ClientCo {myDefinition} {targetEntity} />
 
-	<br />
 	<h3><u>Folder Details</u></h3>
 	<div class="button-group">
 		<input

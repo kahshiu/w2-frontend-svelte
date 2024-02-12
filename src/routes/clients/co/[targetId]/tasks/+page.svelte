@@ -10,8 +10,6 @@
 
 	export let data;
 
-	console.log('tracing data: ', data);
-
 	let clientsFiltered = data.clients;
 	let myDefinition = new MyDefinition(data.definitions);
 	let targetEntity: ClientCoDto;
@@ -66,12 +64,34 @@
 		return isFilled.length == 0;
 	};
 
-  const isSelected = (target: number | null, curr: number | null) => {
-    if(target === null || curr === null) return false;
-    return target === curr;
-  }
+	const isSelected = (target: number | null, curr: number | null) => {
+		if (target === null || curr === null) return false;
+		return target === curr;
+	};
 
-	let years = [];
+	let years: number[] = [];
+	let newYear: number = 0;
+	const addYear = () => {
+		years = [...years, newYear];
+	};
+	const removeYear = (index: number) => {
+		years.splice(index, 1);
+		years = [...years];
+	};
+
+	let isInvalid = true;
+	let message = 'At least ONE entry in years';
+	$: {
+		isInvalid = years.length == 0;
+	}
+
+	const handleSubmit = (e: Event) => {
+		const taskForm = document.getElementById('taskForm') as HTMLFormElement;
+		const isYes = confirm('This will submit your changes. Proceed?');
+		if (isYes) {
+			taskForm.submit();
+		}
+	};
 
 	afterNavigate(() => {
 		resetEntity(data.targetId);
@@ -158,8 +178,7 @@
 	{/if}
 
 	<h3><u>Task Creation</u></h3>
-
-	<form method="POST" action="?/save">
+	<form id="taskForm" method="POST" action="?/save" on:submit|preventDefault={handleSubmit}>
 		<ul>
 			<li>You should create folders first, then add tasks to it.</li>
 			<li>You cannot add tasks to SUSPENDED folders.</li>
@@ -191,17 +210,29 @@
 							</td>
 							<td>
 								<select name={'asdf'} disabled={isDisabled}>
-                  <option value="0" selected={value.defaultPicId === null}> -- Unassigned -- </option>
+									<option value="0" selected={value.defaultPicId === null}>
+										-- Unassigned --
+									</option>
 									{#each data.svcProviders[0].staff as item}
-										<option value={item.entityId} selected={isSelected(value.defaultPicId, item.entityId)}>{item.staffName}</option>
+										<option
+											value={item.entityId}
+											selected={isSelected(value.defaultPicId, item.entityId)}
+											>{item.staffName}</option
+										>
 									{/each}
 								</select>
 							</td>
 							<td>
 								<select name={'asdf'} disabled={isDisabled}>
-                  <option value="0" selected={value.defaultSvcProviderId === null}> -- Unassigned -- </option>
+									<option value="0" selected={value.defaultSvcProviderId === null}>
+										-- Unassigned --
+									</option>
 									{#each data.svcProviders as item}
-										<option value={item.entityId} selected={isSelected(value.defaultSvcProviderId, item.entityId)}>{item.entityName}</option>
+										<option
+											value={item.entityId}
+											selected={isSelected(value.defaultSvcProviderId, item.entityId)}
+											>{item.entityName}</option
+										>
 									{/each}
 								</select>
 							</td>
@@ -211,22 +242,42 @@
 			</tbody>
 		</table>
 
-		<div class="form-col-2">
-			<div class="form-field">
-				<input type="hidden" readonly name="entityId" value={data.targetId} />
-				<pre>
-        year 
-        svc_id (folder)
-        svc_type_id (known)
-        svc_provider_id (known)
-        pic_id (known)
+		<h4>Years</h4>
+		<input type="hidden" readonly name="entityId" value={data.targetId} />
+    <div class="row-add">
+      <input type="number" name="newYear" min="1980" max="2100" bind:value={newYear} />
+      <input type="button" class="small" on:click={(e) => addYear()} value="Add" />
+    </div>
+		<ul class="years-field">
+			{#each years as item, key}
+				<li>
+					<input type="number" name="years" min="1980" max="2100" value={item} />
+					<input type="button" class="small" on:click={(e) => removeYear(key)} value="Remove" />
+				</li>
+			{/each}
+		</ul>
 
-        table sortable
-        existing records by year/ type/ pic, sp
-        </pre>
-			</div>
+		<div class="form-actions">
+			{#if isInvalid}
+				<p>{message}</p>
+			{/if}
+			<input type="submit" disabled={isInvalid} value="Save" />
 		</div>
 	</form>
 
 	<br />
 </main>
+
+<style>
+	.years-field {
+		list-style-type: none;
+		padding-left: 0rem;
+	}
+	.years-field li {
+		padding: var(--spacing-x-small) var(--spacing-small);
+	}
+	.row-add {
+		background-color: var(--color-blue-200);
+		padding: var(--spacing-x-small) var(--spacing-small);
+	}
+</style>

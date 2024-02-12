@@ -503,6 +503,7 @@ label.label-selected {
 
 /** form elements **/
 input[type="text"],
+input[type="number"],
 input[type="date"],
 textarea {
   min-width: 15rem;
@@ -662,7 +663,6 @@ button.reset {
 
 .b-bottom {
   border-bottom: 3px dashed black;
-
 }
 
 .hidden {

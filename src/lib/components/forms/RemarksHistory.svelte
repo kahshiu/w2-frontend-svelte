@@ -52,7 +52,7 @@
 			<td>
 				<div class="form-field">
 					<label class="field-label" for="newRemarks"></label>
-					<textarea name="newRemarks" class="stretch-max" rows="4"></textarea>
+					<textarea name={getNewFieldName()} class="stretch-max" rows="4"></textarea>
 				</div>
 			</td>
 			<td>

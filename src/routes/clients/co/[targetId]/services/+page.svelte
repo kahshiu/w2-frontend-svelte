@@ -129,6 +129,7 @@
 								class="small {checkedKeys.includes(value.label)? '':'hidden'}"
 								on:click={() => {
 									selectedKey = value.label;
+									viewAll = false;
 								}}>View</button
 							>
 						</td>

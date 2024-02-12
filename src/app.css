@@ -651,6 +651,11 @@ button.reset {
   border: 1px solid var(--color-blue-600);
 }
 
+.b-bottom {
+  border-bottom: 3px dashed black;
+
+}
+
 .hidden {
   display: none;
 }

@@ -49,8 +49,8 @@
 	};
 </script>
 
-<div class="border" style="padding: 0.8rem; margin-bottom: 0.2rem">
-	<h3 style="display: inline-block">{folderName} FOLDER</h3>
+<div class="b-bottom" style="margin-bottom: 0.2rem;">
+	<h3>{folderName} FOLDER</h3>
 
 	<div class="form-col-2">
 		<input type="hidden" name={getFieldName('ownerId')} value={ownerId} />

@@ -13,6 +13,7 @@ interface DateFormatterOptions extends Intl.DateTimeFormatOptions {
 export const defaultFormatOptions: DateFormatterOptions = {
   locale: "en-GB",
   dateStyle: "medium",
+  timeStyle: "short",
   hour12: true,
 };
 

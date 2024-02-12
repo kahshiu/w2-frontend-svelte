@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { MyDefinition } from "$lib/shared/MyDefinition";
-	import type { ClientCoDto } from "$lib/shared/dto/ProfileDto";
-	import { defaultFormatOptions, dtStrFormatter } from "$lib/shared/utils";
+	import type { MyDefinition } from '$lib/shared/MyDefinition';
+	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
+	import { defaultFormatOptions, dtStrFormatter } from '$lib/shared/utils';
 
-  export let myDefinition: MyDefinition
+	export let myDefinition: MyDefinition;
 	export let targetEntity: ClientCoDto;
 </script>
 
@@ -28,12 +28,12 @@
 
 	<div>Date Incorp</div>
 	<div>
-		{dtStrFormatter(targetEntity.dateIncorp, defaultFormatOptions)}
+		{dtStrFormatter(targetEntity.dateIncorp, { ...defaultFormatOptions, timeStyle: undefined })}
 	</div>
 
 	<div>Date Commence</div>
 	<div>
-		{dtStrFormatter(targetEntity.dateCommence, defaultFormatOptions)}
+		{dtStrFormatter(targetEntity.dateCommence, { ...defaultFormatOptions, timeStyle: undefined })}
 	</div>
 
 	<div>Income Tax No</div>

@@ -1,6 +1,8 @@
-export interface DefinitionDto {
-    label: string;
-    code: any;
+import type { ServiceKeys } from "./ServiceDto";
+
+export interface DefinitionDto<L = string, T = any> {
+    label: L;
+    code: T;
 }
 
 export interface DefinitionStore {
@@ -11,5 +13,5 @@ export interface DefinitionStore {
     profileStatus: DefinitionDto[]
     serviceStatusCode: DefinitionDto[]
     relationType: DefinitionDto[]
-    serviceType: DefinitionDto[]
+    serviceType: DefinitionDto<ServiceKeys, number>[]
 }

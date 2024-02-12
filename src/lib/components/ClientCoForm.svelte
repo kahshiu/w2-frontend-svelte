@@ -52,12 +52,12 @@
 
 	<div class="form-field">
 		<label class="field-label" for="entityStatus">Company status:</label>
-		<RadioGroup fieldName="entityStatus" options={definitions.entityStatus} selectedItem={entityStatus} />
+		<RadioGroup fieldName="entityStatus" options={definitions.entityStatus} required={true} selectedItem={entityStatus} />
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="entityStatus">Profile status:</label>
-		<RadioGroup fieldName="profileStatus" options={definitions.profileStatus} selectedItem={profileStatus} />
+		<RadioGroup fieldName="profileStatus" options={definitions.profileStatus} required={true} selectedItem={profileStatus} />
 	</div>
 
 	<div class="form-field">

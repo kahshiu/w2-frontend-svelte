@@ -23,6 +23,7 @@
 			id="entityName"
 			name="entityName"
 			placeholder="Type name here"
+			required
 			bind:value={entityName}
 		/>
 	</div>
@@ -35,6 +36,7 @@
 					name="entityStatus"
 					id="entityStatus{item.code}"
 					value={item.code}
+					required
 					bind:group={entityStatus}
 				/>
 				<label for="entityStatus{item.code}">{item.label}</label>

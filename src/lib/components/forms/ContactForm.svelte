@@ -67,6 +67,7 @@
 							type="checkbox"
 							name={getFieldName(index, 'isPrimary')}
 							id={getFieldName(index, 'isPrimary')}
+							required
 							bind:checked={contact.isPrimary}
 							on:click={() => resetAllPrimary()}
 						/>
@@ -106,7 +107,7 @@
 		<tr class="row-add">
 			<td class="narrow"></td>
 			<td>
-				<input type="text" name="newContactName" class="stretch-max" bind:value={newName} />
+				<input type="text" name="newContactName" required bind:value={newName} />
 			</td>
 			<td>
 				<select class="field-spacing" name="newContactType" bind:value={newType}>

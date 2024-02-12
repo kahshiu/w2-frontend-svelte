@@ -79,6 +79,7 @@
 								class="field-spacing"
 								name={getFieldName(index, 'staffName')}
 								placeholder="Staff Name"
+								required
 								bind:value={item.staffName}
 							/>
 						</div>
@@ -87,6 +88,7 @@
 							<select
 								class="field-spacing"
 								name={getFieldName(index, 'staffStatus')}
+								required
 								bind:value={item.staffStatus}
 							>
 								{#each staffStatus as item}
@@ -164,9 +166,10 @@
 						class="field-spacing"
 						name="newStaffName"
 						placeholder="Staff Name"
+						required
 						bind:value={newStaffName}
 					/>
-					<select class="field-spacing" name="newStaffStatus" bind:value={newStaffStatus}>
+					<select class="field-spacing" name="newStaffStatus" required bind:value={newStaffStatus}>
 						{#each staffStatus as item}
 							<option value={item.code.toString()}>{item.label}</option>
 						{/each}

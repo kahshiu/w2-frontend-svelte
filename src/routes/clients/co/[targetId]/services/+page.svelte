@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import ServiceFolder from '$lib/components/ServiceFolder.svelte';
 	import ClientCo from '$lib/components/disp/ClientCo.svelte';
 	import { MyDefinition } from '$lib/shared/MyDefinition';
@@ -40,7 +40,7 @@
 	let disabledKeys: ServiceKeys[] = [];
 	let checkedKeys: ServiceKeys[] = [];
 	let selectedKey: ServiceKeys | null = null;
-	let viewAll: boolean = false;
+	let viewAll: boolean = true;
 	$: {
 		if (checkedKeys.length > 0 && selectedKey === null) {
 			selectedKey = checkedKeys[0];
@@ -51,7 +51,7 @@
 		disabledKeys = [];
 		checkedKeys = [];
 		selectedKey = null;
-		viewAll = false;
+		viewAll = true;
 
 		for (const key in targetServices) {
 			const cKey = key as ServiceKeys;
@@ -98,11 +98,22 @@
 	<ClientCo {myDefinition} {targetEntity} />
 
 	<br />
+	<h3><u>Folder Details</u></h3>
+	<div class="button-group">
+		<input
+			type="button"
+			class="small"
+			value="Manage Tasks for Folders"
+			on:click={() => {
+				goto(`/clients/co/${data.targetId}/tasks`);
+			}}
+		/>
+	</div>
 	<div class="data-2-col">
 		<table>
 			<thead>
 				<tr>
-					<th>Available Services</th>
+					<th>Available Folders</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -123,7 +134,7 @@
 						</td>
 						<td>
 							<button
-								class="small {checkedKeys.includes(value.label)? '':'hidden'}"
+								class="small {checkedKeys.includes(value.label) ? '' : 'hidden'}"
 								on:click={() => {
 									selectedKey = value.label;
 									viewAll = false;
@@ -155,6 +166,7 @@
 		<ul>
 			<li>Tick checkboxes to select specific folders for creation.</li>
 			<li>You only need to create folders <i><u>once</u></i>.</li>
+			<li>Tasks can be added <i><u>after</u></i> folder(s) are created.</li>
 			<li>
 				You can subsequenly change folder status to <bold>ACTIVE/ SUSPEND</bold>.
 			</li>

@@ -64,7 +64,7 @@
 					name={getFieldName('defaultPicId')}
 					bind:value={defaultPicId}
 				>
-					<option value="0">Leave blank</option>
+					<option value="0">-- Unassigned --</option>
 					{#each svcPic as item}
 						<option value={item.code}>{item.label}</option>
 					{/each}
@@ -81,7 +81,7 @@
 				name={getFieldName('defaultSvcProviderId')}
 				bind:value={defaultSvcProviderId}
 			>
-				<option value="0">Leave blank</option>
+					<option value="0">-- Unassigned --</option>
 				{#each svcCompany as item}
 					<option value={item.code}>{item.label}</option>
 				{/each}
@@ -94,6 +94,7 @@
 				fieldName={getFieldName('svcStatusCode')}
 				options={definitions.serviceStatusCode}
 				selectedItem={svcStatusCode}
+				required={true}
 			/>
 		</div>
 	</div>

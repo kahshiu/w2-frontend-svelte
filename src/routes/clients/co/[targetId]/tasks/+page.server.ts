@@ -1,12 +1,12 @@
+
 import {
   GET_CO_CLIENT_SERVICES,
   LIST_CO_CLIENT,
   LIST_SERVICE_PROVIDERS,
-  SAVE_CO_CLIENT_SERVICES,
   fetchDefinition,
   fetchJson
 } from "$lib/shared/ajax";
-import type { SvcProviderCoDto, ClientCoDto } from "$lib/shared/dto/ProfileDto";
+import type { ClientCoDto, SvcProviderCoDto } from "$lib/shared/dto/ProfileDto";
 import type { ServiceDataset } from "$lib/shared/dto/ServiceDto";
 import { error } from "@sveltejs/kit";
 import type { Actions, PageServerLoadEvent } from "../$types";
@@ -41,6 +41,7 @@ export const load = async (event: PageServerLoadEvent) => {
 }
 
 // TODO: error handling
+/*
 export const actions: Actions = {
   save: async (event) => {
     const { request } = event;
@@ -52,3 +53,4 @@ export const actions: Actions = {
     })
   }
 }
+*/

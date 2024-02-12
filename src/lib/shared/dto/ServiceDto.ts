@@ -12,7 +12,7 @@ export interface ServiceDto {
 }
 
 export type ServiceKeys = keyof typeof ServiceType
-export type ServiceDataset = Record<ServiceKeys, ServiceDto | null>
+export type ServiceDataset = Record<ServiceKeys, ServiceDto>
 
 export interface ServiceFilterDto {
     svcId: number;

@@ -17,6 +17,7 @@ export const load = async () => {
   }
 }
 
+// TODO: error handling
 export const actions: Actions = {
   save: async (event) => {
     const { request } = event;

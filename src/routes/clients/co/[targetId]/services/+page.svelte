@@ -5,12 +5,9 @@
 	import { MyDefinition } from '$lib/shared/MyDefinition';
 	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto.js';
 	import type { ServiceDataset, ServiceKeys } from '$lib/shared/dto/ServiceDto.js';
-	import { ServiceType } from '$lib/shared/dto/enums';
 	import { filledObj } from '$lib/shared/utils.js';
 
 	export let data;
-
-	console.log(data);
 
 	let clientsFiltered = data.clients;
 	let targetEntity: ClientCoDto;

@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import NavMain from '$lib/components/NavMain.svelte';
 	import SvcProviderForm from '$lib/components/SvcProviderForm.svelte';
-	import { EntityStatus } from '$lib/shared/dto/enums';
+	import { MyEntityStatus } from '$lib/shared/dto/enums';
 
 	export let data;
 </script>
@@ -22,10 +22,9 @@
 
 	<form method="POST" action="/svc-providers/co/0?/save">
 		<SvcProviderForm
-			definitions={data.definitions}
 			entityId={0}
 			entityName={''}
-			entityStatus={EntityStatus.ACTIVE}
+			entityStatus={MyEntityStatus.ACTIVE}
 			contactDetails={[]}
 			staff={[]}
 		/>

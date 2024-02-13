@@ -1,27 +1,18 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
 	import ServiceFolder from '$lib/components/ServiceFolder.svelte';
-	import ClientCo from '$lib/components/disp/ClientCo.svelte';
-	import { MyDefinition } from '$lib/shared/MyDefinition';
-	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto.js';
-	import type { ServiceDataset, ServiceKeys } from '$lib/shared/dto/ServiceDto.js';
-	import { filledObj } from '$lib/shared/utils.js';
+	import ClientCo from '$lib/components/display/ClientCo.svelte';
+	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
+	import type { ServiceDto } from '$lib/shared/dto/ServiceDto.js';
+	import type { DefinitionDto, MySvcTypeId, SvcTypeId } from '$lib/shared/dto/enums';
+	import { storeGet } from '$lib/shared/dtoHelpers';
 
 	export let data;
 
 	let clientsFiltered = data.clients;
 	let targetEntity: ClientCoDto;
-	let myDefinition = new MyDefinition(data.definitions);
 
 	// INTERACTIVITY: side menu
-	const resetEntity = (targetId: number) => {
-		targetEntity = data.clients.find((s) => {
-			return s.entityId == targetId;
-		}) as ClientCoDto;
-	};
-
-	resetEntity(data.targetId);
-
 	const filterHandler = (event: Event) => {
 		const el = event.target as HTMLInputElement;
 		const v = el.value.toLowerCase();
@@ -36,35 +27,49 @@
 		}
 	};
 
+	const resetEntity = (targetId: number) => {
+		targetEntity = data.clients.find((s) => {
+			return s.entityId == targetId;
+		}) as ClientCoDto;
+	};
+
+	resetEntity(data.targetId);
+
 	// INTERACTIVITY: service types
-	let disabledKeys: ServiceKeys[] = [];
-	let checkedKeys: ServiceKeys[] = [];
-	let selectedKey: ServiceKeys | null = null;
+	const storeSvcTypeId = storeGet("svcTypeId") as DefinitionDto<typeof MySvcTypeId>[];
+	const sortedSvcTypeId = storeSvcTypeId.sort((a, b) => {
+		return a.code - b.code;
+	})
+
+	let disabledCodes: SvcTypeId[] = [];
+	let checkedCodes: SvcTypeId[] = [];
+	let selectedCode: SvcTypeId | null = null;
 	let viewAll: boolean = true;
 	$: {
-		if (checkedKeys.length > 0 && selectedKey === null) {
-			selectedKey = checkedKeys[0];
+		if (checkedCodes.length > 0 && selectedCode === null) {
+			selectedCode = checkedCodes[0];
 		}
 	}
 
-	const resetKeys = (targetServices: ServiceDataset) => {
-		disabledKeys = [];
-		checkedKeys = [];
-		selectedKey = null;
+	const resetKeys = (targetServices: ServiceDto[]) => {
+		disabledCodes = [];
+		checkedCodes = [];
+		selectedCode = null;
 		viewAll = true;
 
-		for (const key in targetServices) {
-			const cKey = key as ServiceKeys;
-			const cService = targetServices[cKey];
-			const cExists = filledObj(cService);
-			if (cExists) {
-				disabledKeys.push(cKey);
-				checkedKeys.push(cKey);
-				if (selectedKey === null) {
-					selectedKey = cKey;
-				}
+		for (const item of targetServices) {
+			const code = item.svcTypeId;
+			disabledCodes.push(code);
+			checkedCodes.push(code);
+			if (selectedCode === null) {
+				selectedCode = code;
 			}
 		}
+		/*
+		console.log("tracing variables: disabledCodes", disabledCodes)
+		console.log("tracing variables: checkedCodes", checkedCodes)
+		console.log("tracing variables: selectedCode", selectedCode)
+		*/
 	};
 
 	afterNavigate(() => {
@@ -79,7 +84,8 @@
 		<input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />
 		<ul class="sidebar">
 			{#each clientsFiltered as item}
-				<li><a href="/clients/co/{item.entityId}/services">{item.entityName}</a></li>
+				{@const url = `/clients/co/${item.entityId}/services`}
+				<li><a href={url}>{item.entityName}</a></li>
 			{/each}
 		</ul>
 	</nav>
@@ -96,7 +102,7 @@
 	<h2>Create Service Folders</h2>
 
 	<h3><u>Client Details</u></h3>
-	<ClientCo {myDefinition} {targetEntity} />
+	<ClientCo {targetEntity} />
 
 	<h3><u>Folder Details</u></h3>
 	<div class="button-group">
@@ -119,24 +125,26 @@
 			</thead>
 
 			<tbody>
-				{#each Object.entries(data.definitions.serviceType) as [_, value]}
+				{#each sortedSvcTypeId as item, key}
+					{@const fieldId = `initService-${item.label}`}
+					{@const isDisabled = disabledCodes.includes(item.code)}
 					<tr>
 						<td>
 							<input
 								type="checkbox"
-								id="initService-{value.label}"
+								id={fieldId}
 								name="initService"
-								value={value.label}
-								disabled={disabledKeys.includes(value.label)}
-								bind:group={checkedKeys}
+								value={item.code}
+								disabled={isDisabled}
+								bind:group={checkedCodes}
 							/>
-							<label for="initService-{value.label}">{value.label}</label>
+							<label for={fieldId}>{item.label}</label>
 						</td>
 						<td>
 							<button
-								class="small {checkedKeys.includes(value.label) ? '' : 'hidden'}"
+								class="small {checkedCodes.includes(item.code) ? '' : 'hidden'}"
 								on:click={() => {
-									selectedKey = value.label;
+									selectedCode = item.code;
 									viewAll = false;
 								}}>View</button
 							>
@@ -154,7 +162,7 @@
 					<td>
 						<button
 							class="small"
-							disabled={checkedKeys.length === 0}
+							disabled={checkedCodes.length === 0}
 							on:click={() => {
 								viewAll = !viewAll;
 							}}>View All</button
@@ -177,24 +185,27 @@
 	</div>
 
 	<form method="POST" action="?/save">
-		{#each data.definitions.serviceType as { label, code }}
-			{#if checkedKeys.includes(label)}
-				<div class={selectedKey === label || viewAll ? '' : 'hidden'}>
+		{#each sortedSvcTypeId as { label, code }}
+			{#if checkedCodes.includes(code)}
+				{@const targetSvc = data.services.find((item)=>item.svcTypeId == code)}
+				<div class={selectedCode === code || viewAll ? '' : 'hidden'}>
 					<ServiceFolder
-						definitions={data.definitions}
 						svcProviders={data.svcProviders}
 						ownerId={data.targetId}
 						svcTypeId={code}
-						defaultPicId={data.services?.[label]?.defaultPicId ?? 0}
-						defaultSvcProviderId={data.services?.[label]?.defaultSvcProviderId ?? 0}
-						remarks={data.services?.[label]?.remarks ?? []}
-						svcStatusCode={data.services?.[label]?.svcStatusCode ?? 0}
+						defaultPicId={targetSvc?.defaultPicId ?? 0}
+						defaultSvcProviderId={targetSvc?.defaultSvcProviderId ?? 0}
+						remarks={targetSvc?.remarks ?? []}
+						svcStatusCode={targetSvc?.svcStatusCode ?? 0}
 					/>
 				</div>
 			{/if}
 		{/each}
 		<div class="form-actions">
-			<p> If you do encounter unresponsive save, please "view all" folders. There are invalid form fields, esp Folder Status  </p>
+			<p>
+				If you do encounter unresponsive save, please "view all" folders. There are invalid form
+				fields, esp Folder Status
+			</p>
 			<input type="submit" value="Save" />
 		</div>
 	</form>

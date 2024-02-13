@@ -113,7 +113,8 @@ export type EntityStatus = (typeof MyEntityStatus)[keyof typeof MyEntityStatus]
 export type ProfileStatus = (typeof MyProfileStatus)[keyof typeof MyProfileStatus]
 export type RelationType = (typeof MyRelationType)[keyof typeof MyRelationType]
 
-export type SvcTypeId = (typeof MySvcTypeId)[keyof typeof MySvcTypeId]
+export type SvcTypeLabel = keyof typeof MySvcTypeId;
+export type SvcTypeId = (typeof MySvcTypeId)[SvcTypeLabel]
 export type SvcStatusCode = (typeof MySvcStatusCode)[keyof typeof MySvcStatusCode]
 export type FeeType = (typeof MyFeeType)[keyof typeof MyFeeType]
 export type TaskStatusCode = (typeof MyTaskStatusCode)[keyof typeof MyTaskStatusCode]

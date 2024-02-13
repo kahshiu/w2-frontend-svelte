@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
 	import ServiceFolder from '$lib/components/ServiceFolder.svelte';
-	import ClientCo from '$lib/components/disp/ClientCo.svelte';
-	import { MyDefinition } from '$lib/shared/MyDefinition';
+	import ClientCo from '$lib/components/display/ClientCo.svelte';
 	import type { SvcProviderCoDto, ClientCoDto, StaffSvelteDto } from '$lib/shared/dto/ProfileDto';
-	import type { ServiceDataset, ServiceKeys } from '$lib/shared/dto/ServiceDto.js';
-	import { ServiceStatusCode } from '$lib/shared/dto/enums';
+	import { MySvcStatusCode } from '$lib/shared/dto/enums.js';
+	import { findSvcStatusCode, findSvcTypeId } from '$lib/shared/dtoHelpers.js';
 	import { filledObj, isEmptyObj } from '$lib/shared/utils.js';
+	import type { PageData } from './$types.js';
 
-	export let data;
+	export let data: PageData;
 
 	let clientsFiltered = data.clients;
-	let myDefinition = new MyDefinition(data.definitions);
 	let targetEntity: ClientCoDto;
 
 	// INTERACTIVITY: side menu
@@ -122,7 +121,7 @@
 	<h2>Create Service Tasks</h2>
 
 	<h3><u>Client Details</u></h3>
-	<ClientCo {myDefinition} {targetEntity} />
+	<ClientCo {targetEntity} />
 
 	<h3><u>Folder Details</u></h3>
 	<div class="button-group">
@@ -136,7 +135,7 @@
 		/>
 	</div>
 	{#if isArrayOfEmptyObj(Object.values(data.services))}
-		-- No service folders to show --
+		-- No folders created --
 	{:else}
 		<table class="border-all">
 			<thead>
@@ -152,7 +151,7 @@
 				{#each Object.entries(data.services) as [key, value]}
 					{#if filledObj(value)}
 						<tr
-							class={[ServiceStatusCode.SUSPENDED].includes(value?.svcStatusCode)
+							class={[MySvcStatusCode.SUSPENDED].includes(value?.svcStatusCode)
 								? 'gray-text'
 								: ''}
 						>
@@ -160,7 +159,7 @@
 								{value?.svcId}
 							</td>
 							<td>
-								{myDefinition.findEntry('serviceType', value?.svcTypeId)}
+								{findSvcTypeId(value?.svcTypeId)}
 							</td>
 							<td>
 								{findHomePic(data.svcProviders, value.defaultPicId)}
@@ -169,7 +168,7 @@
 								{findSvcProvider(data.svcProviders, value.defaultSvcProviderId)}
 							</td>
 							<td>
-								{myDefinition.findEntry('serviceStatusCode', value?.svcStatusCode)}
+								{findSvcStatusCode(value?.svcStatusCode)}
 							</td>
 						</tr>
 					{/if}
@@ -184,86 +183,89 @@
 			<li>You should create folders first, then add tasks to it.</li>
 			<li>You cannot add tasks to SUSPENDED folders.</li>
 		</ul>
-		<table>
-			<thead>
-				<tr>
-					<th>Types of Task</th>
-					<th>PIC</th>
-					<th>Ext. SP</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each Object.entries(data.services) as [key, value]}
-					{@const isDisabled = [ServiceStatusCode.SUSPENDED].includes(value.svcStatusCode)}
-					{#if filledObj(value)}
-						<tr>
-							<td>
-								<input
-									type="checkbox"
-									value={value.svcTypeId}
-									id={`svcTypeId-${value.svcTypeId}`}
-									name="listOfSvcTypeIds"
-									disabled={isDisabled}
-								/>
-								<label class="field-label" for={`svcTypeId-${value.svcTypeId}`}>
-									{myDefinition.findEntry('serviceType', value?.svcTypeId)}
-								</label>
-							</td>
-							<td>
-								<select name={'asdf'} disabled={isDisabled}>
-									<option value="0" selected={value.defaultPicId === null}>
-										-- Unassigned --
-									</option>
-									{#each data.svcProviders[0].staff as item}
-										<option
-											value={item.entityId}
-											selected={isSelected(value.defaultPicId, item.entityId)}
-											>{item.staffName}</option
-										>
-									{/each}
-								</select>
-							</td>
-							<td>
-								<select name={'asdf'} disabled={isDisabled}>
-									<option value="0" selected={value.defaultSvcProviderId === null}>
-										-- Unassigned --
-									</option>
-									{#each data.svcProviders as item}
-										<option
-											value={item.entityId}
-											selected={isSelected(value.defaultSvcProviderId, item.entityId)}
-											>{item.entityName}</option
-										>
-									{/each}
-								</select>
-							</td>
-						</tr>
-					{/if}
+		{#if isArrayOfEmptyObj(Object.values(data.services))}
+			-- No folders created --
+		{:else}
+			<table>
+				<thead>
+					<tr>
+						<th>Types of Task</th>
+						<th>PIC</th>
+						<th>Ext. SP</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each Object.entries(data.services) as [key, value]}
+						{@const isDisabled = [MySvcStatusCode.SUSPENDED].includes(value.svcStatusCode)}
+						{#if filledObj(value)}
+							<tr>
+								<td>
+									<input
+										type="checkbox"
+										value={value.svcTypeId}
+										id={`svcTypeId-${value.svcTypeId}`}
+										name="listOfSvcTypeIds"
+										disabled={isDisabled}
+									/>
+									<label class="field-label" for={`svcTypeId-${value.svcTypeId}`}>
+										{findSvcTypeId(value?.svcTypeId)}
+									</label>
+								</td>
+								<td>
+									<select name={'asdf'} disabled={isDisabled}>
+										<option value="0" selected={value.defaultPicId === null}>
+											-- Unassigned --
+										</option>
+										{#each data.svcProviders[0].staff as item}
+											<option
+												value={item.entityId}
+												selected={isSelected(value.defaultPicId, item.entityId)}
+												>{item.staffName}</option
+											>
+										{/each}
+									</select>
+								</td>
+								<td>
+									<select name={'asdf'} disabled={isDisabled}>
+										<option value="0" selected={value.defaultSvcProviderId === null}>
+											-- Unassigned --
+										</option>
+										{#each data.svcProviders as item}
+											<option
+												value={item.entityId}
+												selected={isSelected(value.defaultSvcProviderId, item.entityId)}
+												>{item.entityName}</option
+											>
+										{/each}
+									</select>
+								</td>
+							</tr>
+						{/if}
+					{/each}
+				</tbody>
+			</table>
+			<h4>Years</h4>
+			<input type="hidden" readonly name="entityId" value={data.targetId} />
+			<div class="row-add">
+				<input type="number" name="newYear" min="1980" max="2100" bind:value={newYear} />
+				<input type="button" class="small" on:click={(e) => addYear()} value="Add" />
+			</div>
+			<ul class="years-field">
+				{#each years as item, key}
+					<li>
+						<input type="number" name="years" min="1980" max="2100" value={item} />
+						<input type="button" class="small" on:click={(e) => removeYear(key)} value="Remove" />
+					</li>
 				{/each}
-			</tbody>
-		</table>
+			</ul>
 
-		<h4>Years</h4>
-		<input type="hidden" readonly name="entityId" value={data.targetId} />
-		<div class="row-add">
-			<input type="number" name="newYear" min="1980" max="2100" bind:value={newYear} />
-			<input type="button" class="small" on:click={(e) => addYear()} value="Add" />
-		</div>
-		<ul class="years-field">
-			{#each years as item, key}
-				<li>
-					<input type="number" name="years" min="1980" max="2100" value={item} />
-					<input type="button" class="small" on:click={(e) => removeYear(key)} value="Remove" />
-				</li>
-			{/each}
-		</ul>
-
-		<div class="form-actions">
-			{#if isInvalid}
-				<p>{message}</p>
-			{/if}
-			<input type="submit" disabled={isInvalid} value="Save" />
-		</div>
+			<div class="form-actions">
+				{#if isInvalid}
+					<p>{message}</p>
+				{/if}
+				<input type="submit" disabled={isInvalid} value="Save" />
+			</div>
+		{/if}
 	</form>
 
 	<br />

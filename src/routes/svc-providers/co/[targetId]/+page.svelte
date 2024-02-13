@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
-	import type { SvcProviderCoDto } from '$lib/shared/dto/ProfileDto.js';
+	import type { SvcProviderCoDto } from '$lib/shared/dto/ProfileDto';
   import SvcProviderForm from '$lib/components/SvcProviderForm.svelte';
 
 	export let data;
@@ -59,7 +59,6 @@
 
 	<form method="POST" action="?/save">
     <SvcProviderForm 
-      definitions={data.definitions}
       entityId={targetEntity.entityId}
       entityName={targetEntity.entityName}
       entityStatus={targetEntity.entityStatus}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
 	import ClientCoForm from '$lib/components/ClientCoForm.svelte';
-	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto.js';
+	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
 	import { dtStrISO } from '$lib/shared/utils';
 
 	export let data;

@@ -1,4 +1,4 @@
-import { EntityStatus, EntityClass, EntitySubtype, EntityType, ProfileStatus } from "./enums"
+import type { EntityStatus, EntityClass, EntitySubtype, EntityType, ProfileStatus } from "./enums"
 import type { ContactDto, DirectorDto, RemarksDto } from "./JsonDto"
 import type { RelationDto } from "./RelationDto"
 import type { ServiceDto } from "./ServiceDto"

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import NavMain from '$lib/components/NavMain.svelte';
-	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto.js';
-	import { findEntityStatus, showPrimaryContact } from '$lib/shared/dtoHelpers.js';
+	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
+	import { findEntityStatus, showPrimaryContact } from '$lib/shared/dtoHelpers';
 
 	export let data;
 	const clients: ClientCoDto[] = data.clients;

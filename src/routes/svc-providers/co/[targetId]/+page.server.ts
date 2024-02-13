@@ -1,27 +1,19 @@
 import {
-  LIST_SERVICE_PROVIDERS,
   SAVE_SERVICE_PROVIDER, 
   WAY_FRONTEND, 
-  fetchDefinition, 
-  fetchJson
+  fetchJson,
+  fetchListSvcProvider
 } from "$lib/shared/ajax";
-import type { ProfileDto, SvcProviderCoDto } from "$lib/shared/dto/ProfileDto";
-import { error, redirect } from "@sveltejs/kit";
+import type { ProfileDto } from "$lib/shared/dto/ProfileDto";
+import { redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoadEvent } from "./$types";
 
 export const load = async (event: PageServerLoadEvent) => {
-  const defResult = await fetchDefinition()
-
-  const respSvcProviders = await fetchJson<SvcProviderCoDto[]>(LIST_SERVICE_PROVIDERS);
-  if (respSvcProviders.result === null) {
-    error(404, { message: respSvcProviders.message })
-  }
-
+  const spResult = await fetchListSvcProvider()
   const targetId = Number(event.params.targetId ?? "0");
 
   return {
-    definitions: defResult,
-    svcProviders: respSvcProviders.result,
+    svcProviders: spResult,
     targetId
   }
 }

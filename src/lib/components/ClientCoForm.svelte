@@ -6,8 +6,7 @@
 		type EntityStatus,
 		type ProfileStatus
 	} from '$lib/shared/dto/enums';
-	import { storeGet } from '$lib/shared/dtoHelpers';
-	import { dtStrISO } from '$lib/shared/utils';
+	import { dtStrISO, storeGet } from '$lib/shared/dtoHelpers';
 	import ContactForm from './forms/ContactForm.svelte';
 	import RadioGroup from './forms/RadioGroup.svelte';
 	import RemarksHistory from './forms/RemarksHistory.svelte';

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
-	import { findEntityStatus, findEntitySubtype, findProfileStatus } from '$lib/shared/dtoHelpers';
-	import { defaultFormatOptions, dtStrFormatter } from '$lib/shared/utils';
+	import { defaultFormatOptions, dtStrFormatter, findEntityStatus, findEntitySubtype, findProfileStatus } from '$lib/shared/dtoHelpers';
 
 	export let targetEntity: ClientCoDto;
 </script>

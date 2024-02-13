@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { RemarksDto } from '$lib/shared/dto/JsonDto';
-	import { showCapitalise } from '$lib/shared/dtoHelpers';
-	import { dtFormatter } from '$lib/shared/utils';
+	import { dtFormatter, showCapitalise } from '$lib/shared/dtoHelpers';
 	export let title = 'Title';
 	export let allRemarks: RemarksDto[] = [];
 	export let getFieldName = (index: number, name: string) => {

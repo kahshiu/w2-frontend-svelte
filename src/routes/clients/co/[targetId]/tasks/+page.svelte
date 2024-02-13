@@ -4,11 +4,12 @@
 	import ClientCo from '$lib/components/display/ClientCo.svelte';
 	import type { SvcProviderCoDto, ClientCoDto, StaffSvelteDto } from '$lib/shared/dto/ProfileDto';
 	import { MySvcStatusCode } from '$lib/shared/dto/enums.js';
-	import { findSvcStatusCode, findSvcTypeId } from '$lib/shared/dtoHelpers.js';
-	import { filledObj, isEmptyObj } from '$lib/shared/utils.js';
+	import { filledObj, findSvcStatusCode, findSvcTypeId, isArrayOfEmptyObj } from '$lib/shared/dtoHelpers';
 	import type { PageData } from './$types.js';
 
 	export let data: PageData;
+
+	console.log("tracing data: ", data)
 
 	let clientsFiltered = data.clients;
 	let targetEntity: ClientCoDto;
@@ -58,11 +59,6 @@
 		return targetCo?.entityName ?? unassignedName;
 	};
 
-	const isArrayOfEmptyObj = <T,>(arr: T[]) => {
-		// NOTE: cant find even 1 filled, means all empty
-		const isFilled = arr.find((value) => filledObj(value));
-		return isFilled === undefined;
-	};
 
 	const isSelected = (target: number | null, curr: number | null) => {
 		if (target === null || curr === null) return false;

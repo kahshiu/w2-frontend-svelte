@@ -30,8 +30,8 @@ export const dtFormatter = (date: Date, options = defaultFormatOptions) => {
   }
 };
 
-export const dtStrFormatter = (str: string | null | undefined, options = dtrStrFormatOption) => {
-  if (str === null || str === undefined || str === "") return "";
+export const dtStrFormatter = (str: undefined | null | string, options = dtrStrFormatOption) => {
+  if (str === undefined || str === null || str === "") return "";
   return dtFormatter(new Date(str), options);
 };
 

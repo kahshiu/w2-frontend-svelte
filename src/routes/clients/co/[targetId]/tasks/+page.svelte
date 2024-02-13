@@ -4,12 +4,20 @@
 	import ClientCo from '$lib/components/display/ClientCo.svelte';
 	import type { SvcProviderCoDto, ClientCoDto, StaffSvelteDto } from '$lib/shared/dto/ProfileDto';
 	import { MySvcStatusCode } from '$lib/shared/dto/enums.js';
-	import { filledObj, findSvcStatusCode, findSvcTypeId, isArrayOfEmptyObj } from '$lib/shared/dtoHelpers';
+	import {
+		filledObj,
+		findSvcStatusCode,
+		findSvcTypeId,
+		isArrayOfEmptyObj,
+		isFolderSuspended,
+		isSelected,
+		sortedSvcTypeId
+	} from '$lib/shared/dtoHelpers';
 	import type { PageData } from './$types.js';
 
 	export let data: PageData;
 
-	console.log("tracing data: ", data)
+	console.log('tracing data: ', data);
 
 	let clientsFiltered = data.clients;
 	let targetEntity: ClientCoDto;
@@ -59,17 +67,26 @@
 		return targetCo?.entityName ?? unassignedName;
 	};
 
-
-	const isSelected = (target: number | null, curr: number | null) => {
-		if (target === null || curr === null) return false;
-		return target === curr;
-	};
-
 	let years: number[] = [];
-	let newYear: number = 0;
-	const addYear = () => {
-		years = [...years, newYear];
+	let yearText = '';
+
+	const autoAddHandler = (e: Event) => {
+		const el = e.target as HTMLInputElement;
+		const { value } = el;
+
+		const MIN_LENGTH = 4;
+		let filtered = value.replace(/[^0-9]/, '');
+
+		if (filtered.length >= MIN_LENGTH) {
+			const validYear = filtered.slice(0, MIN_LENGTH);
+			years = [...years, Number(validYear)];
+			filtered = filtered.slice(MIN_LENGTH);
+		}
+		yearText = filtered;
+
+		// console.log(value, "")
 	};
+
 	const removeYear = (index: number) => {
 		years.splice(index, 1);
 		years = [...years];
@@ -130,9 +147,7 @@
 			}}
 		/>
 	</div>
-	{#if isArrayOfEmptyObj(Object.values(data.services))}
-		-- No folders created --
-	{:else}
+	{#if data.services.length > 0}
 		<table class="border-all">
 			<thead>
 				<tr>
@@ -144,33 +159,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each Object.entries(data.services) as [key, value]}
-					{#if filledObj(value)}
-						<tr
-							class={[MySvcStatusCode.SUSPENDED].includes(value?.svcStatusCode)
-								? 'gray-text'
-								: ''}
-						>
-							<td class="narrow">
-								{value?.svcId}
-							</td>
-							<td>
-								{findSvcTypeId(value?.svcTypeId)}
-							</td>
-							<td>
-								{findHomePic(data.svcProviders, value.defaultPicId)}
-							</td>
-							<td>
-								{findSvcProvider(data.svcProviders, value.defaultSvcProviderId)}
-							</td>
-							<td>
-								{findSvcStatusCode(value?.svcStatusCode)}
-							</td>
+				{#each sortedSvcTypeId as item, key}
+					{@const targetService = data.services.find((s) => s.svcTypeId == item.code)}
+					{#if targetService}
+						<tr class={isFolderSuspended(targetService.svcStatusCode) ? 'gray-text' : ''}>
+							<td class="narrow"> {targetService.svcId} </td>
+							<td> {findSvcTypeId(targetService.svcTypeId)} </td>
+							<td> {findHomePic(data.svcProviders, targetService.defaultPicId)} </td>
+							<td> {findSvcProvider(data.svcProviders, targetService.defaultSvcProviderId)} </td>
+							<td> {findSvcStatusCode(targetService.svcStatusCode)} </td>
 						</tr>
 					{/if}
 				{/each}
 			</tbody>
 		</table>
+	{:else}
+		-- No folders created --
 	{/if}
 
 	<h3><u>Task Creation</u></h3>
@@ -179,9 +183,7 @@
 			<li>You should create folders first, then add tasks to it.</li>
 			<li>You cannot add tasks to SUSPENDED folders.</li>
 		</ul>
-		{#if isArrayOfEmptyObj(Object.values(data.services))}
-			-- No folders created --
-		{:else}
+		{#if data.services.length > 0}
 			<table>
 				<thead>
 					<tr>
@@ -191,45 +193,51 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each Object.entries(data.services) as [key, value]}
-						{@const isDisabled = [MySvcStatusCode.SUSPENDED].includes(value.svcStatusCode)}
-						{#if filledObj(value)}
+					{#each sortedSvcTypeId as item, key}
+						{@const targetService = data.services.find((s) => s.svcTypeId == item.code)}
+						{#if targetService}
+							{@const isDisabled = isFolderSuspended(targetService.svcStatusCode)}
+							{@const fnameSvcTypeId = `service.${item.label}.svcTypeId}`}
+							{@const fnameDefaultPicId = `service.${item.label}.defaultPicId}`}
+							{@const fnameDefaultSvcProviderId = `service.${item.label}.defaultSvcProviderId}`}
 							<tr>
 								<td>
 									<input
 										type="checkbox"
-										value={value.svcTypeId}
-										id={`svcTypeId-${value.svcTypeId}`}
-										name="listOfSvcTypeIds"
+										id={fnameSvcTypeId}
+										name={fnameSvcTypeId}
 										disabled={isDisabled}
+										value={targetService.svcTypeId}
 									/>
-									<label class="field-label" for={`svcTypeId-${value.svcTypeId}`}>
-										{findSvcTypeId(value?.svcTypeId)}
-									</label>
+									<label class="field-label" for={fnameSvcTypeId}>{item.label}</label>
 								</td>
 								<td>
-									<select name={'asdf'} disabled={isDisabled}>
-										<option value="0" selected={value.defaultPicId === null}>
+									<select name={fnameDefaultPicId} disabled={isDisabled}>
+										<option value="0" selected={targetService.defaultPicId === null}>
 											-- Unassigned --
 										</option>
 										{#each data.svcProviders[0].staff as item}
-											<option
-												value={item.entityId}
-												selected={isSelected(value.defaultPicId, item.entityId)}
+											{@const isStaffSelected = isSelected(
+												targetService.defaultPicId,
+												item.entityId
+											)}
+											<option value={item.entityId} selected={isStaffSelected}
 												>{item.staffName}</option
 											>
 										{/each}
 									</select>
 								</td>
 								<td>
-									<select name={'asdf'} disabled={isDisabled}>
-										<option value="0" selected={value.defaultSvcProviderId === null}>
+									<select name={fnameDefaultSvcProviderId} disabled={isDisabled}>
+										<option value="0" selected={targetService.defaultSvcProviderId === null}>
 											-- Unassigned --
 										</option>
 										{#each data.svcProviders as item}
-											<option
-												value={item.entityId}
-												selected={isSelected(value.defaultSvcProviderId, item.entityId)}
+											{@const isSPSelected = isSelected(
+												targetService.defaultSvcProviderId,
+												item.entityId
+											)}
+											<option value={item.entityId} selected={isSPSelected}
 												>{item.entityName}</option
 											>
 										{/each}
@@ -243,13 +251,21 @@
 			<h4>Years</h4>
 			<input type="hidden" readonly name="entityId" value={data.targetId} />
 			<div class="row-add">
-				<input type="number" name="newYear" min="1980" max="2100" bind:value={newYear} />
-				<input type="button" class="small" on:click={(e) => addYear()} value="Add" />
+				<input
+					type="text"
+					name="yearText"
+					id="yearText"
+					bind:value={yearText}
+					on:input={autoAddHandler}
+				/>
+				<label for="yearText">
+					Type into textbox YEAR. Years will populate on every 4th digit.
+				</label>
 			</div>
 			<ul class="years-field">
 				{#each years as item, key}
 					<li>
-						<input type="number" name="years" min="1980" max="2100" value={item} />
+						<input type="number" name="years" value={item} />
 						<input type="button" class="small" on:click={(e) => removeYear(key)} value="Remove" />
 					</li>
 				{/each}
@@ -261,6 +277,8 @@
 				{/if}
 				<input type="submit" disabled={isInvalid} value="Save" />
 			</div>
+		{:else}
+			-- No folders created --
 		{/if}
 	</form>
 

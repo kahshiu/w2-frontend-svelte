@@ -1,4 +1,4 @@
-import { EntityStatus, ProfileEntityClass, ProfileEntitySubtype, ProfileEntityType, ProfileStatus } from "./enums"
+import { EntityStatus, EntityClass, EntitySubtype, EntityType, ProfileStatus } from "./enums"
 import type { ContactDto, DirectorDto, RemarksDto } from "./JsonDto"
 import type { RelationDto } from "./RelationDto"
 import type { ServiceDto } from "./ServiceDto"
@@ -6,9 +6,9 @@ import type { ServiceDto } from "./ServiceDto"
 export interface ProfileDto {
     entityId: number
     entityName: string
-    entityClass: ProfileEntityClass
-    entityType: ProfileEntityType
-    entitySubtype: ProfileEntitySubtype
+    entityClass: EntityClass
+    entityType: EntityType
+    entitySubtype: EntitySubtype
     personIc: string
     coRegNoOld: string
     coRegNoNew: string
@@ -26,14 +26,14 @@ export interface ProfileDto {
 
 export interface ProfileFilterDto {
     listOfEntityId: number[];
-    listOfEntityType: ProfileEntityType[];
-    listOfEntitySubtype: ProfileEntitySubtype[];
+    listOfEntityType: EntityType[];
+    listOfEntitySubtype: EntitySubtype[];
     listOfEntityStatus: EntityStatus[];
     listOfProfileStatus: ProfileStatus[];
     entityId: number;
     entityName: string;
-    entityClass: ProfileEntityClass;
-    entityType: ProfileEntityType;
+    entityClass: EntityClass;
+    entityType: EntityType;
     entityIdentifier: string;
     incomeTaxNo: string;
     incomeTaxBranch: string;

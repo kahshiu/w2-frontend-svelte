@@ -1,22 +1,19 @@
-import { ServiceStatusCode, ServiceType } from "./enums"
+import type { SvcStatusCode, SvcTypeId } from "./enums"
 import type { RemarksDto } from "./JsonDto";
 
 export interface ServiceDto {
     svcId: number;
-    svcTypeId: ServiceType;
+    svcTypeId: SvcTypeId;
     ownerId: number;
     defaultSvcProviderId: number | null;
     defaultPicId: number | null;
     remarks: RemarksDto[];
-    svcStatusCode: ServiceStatusCode;
+    svcStatusCode: SvcStatusCode;
 }
-
-export type ServiceKeys = keyof typeof ServiceType
-export type ServiceDataset = Record<ServiceKeys, ServiceDto>
 
 export interface ServiceFilterDto {
     svcId: number;
-    svcTypeId: ServiceType;
-    listOfSvcTypeIds: ServiceType[];
+    svcTypeId: SvcTypeId;
+    listOfSvcTypeIds: SvcTypeId[];
     ownerId: number;
 }

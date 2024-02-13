@@ -44,7 +44,7 @@
 		<input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />
 		<ul class="sidebar">
 			{#each clientsFiltered as item}
-				{@const url = '/clients/co/{item.entityId}'}
+				{@const url = `/clients/co/${item.entityId}`}
 				<li><a href={url}>{item.entityName}</a></li>
 			{/each}
 		</ul>

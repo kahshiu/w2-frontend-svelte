@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ContactDto } from "$lib/shared/dto/JsonDto";
-	import { storeGet } from "$lib/shared/dtoHelpers";
+	import type { ContactDto } from '$lib/shared/dto/JsonDto';
+	import { storeGet } from '$lib/shared/dtoHelpers';
 
 	export let allContacts: ContactDto[] = [];
 
@@ -58,7 +58,12 @@
 			<tr>
 				<td class="narrow">{index + 1}.</td>
 				<td>
-					<input type="text" name={getFieldName(index, 'name')} bind:value={contact.name} />
+					<input
+						type="text"
+						name={getFieldName(index, 'name')}
+						required
+						bind:value={contact.name}
+					/>
 				</td>
 				<td>
 					<div class="field-spacing">
@@ -66,7 +71,6 @@
 							type="checkbox"
 							name={getFieldName(index, 'isPrimary')}
 							id={getFieldName(index, 'isPrimary')}
-							required
 							bind:checked={contact.isPrimary}
 							on:click={() => resetAllPrimary()}
 						/>
@@ -77,7 +81,7 @@
 						name={getFieldName(index, 'type')}
 						value={contact.type.toString()}
 					>
-						{#each storeGet("contactType") as item, index}
+						{#each storeGet('contactType') as item, index}
 							<option value={item.code.toString()}>{item.label}</option>
 						{/each}
 					</select>
@@ -85,6 +89,7 @@
 						class="field-spacing"
 						type="text"
 						name={getFieldName(index, 'contact')}
+						required
 						bind:value={contact.contact}
 					/>
 				</td>
@@ -106,11 +111,11 @@
 		<tr class="row-add">
 			<td class="narrow"></td>
 			<td>
-				<input type="text" name="newContactName" required bind:value={newName} />
+				<input type="text" name="newContactName" bind:value={newName} />
 			</td>
 			<td>
 				<select class="field-spacing" name="newContactType" bind:value={newType}>
-					{#each storeGet("contactType") as item, index}
+					{#each storeGet('contactType') as item, index}
 						<option value={item.code.toString()}>{item.label}</option>
 					{/each}
 				</select>

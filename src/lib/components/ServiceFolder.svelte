@@ -44,7 +44,7 @@
 </script>
 
 <div class="b-bottom" style="margin-bottom: 0.2rem;">
-	<h3>{folderNameCapitalised} FOLDER</h3>
+	<h3>{folderNameCapitalised} Folder</h3>
 
 	<div class="form-col-2">
 		<input type="hidden" name={fnameOwnerId} value={ownerId} />

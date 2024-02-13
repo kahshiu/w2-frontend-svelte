@@ -1,60 +1,14 @@
 import type { ContactDto } from "./dto/JsonDto";
-import { store, type EnumStore, type DefinitionDto2 } from "./dto/enums";
-
-// *************
-// Store helpers
-// *************
-export const storeFind = (storeKey: keyof EnumStore, value: number) => {
-  const dtoArr = store[storeKey] ?? [];
-  const obj = dtoArr.find((item) => item.code === value);
-  if (obj === undefined) return "-- Unknown -- ";
-  return obj.label;
-}
-
-export const storeGet = (storeKey: keyof EnumStore) => {
-  const dtoArr = store[storeKey] ?? [];
-  return dtoArr;
-}
-
-export const findEntityType = (value: number) => storeFind("entityType", value);
-export const findEntityClass = (value: number) => storeFind("entityClass", value);
-export const findEntitySubtype = (value: number) => storeFind("entitySubtype", value);
-export const findContactType = (value: number) => storeFind("contactType", value);
-export const findEntityStatus = (value: number) => storeFind("entityStatus", value);
-export const findProfileStatus = (value: number) => storeFind("profileStatus", value);
-export const findRelationType = (value: number) => storeFind("relationType", value);
-export const findSvcTypeId = (value: number) => storeFind("svcTypeId", value);
-export const findSvcStatusCode = (value: number) => storeFind("svcStatusCode", value);
-export const findFeeType = (value: number) => storeFind("feeType", value);
-export const findTaskStatusCode = (value: number) => storeFind("taskStatusCode", value);
-export const findWorkflowStatusCode = (value: number) => storeFind("workflowStatusCode", value);
-export const findInvoiceStatusCode = (value: number) => storeFind("invoiceStatusCode", value);
-export const findPaymentStatusCode = (value: number) => storeFind("paymentStatusCode", value);
-
-// ***************
-// display helpers
-// ***************
-type BaseContactDetails = { contactDetails: ContactDto[] }
-const MyCheckedRadio = [true, "on"];
-
-export const showCapitalise = (str: string) => {
-  const a = str.slice(0, 1).toUpperCase();
-  const b = str.slice(1).toLowerCase();
-  return `${a}${b}`;
-}
-
-export const showPrimaryContact = <C extends BaseContactDetails>(item: C) => {
-  const pContact = item.contactDetails.find((i) => MyCheckedRadio.includes(i.isPrimary));
-  if (pContact === undefined) return '';
-
-  const textContactType = findContactType(Number(pContact.type));
-  return `${pContact.name}: ${pContact.contact} [${textContactType}]`;
-};
+import { store, type EnumStore, type DefinitionDto2, type DefinitionDto, MySvcTypeId, MySvcStatusCode } from "./dto/enums";
 
 // ***********
 // util string
 // ***********
 export const strPadded2 = (num: number) => num.toString().padStart(2, '0');
+export const isSelected = (target: number | null, curr: number | null) => {
+  if (target === null || curr === null) return false;
+  return target === curr;
+};
 
 // ***********
 // util array 
@@ -114,3 +68,61 @@ export const dtStrISO = (isoStr: string) => {
   const date = new Date(isoStr);
   return date.getFullYear() + '-' + strPadded2(date.getMonth() + 1) + '-' + strPadded2(date.getDate());
 }
+
+// *************
+// Store helpers
+// *************
+export const storeFind = (storeKey: keyof EnumStore, value: number) => {
+  const dtoArr = store[storeKey] ?? [];
+  const obj = dtoArr.find((item) => item.code === value);
+  if (obj === undefined) return "-- Unknown -- ";
+  return obj.label;
+}
+
+export const storeGet = (storeKey: keyof EnumStore) => {
+  const dtoArr = store[storeKey] ?? [];
+  return dtoArr;
+}
+
+export const findEntityType = (value: number) => storeFind("entityType", value);
+export const findEntityClass = (value: number) => storeFind("entityClass", value);
+export const findEntitySubtype = (value: number) => storeFind("entitySubtype", value);
+export const findContactType = (value: number) => storeFind("contactType", value);
+export const findEntityStatus = (value: number) => storeFind("entityStatus", value);
+export const findProfileStatus = (value: number) => storeFind("profileStatus", value);
+export const findRelationType = (value: number) => storeFind("relationType", value);
+export const findSvcTypeId = (value: number) => storeFind("svcTypeId", value);
+export const findSvcStatusCode = (value: number) => storeFind("svcStatusCode", value);
+export const findFeeType = (value: number) => storeFind("feeType", value);
+export const findTaskStatusCode = (value: number) => storeFind("taskStatusCode", value);
+export const findWorkflowStatusCode = (value: number) => storeFind("workflowStatusCode", value);
+export const findInvoiceStatusCode = (value: number) => storeFind("invoiceStatusCode", value);
+export const findPaymentStatusCode = (value: number) => storeFind("paymentStatusCode", value);
+
+const storeSvcTypeId = storeGet("svcTypeId") as DefinitionDto<typeof MySvcTypeId>[];
+export const sortedSvcTypeId = sortByCode(storeSvcTypeId);
+export const isFolderSuspended = (svcStatusCode: number) => [MySvcStatusCode.SUSPENDED as number].includes(svcStatusCode);
+
+// ***************
+// display helpers
+// ***************
+type BaseContactDetails = { contactDetails: ContactDto[] }
+const MyCheckedRadio = [true, "on"];
+
+const caps = (str: string) => {
+  const a = str.slice(0, 1).toUpperCase();
+  const b = str.slice(1).toLowerCase();
+  return `${a}${b}`;
+}
+
+export const showCapitalise = (str: string) => {
+  return str.split("_").map((s) => caps(s)).join("_")
+}
+
+export const showPrimaryContact = <C extends BaseContactDetails>(item: C) => {
+  const pContact = item.contactDetails.find((i) => MyCheckedRadio.includes(i.isPrimary));
+  if (pContact === undefined) return '';
+
+  const textContactType = findContactType(Number(pContact.type));
+  return `${pContact.name}: ${pContact.contact} [${textContactType}]`;
+};

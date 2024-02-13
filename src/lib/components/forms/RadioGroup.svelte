@@ -15,7 +15,7 @@
 			type="radio"
 			name={fieldName}
 			id={fieldId}
-			value={item.code.toString()}
+			value={item.code}
 			{required}
 			bind:group={selectedItem}
 		/>

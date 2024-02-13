@@ -168,10 +168,9 @@
 						class="field-spacing"
 						name="newStaffName"
 						placeholder="Staff Name"
-						required
 						bind:value={newStaffName}
 					/>
-					<select class="field-spacing" name="newStaffStatus" required bind:value={newStaffStatus}>
+					<select class="field-spacing" name="newStaffStatus" bind:value={newStaffStatus}>
 						{#each entityStatus as item}
 							<option value={item.code.toString()}>{item.label}</option>
 						{/each}

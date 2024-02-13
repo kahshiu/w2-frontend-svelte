@@ -5,7 +5,7 @@
 	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
 	import type { ServiceDto } from '$lib/shared/dto/ServiceDto.js';
 	import type { DefinitionDto, MySvcTypeId, SvcTypeId } from '$lib/shared/dto/enums';
-	import { sortByCode, storeGet } from '$lib/shared/dtoHelpers';
+	import { sortByCode, sortedSvcTypeId, storeGet } from '$lib/shared/dtoHelpers';
 
 	export let data;
 
@@ -36,9 +36,6 @@
 	resetEntity(data.targetId);
 
 	// INTERACTIVITY: service types
-	const storeSvcTypeId = storeGet("svcTypeId") as DefinitionDto<typeof MySvcTypeId>[];
-	const sortedSvcTypeId = sortByCode(storeSvcTypeId);
-
 	let disabledCodes: SvcTypeId[] = [];
 	let checkedCodes: SvcTypeId[] = [];
 	let selectedCode: SvcTypeId | null = null;

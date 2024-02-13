@@ -1,9 +1,8 @@
 <script lang="ts">
-	import type { DefinitionDto } from '$lib/shared/dto/DefinitionDto';
-	import type { ContactDto } from '$lib/shared/dto/JsonDto';
+	import type { ContactDto } from "$lib/shared/dto/JsonDto";
+	import { storeGet } from "$lib/shared/dtoHelpers";
 
 	export let allContacts: ContactDto[] = [];
-	export let contactTypes: DefinitionDto[] = [];
 
 	let newName = '';
 	let newType = '1';
@@ -78,7 +77,7 @@
 						name={getFieldName(index, 'type')}
 						value={contact.type.toString()}
 					>
-						{#each contactTypes as item, index}
+						{#each storeGet("contactType") as item, index}
 							<option value={item.code.toString()}>{item.label}</option>
 						{/each}
 					</select>
@@ -111,7 +110,7 @@
 			</td>
 			<td>
 				<select class="field-spacing" name="newContactType" bind:value={newType}>
-					{#each contactTypes as item}
+					{#each storeGet("contactType") as item, index}
 						<option value={item.code.toString()}>{item.label}</option>
 					{/each}
 				</select>

@@ -1,9 +1,8 @@
 <script lang="ts">
-	import type { MyDefinition } from '$lib/shared/MyDefinition';
 	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
+	import { findEntityStatus, findEntitySubtype, findProfileStatus } from '$lib/shared/dtoHelpers';
 	import { defaultFormatOptions, dtStrFormatter } from '$lib/shared/utils';
 
-	export let myDefinition: MyDefinition;
 	export let targetEntity: ClientCoDto;
 </script>
 
@@ -15,7 +14,7 @@
 	</div>
 	<div>Co. Type</div>
 	<div>
-		{myDefinition.findEntry('entitySubtype', targetEntity.entitySubtype)}
+		{findEntitySubtype(targetEntity.entitySubtype)}
 	</div>
 	<div>Co. Reg. No. (New)</div>
 	<div>
@@ -52,10 +51,10 @@
 
 	<div>Co. Status</div>
 	<div>
-		{myDefinition.findEntry('entityStatus', targetEntity.entityStatus)}
+		{findEntityStatus(targetEntity.entityStatus)}
 	</div>
 	<div>Profile Status</div>
 	<div>
-		{myDefinition.findEntry('profileStatus', targetEntity.profileStatus)}
+		{findProfileStatus(targetEntity.profileStatus)}
 	</div>
 </div>

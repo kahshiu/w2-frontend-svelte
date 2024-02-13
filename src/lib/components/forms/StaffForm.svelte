@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { DefinitionDto } from '$lib/shared/dto/DefinitionDto';
 	import type { StaffSvelteDto } from '$lib/shared/dto/ProfileDto';
+	import { storeGet } from '$lib/shared/dtoHelpers';
 
-	export let staffStatus: DefinitionDto[] = [];
+	export let entityStatus = storeGet("entityStatus");
 	export let coId: number = 0;
 	export let allStaff: StaffSvelteDto[] = [];
 
@@ -32,7 +32,6 @@
 				contactNotes: newContactNotes
 			}
 		];
-
 		// reset values
 		newEntityId = 0;
 		newStaffName = '';
@@ -63,21 +62,24 @@
 	</thead>
 	<tbody>
 		{#each allStaff as item, index}
+			{@const fnameEntityId = getFieldName(index, 'entityId')}
+			{@const fnameStaffName = getFieldName(index, 'staffName')}
+			{@const fnameStaffStatus = getFieldName(index, 'staffStatus')}
+			{@const fnameStaffNotes = getFieldName(index, 'staffNotes')}
+			{@const fnameContactHp = getFieldName(index, 'contactHandphone')}
+			{@const fnameContactEmail = getFieldName(index, 'contactEmail')}
+			{@const fnameContactNotes = getFieldName(index, 'contactNotes')}
 			<tr>
 				<td class="narrow">{index + 1}.</td>
 				<td>
 					<div class="form-field">
-						<input
-							type="hidden"
-							name={getFieldName(index, 'entityId')}
-							bind:value={item.entityId}
-						/>
+						<input type="hidden" name={fnameEntityId} bind:value={item.entityId} />
 						<div class="tooltip-anchor">
 							<span class="tooltip">Staff Name</span>
 							<input
 								type="text"
 								class="field-spacing"
-								name={getFieldName(index, 'staffName')}
+								name={fnameStaffName}
 								placeholder="Staff Name"
 								required
 								bind:value={item.staffName}
@@ -87,11 +89,11 @@
 							<span class="tooltip">Staff Status</span>
 							<select
 								class="field-spacing"
-								name={getFieldName(index, 'staffStatus')}
+								name={fnameStaffStatus}
 								required
 								bind:value={item.staffStatus}
 							>
-								{#each staffStatus as item}
+								{#each entityStatus as item}
 									<option value={item.code.toString()}>{item.label}</option>
 								{/each}
 							</select>
@@ -100,7 +102,7 @@
 							<span class="tooltip">Staff Note</span>
 							<textarea
 								class="field-spacing"
-								name={getFieldName(index, 'staffNotes')}
+								name={fnameStaffNotes}
 								rows="4"
 								placeholder="Staff Notes"
 								bind:value={item.staffNotes}
@@ -116,7 +118,7 @@
 							<input
 								type="text"
 								class="field-spacing"
-								name={getFieldName(index, 'contactHandphone')}
+								name={fnameContactHp}
 								placeholder="Contact Handphone"
 								bind:value={item.contactHandphone}
 							/>
@@ -126,7 +128,7 @@
 							<input
 								type="text"
 								class="field-spacing"
-								name={getFieldName(index, 'contactEmail')}
+								name={fnameContactEmail}
 								placeholder="Contact Email"
 								bind:value={item.contactEmail}
 							/>
@@ -135,7 +137,7 @@
 							<span class="tooltip">Staff Contact Note</span>
 							<textarea
 								class="field-spacing"
-								name={getFieldName(index, 'contactNotes')}
+								name={fnameContactNotes}
 								rows="4"
 								placeholder="Contact Notes"
 								bind:value={item.contactNotes}
@@ -170,7 +172,7 @@
 						bind:value={newStaffName}
 					/>
 					<select class="field-spacing" name="newStaffStatus" required bind:value={newStaffStatus}>
-						{#each staffStatus as item}
+						{#each entityStatus as item}
 							<option value={item.code.toString()}>{item.label}</option>
 						{/each}
 					</select>

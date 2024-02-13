@@ -1,13 +1,17 @@
 <script lang="ts">
-	import type { DefinitionStore } from '$lib/shared/dto/DefinitionDto';
 	import type { ContactDto, RemarksDto } from '$lib/shared/dto/JsonDto';
-	import { EntityStatus, ProfileStatus } from '$lib/shared/dto/enums';
+	import {
+		MyEntityStatus,
+		MyProfileStatus,
+		type EntityStatus,
+		type ProfileStatus
+	} from '$lib/shared/dto/enums';
+	import { storeGet } from '$lib/shared/dtoHelpers';
 	import { dtStrISO } from '$lib/shared/utils';
 	import ContactForm from './forms/ContactForm.svelte';
 	import RadioGroup from './forms/RadioGroup.svelte';
 	import RemarksHistory from './forms/RemarksHistory.svelte';
 
-	export let definitions: DefinitionStore;
 	export let entityId = 0;
 	export let entityName = '';
 	export let entitySubtype = 1;
@@ -23,8 +27,8 @@
 	export let directorLogin = '';
 	export let directorPwd = '';
 
-	export let entityStatus: EntityStatus = EntityStatus.ACTIVE;
-	export let profileStatus: ProfileStatus = ProfileStatus.PRE_ACTIVATION;
+	export let entityStatus: EntityStatus = MyEntityStatus.ACTIVE;
+	export let profileStatus: ProfileStatus = MyProfileStatus.PRE_ACTIVATION;
 	export let contactDetails: ContactDto[] = [];
 	export let remarks: RemarksDto[] = [];
 </script>
@@ -47,17 +51,31 @@
 
 	<div class="form-field">
 		<label class="field-label" for="entityName">Company Type:</label>
-		<RadioGroup fieldName="entitySubtype" options={definitions.entitySubtype} selectedItem={entitySubtype} />
+		<RadioGroup
+			fieldName="entitySubtype"
+			options={storeGet('entitySubtype')}
+			selectedItem={entitySubtype}
+		/>
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="entityStatus">Company status:</label>
-		<RadioGroup fieldName="entityStatus" options={definitions.entityStatus} required={true} selectedItem={entityStatus} />
+		<RadioGroup
+			fieldName="entityStatus"
+			options={storeGet('entityStatus')}
+			required={true}
+			selectedItem={entityStatus}
+		/>
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="entityStatus">Profile status:</label>
-		<RadioGroup fieldName="profileStatus" options={definitions.profileStatus} required={true} selectedItem={profileStatus} />
+		<RadioGroup
+			fieldName="profileStatus"
+			options={storeGet('profileStatus')}
+			required={true}
+			selectedItem={profileStatus}
+		/>
 	</div>
 
 	<div class="form-field">
@@ -106,28 +124,24 @@
 
 	<div class="form-field">
 		<label class="field-label" for="incomeTaxNo">Income Tax No:</label>
-		<div>
-			<input
-				type="text"
-				name="incomeTaxNo"
-				id="incomeTaxNo"
-				placeholder="Type income tax number here"
-				bind:value={incomeTaxNo}
-			/>
-		</div>
+		<input
+			type="text"
+			name="incomeTaxNo"
+			id="incomeTaxNo"
+			placeholder="Type income tax number here"
+			bind:value={incomeTaxNo}
+		/>
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="incomeTaxBranch">Income Tax Branch:</label>
-		<div>
-			<input
-				type="text"
-				name="incomeTaxBranch"
-				id="incomeTaxBranch"
-				placeholder="Type income tax branch here"
-				bind:value={incomeTaxBranch}
-			/>
-		</div>
+		<input
+			type="text"
+			name="incomeTaxBranch"
+			id="incomeTaxBranch"
+			placeholder="Type income tax branch here"
+			bind:value={incomeTaxBranch}
+		/>
 	</div>
 
 	<div class="form-field">
@@ -145,52 +159,39 @@
 
 	<div class="form-field">
 		<label class="field-label" for="directorName">Director Name</label>
-		<div>
-			<input
-				type="text"
-				name="directorDetails.name"
-				id="directorName"
-				placeholder="Type director name here"
-				bind:value={directorName}
-			/>
-		</div>
+		<input
+			type="text"
+			name="directorDetails.name"
+			id="directorName"
+			placeholder="Type director name here"
+			bind:value={directorName}
+		/>
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="directorIc">Director Ic</label>
-		<div>
-			<input
-				type="text"
-				name="directorDetails.ic"
-				id="directorIc"
-				placeholder="Type director IC here"
-				bind:value={directorIc}
-			/>
-		</div>
+		<input
+			type="text"
+			name="directorDetails.ic"
+			id="directorIc"
+			placeholder="Type director IC here"
+			bind:value={directorIc}
+		/>
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="directorLogin">Director Login</label>
-		<div>
-			<input
-				type="text"
-				name="directorDetails.login"
-				id="directorLogin"
-				bind:value={directorLogin}
-			/>
-		</div>
+		<input type="text" name="directorDetails.login" id="directorLogin" bind:value={directorLogin} />
 	</div>
 
 	<div class="form-field">
 		<label class="field-label" for="directorPwd">Director Password</label>
-		<div>
-			<input type="text" name="directorDetails.pwd" id="directorPwd" bind:value={directorPwd} />
-		</div>
+		<input type="text" name="directorDetails.pwd" id="directorPwd" bind:value={directorPwd} />
 	</div>
 </div>
 
 <hr />
-<ContactForm contactTypes={definitions.contactType} allContacts={[...contactDetails]} />
+<ContactForm allContacts={[...contactDetails]} />
 
 <hr />
 <RemarksHistory title={'Profile'} allRemarks={[...remarks]} />

@@ -37,6 +37,12 @@ export const findPaymentStatusCode = (value: number) => storeFind("paymentStatus
 type BaseContactDetails = { contactDetails: ContactDto[] }
 const MyCheckedRadio = [true, "on"];
 
+export const showCapitalise = (str: string) => {
+  const a = str.slice(0,1).toUpperCase();
+  const b = str.slice(1).toLowerCase();
+  return `${a}${b}`;
+}
+
 export const showPrimaryContact = <C extends BaseContactDetails>(item: C) => {
   const pContact = item.contactDetails.find((i) => MyCheckedRadio.includes(i.isPrimary));
   if (pContact === undefined) return '';

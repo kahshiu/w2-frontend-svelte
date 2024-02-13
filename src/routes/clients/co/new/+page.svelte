@@ -19,9 +19,7 @@
 	<h2>New Company Client</h2>
 
 	<form method="POST" action="/clients/co/0?/save">
-		<ClientCoForm
-			definitions={data.definitions}
-		/>
+		<ClientCoForm />
 		<div class="form-actions">
 			<input type="submit" value="Save" />
 		</div>

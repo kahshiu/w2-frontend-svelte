@@ -1,3 +1,5 @@
+import { error } from "@sveltejs/kit";
+import type { ClientCoDto, SvcProviderCoDto } from "./dto/ProfileDto";
 import { config } from "./globals";
 
 export const WAY_FRONTEND = `http://localhost:5173`;
@@ -35,4 +37,20 @@ export const fetchJson = async <TResult>(url: RequestInfo, options?: RequestInit
       message: "Error fetching data from server"
     };
   }
+}
+
+export const fetchListSvcProvider = async () => {
+  const respSvcProviders = await fetchJson<SvcProviderCoDto[]>(LIST_SERVICE_PROVIDERS);
+  if (respSvcProviders.result === null) {
+    error(404, { message: respSvcProviders.message })
+  }
+  return respSvcProviders.result;
+}
+
+export const fetchListCoClient = async () => {
+  const respClients = await fetchJson<ClientCoDto[]>(LIST_CO_CLIENT);
+  if (respClients.result === null) {
+    error(404, { message: respClients.message })
+  }
+  return respClients.result;
 }

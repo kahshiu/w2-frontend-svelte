@@ -1,13 +1,9 @@
 <script lang="ts">
 	import NavMain from '$lib/components/NavMain.svelte';
-	import { MyDefinition } from '$lib/shared/MyDefinition.js';
-	import type { DefinitionStore } from '$lib/shared/dto/DefinitionDto.js';
 	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto.js';
-	import { displayPrimaryContact } from '$lib/shared/dtoHelpers.js';
+	import { findEntityStatus, showPrimaryContact } from '$lib/shared/dtoHelpers.js';
 
 	export let data;
-	const definitions: DefinitionStore = data.definitions;
-	const myDefinition = new MyDefinition(definitions);
 	const clients: ClientCoDto[] = data.clients;
 
 </script>
@@ -35,8 +31,8 @@
 				<tr>
 					<td class="narrow">{index + 1}. </td>
 					<td>ID: {item.entityId}, {item.entityName} </td>
-					<td>{displayPrimaryContact(myDefinition, item)}</td>
-					<td>{myDefinition.findEntry('entityStatus', item.entityStatus)}</td>
+					<td>{showPrimaryContact(item)}</td>
+					<td>{findEntityStatus(item.entityStatus)}</td>
 					<td class="narrow">
 						<a href="/clients/co/{item.entityId}">Edit</a>
 					</td>

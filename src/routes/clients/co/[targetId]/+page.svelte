@@ -9,14 +9,7 @@
 	let clientsFiltered = data.clients;
 	let targetEntity: ClientCoDto;
 
-	const resetEntity = (targetId: number) => {
-		targetEntity = data.clients.find((s) => {
-			return s.entityId == targetId;
-		}) as ClientCoDto;
-	};
-
-	resetEntity(data.targetId);
-
+	// SECTION: filtering
 	const filterHandler = (event: Event) => {
 		const el = event.target as HTMLInputElement;
 		const v = el.value.toLowerCase();
@@ -31,6 +24,14 @@
 		}
 	};
 
+	// SECTION: resetting
+	const resetEntity = (targetId: number) => {
+		targetEntity = data.clients.find((s) => {
+			return s.entityId == targetId;
+		}) as ClientCoDto;
+	};
+	resetEntity(data.targetId);
+
 	afterNavigate(() => {
 		resetEntity(data.targetId);
 	});
@@ -43,7 +44,8 @@
 		<input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />
 		<ul class="sidebar">
 			{#each clientsFiltered as item}
-				<li><a href="/clients/co/{item.entityId}">{item.entityName}</a></li>
+				{@const url = '/clients/co/{item.entityId}'}
+				<li><a href={url}>{item.entityName}</a></li>
 			{/each}
 		</ul>
 	</nav>
@@ -78,7 +80,6 @@
 
 	<form method="POST" action="?/save">
 		<ClientCoForm
-			definitions={data.definitions}
 			entityId={targetEntity.entityId}
 			entityName={targetEntity.entityName}
 			entitySubtype={targetEntity.entitySubtype}

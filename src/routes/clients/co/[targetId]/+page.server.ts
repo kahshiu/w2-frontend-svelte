@@ -1,19 +1,13 @@
-import { fetchDefinition, fetchJson, LIST_CO_CLIENT, SAVE_CO_CLIENT, WAY_FRONTEND } from "$lib/shared/ajax";
-import type { ClientCoDto, ProfileDto } from "$lib/shared/dto/ProfileDto";
-import { error, redirect } from "@sveltejs/kit";
+import { fetchJson, fetchListCoClient, SAVE_CO_CLIENT, WAY_FRONTEND } from "$lib/shared/ajax";
+import type { ProfileDto } from "$lib/shared/dto/ProfileDto";
+import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 
 export const load = async () => {
-  const defResult = await fetchDefinition()
-
-  const respClients = await fetchJson<ClientCoDto[]>(LIST_CO_CLIENT);
-  if (respClients.result === null) {
-    error(404, { message: respClients.message })
-  }
+  const clientResult = await fetchListCoClient()
 
   return {
-    definitions: defResult,
-    clients: respClients.result,
+    clients: clientResult,
   }
 }
 

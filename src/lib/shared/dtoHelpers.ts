@@ -1,5 +1,5 @@
 import type { ContactDto } from "./dto/JsonDto";
-import { store, type EnumStore } from "./dto/enums";
+import { store, type EnumStore, type DefinitionDto2 } from "./dto/enums";
 
 // *************
 // Store helpers
@@ -38,7 +38,7 @@ type BaseContactDetails = { contactDetails: ContactDto[] }
 const MyCheckedRadio = [true, "on"];
 
 export const showCapitalise = (str: string) => {
-  const a = str.slice(0,1).toUpperCase();
+  const a = str.slice(0, 1).toUpperCase();
   const b = str.slice(1).toLowerCase();
   return `${a}${b}`;
 }
@@ -50,3 +50,12 @@ export const showPrimaryContact = <C extends BaseContactDetails>(item: C) => {
   const textContactType = findContactType(Number(pContact.type));
   return `${pContact.name}: ${pContact.contact} [${textContactType}]`;
 };
+
+// ****
+// misc
+// ****
+export const sortByCode = <T extends DefinitionDto2>(storeItem: T[]) => {
+  return storeItem.sort((a, b) => {
+    return a.code - b.code;
+  })
+}

@@ -74,6 +74,11 @@ export interface DefinitionDto<E> {
     label: keyof E
 }
 
+export interface DefinitionDto2 { 
+    code: number; 
+    label: string 
+}
+
 type FnEnumToObj = <E extends Record<string, number>>(definitionEnum: E) => DefinitionDto<E>[]
 export const enumToObj: FnEnumToObj = (definitionEnum) => {
     const result = [];

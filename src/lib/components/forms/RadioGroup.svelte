@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { DefinitionDto2 } from "$lib/shared/dto/enums";
+
 	export let fieldName: string = 'field123';
-	export let options: { code: number; label: string }[] = [];
+	export let options: DefinitionDto2[] = [];
 	export let selectedItem: number;
 	export let required: boolean = false;
 </script>

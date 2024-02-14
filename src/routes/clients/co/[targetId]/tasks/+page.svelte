@@ -8,9 +8,11 @@
 		filledObj,
 		findSvcStatusCode,
 		findSvcTypeId,
+		findTaskStatusCode,
 		isArrayOfEmptyObj,
 		isFolderSuspended,
 		isSelected,
+		isTaskKived,
 		sortedSvcTypeId
 	} from '$lib/shared/dtoHelpers';
 	import type { PageData } from './$types.js';
@@ -46,9 +48,9 @@
 	};
 
 	// Display helper functions
-	const findHomePic = (svcProviders: SvcProviderCoDto[], targetId: number | null) => {
+	const findHomePic = (svcProviders: SvcProviderCoDto[], targetId: number | null | undefined) => {
 		const unassignedName = `-- Unassigned --`;
-		if (targetId === null) return unassignedName;
+		if (targetId === undefined || targetId === null) return unassignedName;
 
 		const homeStaff = svcProviders[0].staff;
 		const homePic = homeStaff.find((s) => {
@@ -57,9 +59,9 @@
 		return homePic?.staffName ?? unassignedName;
 	};
 
-	const findSvcProvider = (svcProviders: SvcProviderCoDto[], targetId: number | null) => {
+	const findSvcProvider = (svcProviders: SvcProviderCoDto[], targetId: number | null | undefined) => {
 		const unassignedName = `-- Unassigned --`;
-		if (targetId === null) return unassignedName;
+		if (targetId === undefined && targetId === null) return unassignedName;
 
 		const targetCo = svcProviders.find((s) => {
 			return s.entityId === targetId;
@@ -177,7 +179,38 @@
 		-- No folders created --
 	{/if}
 
-	<h3><u>Task Creation</u></h3>
+	<h3><u>Tasks Details</u></h3>
+	{#if data.tasks.length > 0}
+		<table class="border-all">
+			<thead>
+				<tr>
+					<th class="narrow">Year</th>
+					<th>Task Type</th>
+					<th>PIC Assigned</th>
+					<th>External SP</th>
+					<th>Task Status</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each data.tasks as item, key}
+					<tr class={isTaskKived(item.taskStatusCode) ? 'gray-text' : ''}>
+						<td class="narrow"> {item.svcYear} </td>
+						<td> {findSvcTypeId(item.svcTypeId)} </td>
+						<td> {findHomePic(data.svcProviders, item.picId)} </td>
+						<td> {findSvcProvider(data.svcProviders, item.svcProviderId)} </td>
+						<td> {findTaskStatusCode(item.taskStatusCode)} </td>
+						<td> <a href="/tasks/{item.taskId}">Edit</a> </td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	{:else}
+		-- No folders created --
+	{/if}
+
+
+	<h3><u>Tasks Creation</u></h3>
 	<form id="taskForm" method="POST" action="?/save">
 		<ul>
 			<li>You should create folders first, then add tasks to it.</li>

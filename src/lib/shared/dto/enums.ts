@@ -61,7 +61,10 @@ export const MyFeeType = {
     CP204: 2030,
 } as const
 
-export const MyTaskStatusCode = {} as const
+export const MyTaskStatusCode = {
+    ACTIVE: 100,
+    KIV: 900,
+} as const
 export const MyWorkflowStatusCode = {} as const
 export const MyInvoiceStatusCode = {} as const
 export const MyPaymentStatusCode = {} as const

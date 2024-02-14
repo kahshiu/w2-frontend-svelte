@@ -1,6 +1,7 @@
 
 import {
   GET_CO_CLIENT_SERVICES,
+  LIST_CLIENT_TASK,
   SAVE_CLIENT_TASK,
   fetchJson,
   fetchListCoClient,
@@ -17,6 +18,11 @@ export const load = async (event: PageServerLoadEvent) => {
   const spResult = await fetchListSvcProvider();
   const clientResult = await fetchListCoClient();
 
+  const respList = await fetchJson<TaskDto[]>(LIST_CLIENT_TASK + `?ownerId=${targetId}`);
+  if (respList.result === null) {
+    error(404, { message: respList.message })
+  }
+
   const respServices = await fetchJson<ServiceDto[]>(GET_CO_CLIENT_SERVICES + `?ownerId=${targetId}`);
   if (respServices.result === null) {
     error(404, { message: respServices.message })
@@ -26,6 +32,7 @@ export const load = async (event: PageServerLoadEvent) => {
     svcProviders: spResult,
     clients: clientResult,
     services: respServices.result,
+    tasks: respList.result,
     targetId,
   }
 }

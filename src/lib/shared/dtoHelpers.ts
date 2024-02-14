@@ -1,5 +1,5 @@
 import type { ContactDto } from "./dto/JsonDto";
-import { store, type EnumStore, type DefinitionDto2, type DefinitionDto, MySvcTypeId, MySvcStatusCode } from "./dto/enums";
+import { store, type EnumStore, type DefinitionDto2, type DefinitionDto, MySvcTypeId, MySvcStatusCode, MyTaskStatusCode } from "./dto/enums";
 
 // ***********
 // util string
@@ -102,6 +102,7 @@ export const findPaymentStatusCode = (value: number) => storeFind("paymentStatus
 const storeSvcTypeId = storeGet("svcTypeId") as DefinitionDto<typeof MySvcTypeId>[];
 export const sortedSvcTypeId = sortByCode(storeSvcTypeId);
 export const isFolderSuspended = (svcStatusCode: number) => [MySvcStatusCode.SUSPENDED as number].includes(svcStatusCode);
+export const isTaskKived = (taskStatusCode: number) => [MyTaskStatusCode.KIV as number].includes(taskStatusCode);
 
 // ***************
 // display helpers

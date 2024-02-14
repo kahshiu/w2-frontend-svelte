@@ -17,7 +17,7 @@
 
 	export let data: PageData;
 
-	console.log('tracing data: ', data);
+	// console.log('tracing data: ', data);
 
 	let clientsFiltered = data.clients;
 	let targetEntity: ClientCoDto;
@@ -178,7 +178,7 @@
 	{/if}
 
 	<h3><u>Task Creation</u></h3>
-	<form id="taskForm" method="POST" action="?/save" on:submit|preventDefault={handleSubmit}>
+	<form id="taskForm" method="POST" action="?/save">
 		<ul>
 			<li>You should create folders first, then add tasks to it.</li>
 			<li>You cannot add tasks to SUSPENDED folders.</li>
@@ -197,22 +197,46 @@
 						{@const targetService = data.services.find((s) => s.svcTypeId == item.code)}
 						{#if targetService}
 							{@const isDisabled = isFolderSuspended(targetService.svcStatusCode)}
-							{@const fnameSvcTypeId = `service.${item.label}.svcTypeId}`}
-							{@const fnameDefaultPicId = `service.${item.label}.defaultPicId}`}
-							{@const fnameDefaultSvcProviderId = `service.${item.label}.defaultSvcProviderId}`}
+							{@const fnameOwnerId = `service.${item.label}.ownerId`}
+							{@const fnameYear = `service.${item.label}.listOfSvcYears`}
+							{@const fnameSvcId = `service.${item.label}.svcId`}
+							{@const fnameSvcTypeId = `service.${item.label}.svcTypeId`}
+							{@const fnamePicId = `service.${item.label}.picId`}
+							{@const fnameSvcProviderId = `service.${item.label}.svcProviderId`}
 							<tr>
 								<td>
 									<input
-										type="checkbox"
-										id={fnameSvcTypeId}
-										name={fnameSvcTypeId}
+										type="hidden"
+										readonly
 										disabled={isDisabled}
+										name={fnameYear}
+										value={years.join(',')}
+									/>
+									<input
+										type="checkbox"
+										id={fnameSvcId}
+										name={fnameSvcId}
+										disabled={isDisabled}
+										value={targetService.svcId}
+									/>
+									<input
+										type="hidden"
+										readonly
+										disabled={isDisabled}
+										name={fnameSvcTypeId}
 										value={targetService.svcTypeId}
 									/>
-									<label class="field-label" for={fnameSvcTypeId}>{item.label}</label>
+									<input
+										type="hidden"
+										readonly
+										disabled={isDisabled}
+										name={fnameOwnerId}
+										value={data.targetId}
+									/>
+									<label class="field-label" for={fnameSvcId}>{item.label}</label>
 								</td>
 								<td>
-									<select name={fnameDefaultPicId} disabled={isDisabled}>
+									<select name={fnamePicId} disabled={isDisabled}>
 										<option value="0" selected={targetService.defaultPicId === null}>
 											-- Unassigned --
 										</option>
@@ -228,7 +252,7 @@
 									</select>
 								</td>
 								<td>
-									<select name={fnameDefaultSvcProviderId} disabled={isDisabled}>
+									<select name={fnameSvcProviderId} disabled={isDisabled}>
 										<option value="0" selected={targetService.defaultSvcProviderId === null}>
 											-- Unassigned --
 										</option>
@@ -249,7 +273,6 @@
 				</tbody>
 			</table>
 			<h4>Years</h4>
-			<input type="hidden" readonly name="entityId" value={data.targetId} />
 			<div class="row-add">
 				<input
 					type="text"

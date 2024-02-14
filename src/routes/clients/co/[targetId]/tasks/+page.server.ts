@@ -1,13 +1,15 @@
 
 import {
   GET_CO_CLIENT_SERVICES,
+  SAVE_CLIENT_TASK,
   fetchJson,
   fetchListCoClient,
   fetchListSvcProvider
 } from "$lib/shared/ajax";
 import { error } from "@sveltejs/kit";
-import type { PageServerLoadEvent } from "../$types";
+import type { Actions, PageServerLoadEvent } from "../$types";
 import type { ServiceDto } from "$lib/shared/dto/ServiceDto";
+import type { TaskDto } from "$lib/shared/dto/TaskDto";
 
 export const load = async (event: PageServerLoadEvent) => {
   const targetId = Number(event.params.targetId ?? "0");
@@ -29,16 +31,14 @@ export const load = async (event: PageServerLoadEvent) => {
 }
 
 // TODO: error handling
-/*
 export const actions: Actions = {
   save: async (event) => {
     const { request } = event;
     const formData = await request.formData();
 
-    await fetchJson<ClientCoDto>(SAVE_CO_CLIENT_SERVICES, {
+    await fetchJson<TaskDto>(SAVE_CLIENT_TASK, {
       method: "POST",
       body: formData,
     })
   }
 }
-*/

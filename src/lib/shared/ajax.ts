@@ -22,6 +22,9 @@ export const SAVE_CO_CLIENT_SERVICES = `${WAY_BACKEND}/profiles/clients/co/servi
 export const LIST_INDI_CLIENT = `${WAY_BACKEND}/profiles/clients/indi/list`;
 export const SAVE_INDI_CLIENT = `${WAY_BACKEND}/profiles/clients/indi`;
 
+export const LIST_CLIENT_TASK = `${WAY_BACKEND}/tasks/client/list`;
+export const SAVE_CLIENT_TASK = `${WAY_BACKEND}/tasks/client`;
+
 interface IResponseJson<TResult> {
   result: TResult | null;
   message: string;

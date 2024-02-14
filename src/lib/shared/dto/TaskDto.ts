@@ -1,5 +1,5 @@
 import type { RemarksDto } from "./JsonDto";
-import { FeeType, InvoiceStatusCode, PaymentStatusCode, SvcTypeId, TaskStatusCode } from "./enums";
+import type { FeeType, InvoiceStatusCode, PaymentStatusCode, SvcTypeId, TaskStatusCode } from "./enums";
 
 export interface TaskDto {
     taskId: number;

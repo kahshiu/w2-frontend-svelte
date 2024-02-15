@@ -17,3 +17,12 @@ export interface ServiceFilterDto {
     listOfSvcTypeIds: SvcTypeId[];
     ownerId: number;
 }
+
+export interface ServiceEngagedDto {
+    accStatusCode: SvcStatusCode;
+    auditStatusCode: SvcStatusCode;
+    cosecStatusCode: SvcStatusCode;
+    formeStatusCode: SvcStatusCode;
+    formcStatusCode: SvcStatusCode;
+    cp204StatusCode: SvcStatusCode;
+}

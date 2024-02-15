@@ -1,11 +1,10 @@
 <script lang="ts">
 	import NavMain from '$lib/components/NavMain.svelte';
-	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
-	import { findEntityStatus, showPrimaryContact } from '$lib/shared/dtoHelpers';
+	import type { ClientCoServices } from '$lib/shared/dto/ProfileDto';
+	import { findEntityStatus, showPrimaryContact, formulateIndicators } from '$lib/shared/dtoHelpers';
 
 	export let data;
-	const clients: ClientCoDto[] = data.clients;
-
+	const clients: ClientCoServices[] = data.clients;
 </script>
 
 <NavMain></NavMain>
@@ -20,9 +19,22 @@
 		<thead>
 			<tr>
 				<th class="narrow">#</th>
-				<th>Company Name</th>
+				<th>Co. Name</th>
 				<th>Primary Contact</th>
-				<th>Status</th>
+				<th style="text-align: center">
+					Engaged Services
+					<pre>{
+						formulateIndicators({
+							accStatusCode: 1
+							, formcStatusCode: 1
+							, formeStatusCode: 1
+							, cp204StatusCode: 1
+							, auditStatusCode: 1
+							, cosecStatusCode: 1
+						})
+					}</pre>
+				</th>
+				<th>Co. Status</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -32,6 +44,9 @@
 					<td class="narrow">{index + 1}. </td>
 					<td>ID: {item.entityId}, {item.entityName} </td>
 					<td>{showPrimaryContact(item)}</td>
+					<td style="white-space: nowrap">
+						<pre>{formulateIndicators(item)}</pre>
+					</td>
 					<td>{findEntityStatus(item.entityStatus)}</td>
 					<td class="narrow">
 						<a href="/clients/co/{item.entityId}">Edit</a>
@@ -39,6 +54,15 @@
 				</tr>
 			{/each}
 		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<div class="field-description mt-med">
+						Indicators: <br />
+						Active Folder will register a tick on engaged services
+					</div>
+				</td>
+			</tr>
+		</tfoot>
 	</table>
 </main>
-

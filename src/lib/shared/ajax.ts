@@ -1,6 +1,7 @@
 import { error } from "@sveltejs/kit";
 import type { ClientCoDto, SvcProviderCoDto } from "./dto/ProfileDto";
 import { config } from "./globals";
+import type { ServiceEngagedDto } from "./dto/ServiceDto";
 
 export const WAY_FRONTEND = `http://localhost:5173`;
 export const WAY_BACKEND = `http://${config.backend.host}:${config.backend.port}/api`;
@@ -52,8 +53,10 @@ export const fetchListSvcProvider = async () => {
   return respSvcProviders.result;
 }
 
+type ClientCoServices = ClientCoDto & ServiceEngagedDto;
+
 export const fetchListCoClient = async () => {
-  const respClients = await fetchJson<ClientCoDto[]>(LIST_CO_CLIENT);
+  const respClients = await fetchJson<ClientCoServices[]>(LIST_CO_CLIENT);
   if (respClients.result === null) {
     error(404, { message: respClients.message })
   }

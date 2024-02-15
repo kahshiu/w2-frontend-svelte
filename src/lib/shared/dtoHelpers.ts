@@ -1,4 +1,5 @@
 import type { ContactDto } from "./dto/JsonDto";
+import type { ServiceEngagedDto } from "./dto/ServiceDto";
 import { store, type EnumStore, type DefinitionDto2, type DefinitionDto, MySvcTypeId, MySvcStatusCode, MyTaskStatusCode } from "./dto/enums";
 
 // ***********
@@ -127,3 +128,19 @@ export const showPrimaryContact = <C extends BaseContactDetails>(item: C) => {
   const textContactType = findContactType(Number(pContact.type));
   return `${pContact.name}: ${pContact.contact} [${textContactType}]`;
 };
+
+const svcIndicator = (label: string, statusCode: number)=> {
+  if(statusCode === MySvcStatusCode.ACTIVE) return label;
+  else return label.replace(/\w/g, " ");
+}
+
+export const formulateIndicators = (item: ServiceEngagedDto) => {
+  const accText = svcIndicator(findSvcTypeId(MySvcTypeId.ACCOUNT), item.accStatusCode);
+  const formcText = svcIndicator(findSvcTypeId(MySvcTypeId.FORM_C), item.formcStatusCode);
+  const formeText = svcIndicator(findSvcTypeId(MySvcTypeId.FORM_E), item.formeStatusCode);
+  const cp204Text = svcIndicator(findSvcTypeId(MySvcTypeId.CP204), item.cp204StatusCode);
+  const auditText = svcIndicator(findSvcTypeId(MySvcTypeId.AUDIT), item.auditStatusCode);
+  const cosecText = svcIndicator(findSvcTypeId(MySvcTypeId.COSEC), item.cosecStatusCode);
+
+  return `${accText} | ${formcText} | ${formeText} | ${cp204Text} | ${auditText} | ${cosecText}`;
+}

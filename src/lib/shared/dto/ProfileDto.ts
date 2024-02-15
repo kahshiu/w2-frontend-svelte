@@ -1,7 +1,7 @@
 import type { EntityStatus, EntityClass, EntitySubtype, EntityType, ProfileStatus } from "./enums"
 import type { ContactDto, DirectorDto, RemarksDto } from "./JsonDto"
 import type { RelationDto } from "./RelationDto"
-import type { ServiceDto } from "./ServiceDto"
+import type { ServiceEngagedDto } from "./ServiceDto"
 
 export interface ProfileDto {
     entityId: number
@@ -47,6 +47,8 @@ export type SvcProviderCoDto = ProfileDto & { staff: StaffSvelteDto[] }
 export type ClientCoDto = ProfileDto
     // & { staff: StaffSvelteDto[] } 
     // & { services: ServiceDto[] }
+
+export type ClientCoServices = ClientCoDto & ServiceEngagedDto;
 
 export type ClientIndiDto = ProfileDto
 

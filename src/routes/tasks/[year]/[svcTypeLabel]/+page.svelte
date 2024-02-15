@@ -98,17 +98,19 @@
 	<nav class="breadcrumb">
 		<ul>
 			<li><a href="/tasks">Tasks</a></li>
-			<li>[Task ID: {data.taskId}]</li>
+			<li>Edit Task [ID: {data.taskId}]</li>
 		</ul>
 	</nav>
-	<h2>Edit Task</h2>
+	<h2>Edit {taskLabel} Task, {taskYear}</h2>
 
-	<h3><u>Task Owner Details</u></h3>
+	<h3><u>Client Details</u></h3>
 	<div class="button-group">
-		<a class="button small" href={getClientUrl(taskTargeted)}>Edit Task Owner</a>
+		<a class="button small" href={getClientUrl(taskTargeted)}>Edit Client Details</a>
 	</div>
 
 	<ClientCo targetEntity={taskTargeted} />
+
+	<h3><u>Client Tasks, {taskYear}</u></h3>
 
 	<h3><u>Folder Details</u></h3>
 	<div class="button-group">
@@ -133,7 +135,7 @@
 		<thead>
 			<tr>
 				<th class="narrow">ID</th>
-				<th>Service Folder Type</th>
+				<th>Folder Type</th>
 				<th>Default PIC Assigned</th>
 				<th>Default External SP</th>
 				<th>Folder Status</th>
@@ -150,7 +152,7 @@
 		</tbody>
 	</table>
 
-	<h3><u>{taskYear} {taskLabel} Details</u></h3>
+	<h3><u>{taskLabel} Details, {taskYear}</u></h3>
 
 	<form method="POST" action="?/save">
 		<input type="hidden" readonly name="taskId" value={taskTargeted.taskId} />
@@ -174,7 +176,6 @@
 		<div class="form-actions">
 			<input type="submit" value="Save" />
 		</div>
-
 	</form>
 </main>
 

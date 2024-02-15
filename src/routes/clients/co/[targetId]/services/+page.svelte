@@ -89,12 +89,12 @@
 <main>
 	<nav class="breadcrumb">
 		<ul>
-			<li><a href="/clients">Clients</a></li>
+			<li><a href="/clients">List of Clients</a></li>
 			<li><a href="/clients/co/{targetEntity?.entityId}">{targetEntity?.entityName}</a></li>
-			<li>Services</li>
+			<li>Create Folders</li>
 		</ul>
 	</nav>
-	<h2>Create Service Folders</h2>
+	<h2>Create Folders</h2>
 
 	<h3><u>Client Details</u></h3>
 	<div class="button-group">
@@ -102,7 +102,7 @@
 	</div>
 	<ClientCo {targetEntity} />
 
-	<h3><u>Folder Details</u></h3>
+	<h3><u>Client Folders</u></h3>
 	<div class="button-group">
 		<input
 			type="button"
@@ -152,7 +152,7 @@
 				<tr class="row-add">
 					<td class="narrow">
 						<i>
-							Toggle to all view available service folders
+							Toggle to all view available folders
 							<div class={viewAll ? 'hidden' : ''}>Selected: <b>View One Only</b></div>
 							<div class={!viewAll ? 'hidden' : ''}>Selected: <b>View All</b></div>
 						</i>

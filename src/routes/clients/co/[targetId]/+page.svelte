@@ -64,14 +64,14 @@
 	<div class="button-group">
 		<input
 			type="button"
-			value="Service Folders"
+			value="Create Folders"
 			on:click={() => {
 				goto(`/clients/co/${data.targetId}/services`);
 			}}
 		/>
 		<input
 			type="button"
-			value="Folder Tasks"
+			value="Create Tasks"
 			on:click={() => {
 				goto(`/clients/co/${data.targetId}/tasks`);
 			}}

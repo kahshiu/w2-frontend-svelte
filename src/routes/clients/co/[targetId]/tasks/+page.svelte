@@ -127,12 +127,12 @@
 <main>
 	<nav class="breadcrumb">
 		<ul>
-			<li><a href="/clients">Clients</a></li>
+			<li><a href="/clients">List of Clients</a></li>
 			<li><a href="/clients/co/{targetEntity?.entityId}">{targetEntity?.entityName}</a></li>
-			<li>Tasks</li>
+			<li>Create Tasks</li>
 		</ul>
 	</nav>
-	<h2>Create Service Tasks</h2>
+	<h2>Create Tasks</h2>
 
 	<h3><u>Client Details</u></h3>
 	<div class="button-group">
@@ -140,7 +140,7 @@
 	</div>
 	<ClientCo {targetEntity} />
 
-	<h3><u>Folder Details</u></h3>
+	<h3><u>Client Folders</u></h3>
 	<div class="button-group">
 		<input
 			type="button"
@@ -156,7 +156,7 @@
 			<thead>
 				<tr>
 					<th class="narrow">ID</th>
-					<th>Service Folder Type</th>
+					<th>Folder Type</th>
 					<th>Default PIC Assigned</th>
 					<th>Default External SP</th>
 					<th>Folder Status</th>
@@ -181,7 +181,7 @@
 		-- No folders created --
 	{/if}
 
-	<h3><u>Tasks Details</u></h3>
+	<h3><u>Client Tasks</u></h3>
 	{#if data.tasks.length > 0}
 		<table class="border-all">
 			<thead>

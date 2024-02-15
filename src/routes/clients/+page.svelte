@@ -10,7 +10,7 @@
 
 <NavMain></NavMain>
 <main>
-	<h2>List of Company Clients</h2>
+	<h2>List of Clients</h2>
 
 	<div class="button-group">
 		<a class="button" href="/clients/co/new">New Company Client</a>

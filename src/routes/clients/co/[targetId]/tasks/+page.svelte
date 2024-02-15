@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
+	import Abbrev from '$lib/components/display/Abbrev.svelte';
 	import ClientCo from '$lib/components/display/ClientCo.svelte';
 	import type { SvcProviderCoDto, ClientCoDto } from '$lib/shared/dto/ProfileDto';
 	import {
@@ -176,6 +177,11 @@
 					{/if}
 				{/each}
 			</tbody>
+			<tfoot>
+				<div class="field-description">
+					<Abbrev></Abbrev>
+				</div>
+			</tfoot>
 		</table>
 	{:else}
 		-- No folders created --

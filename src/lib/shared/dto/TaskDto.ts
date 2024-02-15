@@ -55,6 +55,7 @@ type xtraAssignment = {
     defaultPicName: string, 
     defaultSvcProviderName: string 
 };
+
 export type TaskClientDto = TaskDto & ServiceDto & ClientCoDto & xtraAssignment
 
 export interface TaskFilterDto {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
+	import Abbrev from '$lib/components/display/Abbrev.svelte';
 	import ClientCo from '$lib/components/display/ClientCo.svelte';
 	import TaskAccount from '$lib/components/forms/TaskAccount.svelte';
 	import TaskAudit from '$lib/components/forms/TaskAudit.svelte';
@@ -54,7 +55,7 @@
 	};
 	resetTask(data.taskId);
 
-	console.log('tracing data', data, taskTargeted);
+	// console.log('tracing data', data, taskTargeted);
 
 	// INTERACTIVITY: page
 	const getUrl = (data: PageData, taskId: number) =>
@@ -140,6 +141,11 @@
 					</tr>
 				{/each}
 			</tbody>
+			<tfoot>
+				<div class="mt-med">
+					<Abbrev></Abbrev>
+				</div> 
+			</tfoot>
 		</table>
 	{:else}
 		-- No related tasks --

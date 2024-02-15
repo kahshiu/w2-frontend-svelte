@@ -1,5 +1,5 @@
 import type { TaskClientDto } from "$lib/shared/dto/TaskDto";
-import { fetchJson, LIST_CLIENT_TASK, LIST_TASK_BY_YEAR_SVCTYPE } from "$lib/shared/ajax";
+import { fetchJson, LIST_TASK_BY_YEAR_SVCTYPE } from "$lib/shared/ajax";
 import { MySvcTypeId, type SvcTypeLabel } from "$lib/shared/dto/enums";
 import { error } from "@sveltejs/kit";
 import type { PageServerLoadEvent } from "./$types";

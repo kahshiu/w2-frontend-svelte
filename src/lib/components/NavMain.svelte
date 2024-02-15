@@ -1,5 +1,5 @@
 <div>
-	<h1>MasterList</h1>
+	<h1><a href="/"> MasterList </a></h1>
 	<nav>
 		<ul>
 			<li><a href="/">Home</a></li>
@@ -13,8 +13,8 @@
 			<li>
 				<div>Task</div>
 				<ul>
+					<li><a href="/tasks">Browse Tasks</a></li>
 					<li><a href="/tasks/mass-tasks">Task Creation</a></li>
-					<li><a href="/tasks/pic-tasks">Task by PIC</a></li>
 				</ul>
 			</li>
 			<li><a href="/reports">Reports</a></li>

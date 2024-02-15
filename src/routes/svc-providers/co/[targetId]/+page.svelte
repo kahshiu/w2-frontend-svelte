@@ -35,7 +35,7 @@
 </script>
 
 <div>
-	<h1>MasterList</h1>
+	<h1><a href="/"> MasterList </a></h1>
 	<a class="button mb-small" href="/svc-providers/co/new">New Company Service Provider</a>
 	<nav>
     <input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />

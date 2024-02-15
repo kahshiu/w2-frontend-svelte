@@ -74,7 +74,7 @@
 </script>
 
 <div>
-	<h1>MasterList</h1>
+	<h1><a href="/"> MasterList </a></h1>
 	<nav>
 		<input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />
 		<ul class="sidebar">
@@ -97,6 +97,9 @@
 	<h2>Create Service Folders</h2>
 
 	<h3><u>Client Details</u></h3>
+	<div class="button-group">
+		<a class="button small" href="/clients/co/{targetEntity?.entityId}">Edit Client Details</a>
+	</div>
 	<ClientCo {targetEntity} />
 
 	<h3><u>Folder Details</u></h3>
@@ -104,7 +107,7 @@
 		<input
 			type="button"
 			class="small"
-			value="Manage Tasks for Folders"
+			value="Create Tasks"
 			on:click={() => {
 				goto(`/clients/co/${data.targetId}/tasks`);
 			}}

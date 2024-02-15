@@ -24,6 +24,21 @@ export const MyContactType = {
     EMAIL: 3,
 } as const
 
+export const MyMonth = {
+    JAN: 1,
+    FEB: 2,
+    MAR: 3,
+    APR: 4,
+    MAY: 5,
+    JUN: 6,
+    JUL: 7,
+    AUG: 8,
+    SEP: 9,
+    OCT: 10,
+    NOV: 11,
+    DEC: 12,
+}
+
 export const MyEntityStatus = {
     ACTIVE: 1,
     DORMANT: 2,
@@ -65,9 +80,30 @@ export const MyTaskStatusCode = {
     ACTIVE: 100,
     KIV: 900,
 } as const
-export const MyWorkflowStatusCode = {} as const
-export const MyInvoiceStatusCode = {} as const
-export const MyPaymentStatusCode = {} as const
+
+export const MyYesNo = {
+    YES: 1,
+    NO: 0,
+}
+
+export const MyInvoiceStatusCode = {
+    TASK_IN_PROGRESS: 0,
+    INVOICE_PENDING: 10,
+    INVOICE_ISSUED: 20,
+    PAYMENT_DONE: 30,
+} as const
+
+export const MyPaymentStatusCode = {
+    NOT_STARTED: 0,
+    PENDING: 10,
+    PAID: 20,
+} as const
+
+export const MyWorkflowStatusCode = {
+    UN_INIITATED: 0,
+    TASK_INITIATED: 10,
+    DOCS_PENDING: 20,
+} as const
 
 // *************************
 // object to web consumables
@@ -77,9 +113,9 @@ export interface DefinitionDto<E> {
     label: keyof E
 }
 
-export interface DefinitionDto2 { 
-    code: number; 
-    label: string 
+export interface DefinitionDto2 {
+    code: number;
+    label: string
 }
 
 type FnEnumToObj = <E extends Record<string, number>>(definitionEnum: E) => DefinitionDto<E>[]
@@ -104,6 +140,7 @@ export const store = {
     svcTypeId: enumToObj(MySvcTypeId),
     svcStatusCode: enumToObj(MySvcStatusCode),
     feeType: enumToObj(MyFeeType),
+    yesNo: enumToObj(MyYesNo),
     taskStatusCode: enumToObj(MyTaskStatusCode),
     workflowStatusCode: enumToObj(MyWorkflowStatusCode),
     invoiceStatusCode: enumToObj(MyInvoiceStatusCode),
@@ -125,6 +162,7 @@ export type SvcTypeLabel = keyof typeof MySvcTypeId;
 export type SvcTypeId = (typeof MySvcTypeId)[SvcTypeLabel]
 export type SvcStatusCode = (typeof MySvcStatusCode)[keyof typeof MySvcStatusCode]
 export type FeeType = (typeof MyFeeType)[keyof typeof MyFeeType]
+export type YesNo = (typeof MyYesNo)[keyof typeof MyYesNo]
 export type TaskStatusCode = (typeof MyTaskStatusCode)[keyof typeof MyTaskStatusCode]
 export type InvoiceStatusCode = (typeof MyInvoiceStatusCode)[keyof typeof MyInvoiceStatusCode]
 export type WorkflowStatusCode = (typeof MyWorkflowStatusCode)[keyof typeof MyWorkflowStatusCode]

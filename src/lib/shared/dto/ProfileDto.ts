@@ -46,7 +46,7 @@ export type SvcProviderCoDto = ProfileDto & { staff: StaffSvelteDto[] }
 
 export type ClientCoDto = ProfileDto
     // & { staff: StaffSvelteDto[] } 
-    & { services: ServiceDto[] }
+    // & { services: ServiceDto[] }
 
 export type ClientIndiDto = ProfileDto
 

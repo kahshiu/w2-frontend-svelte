@@ -34,18 +34,17 @@
 
 <div class="form-col-2">
 	<div class="form-field">
+		<input type="hidden" readonly name="entityId" value={entityId} />
+
 		<label class="field-label" for="entityName">Company Name:</label>
-		<div>
-			<input type="hidden" readonly name="entityId" value={entityId} />
-			<input
-				type="text"
-				name="entityName"
-				id="entityName"
-				placeholder="Type name here"
-				required
-				bind:value={entityName}
-			/>
-		</div>
+		<input
+			type="text"
+			name="entityName"
+			id="entityName"
+			placeholder="Type name here"
+			required
+			bind:value={entityName}
+		/>
 	</div>
 
 	<div class="form-field">

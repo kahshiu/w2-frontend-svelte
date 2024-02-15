@@ -1,4 +1,6 @@
 import type { RemarksDto } from "./JsonDto";
+import type { ClientCoDto } from "./ProfileDto";
+import type { ServiceDto } from "./ServiceDto";
 import type { FeeType, InvoiceStatusCode, PaymentStatusCode, SvcTypeId, SvcTypeLabel, TaskStatusCode, WorkflowStatusCode } from "./enums";
 
 export interface TaskDto {
@@ -27,6 +29,7 @@ export interface TaskDto {
     dateDraftReturned?: Date;
     dateClientSigned?: Date;
     dateSubmitted?: Date;
+
     submission1?: string;
     revision1?: string;
     revision2?: string;
@@ -36,21 +39,27 @@ export interface TaskDto {
     fee?: number;
     feePaidDate?: Date;
     taskStatusCode: TaskStatusCode; // required
+
     invoiceNo?: string;
     invoiceAmount?: number;
     invoiceStatusCode?: InvoiceStatusCode;
     paymentStatusCode?: PaymentStatusCode;
+
     workflowStatusCode?: WorkflowStatusCode;
     remarks: RemarksDto[]; // required
 }
 
+type xtraAssignment = { picName: string, svcProviderName: string };
+export type TaskClientDto = TaskDto & ServiceDto & ClientCoDto & xtraAssignment
+
 export interface TaskFilterDto {
-    listOfSvcTypeIds: SvcTypeId[],
-    listOfYears: number[],
+    listOfSvcTypeIds: SvcTypeId[];
+    listOfYears: number[];
+    taskId: number;
     ownerId: number;
 }
 
-export interface TaskCreationEntry extends TaskDto{
+export interface TaskCreationEntry extends TaskDto {
     listOfSvcYears: string;
 }
 

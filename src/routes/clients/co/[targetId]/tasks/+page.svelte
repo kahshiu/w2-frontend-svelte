@@ -1,15 +1,11 @@
 <script lang="ts">
 	import { afterNavigate, goto } from '$app/navigation';
-	import ServiceFolder from '$lib/components/ServiceFolder.svelte';
 	import ClientCo from '$lib/components/display/ClientCo.svelte';
-	import type { SvcProviderCoDto, ClientCoDto, StaffSvelteDto } from '$lib/shared/dto/ProfileDto';
-	import { MySvcStatusCode } from '$lib/shared/dto/enums.js';
+	import type { SvcProviderCoDto, ClientCoDto } from '$lib/shared/dto/ProfileDto';
 	import {
-		filledObj,
 		findSvcStatusCode,
 		findSvcTypeId,
 		findTaskStatusCode,
-		isArrayOfEmptyObj,
 		isFolderSuspended,
 		isSelected,
 		isTaskKived,
@@ -59,7 +55,10 @@
 		return homePic?.staffName ?? unassignedName;
 	};
 
-	const findSvcProvider = (svcProviders: SvcProviderCoDto[], targetId: number | null | undefined) => {
+	const findSvcProvider = (
+		svcProviders: SvcProviderCoDto[],
+		targetId: number | null | undefined
+	) => {
 		const unassignedName = `-- Unassigned --`;
 		if (targetId === undefined && targetId === null) return unassignedName;
 
@@ -114,7 +113,7 @@
 </script>
 
 <div>
-	<h1>MasterList</h1>
+	<h1><a href="/"> MasterList </a></h1>
 	<nav>
 		<input type="text" class="mb-small" placeholder="Filter Names" on:input={filterHandler} />
 		<ul class="sidebar">
@@ -136,6 +135,9 @@
 	<h2>Create Service Tasks</h2>
 
 	<h3><u>Client Details</u></h3>
+	<div class="button-group">
+		<a class="button small" href="/clients/co/{targetEntity?.entityId}">Edit Client Details</a>
+	</div>
 	<ClientCo {targetEntity} />
 
 	<h3><u>Folder Details</u></h3>
@@ -143,7 +145,7 @@
 		<input
 			type="button"
 			class="small"
-			value="Manage Service Folders"
+			value="Create Folders"
 			on:click={() => {
 				goto(`/clients/co/${data.targetId}/services`);
 			}}
@@ -200,15 +202,18 @@
 						<td> {findHomePic(data.svcProviders, item.picId)} </td>
 						<td> {findSvcProvider(data.svcProviders, item.svcProviderId)} </td>
 						<td> {findTaskStatusCode(item.taskStatusCode)} </td>
-						<td> <a href="/tasks/{item.taskId}">Edit</a> </td>
+						<td>
+							<a href="/tasks/{item.svcYear}/{findSvcTypeId(item.svcTypeId)}?taskId={item.taskId}"
+								>Edit</a
+							>
+						</td>
 					</tr>
 				{/each}
 			</tbody>
 		</table>
 	{:else}
-		-- No folders created --
+		-- No tasks created --
 	{/if}
-
 
 	<h3><u>Tasks Creation</u></h3>
 	<form id="taskForm" method="POST" action="?/save">

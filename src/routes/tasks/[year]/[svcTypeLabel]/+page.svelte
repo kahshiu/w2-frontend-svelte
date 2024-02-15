@@ -13,10 +13,11 @@
 	import {
 		findSvcStatusCode,
 		findSvcTypeId,
+		findTaskStatusCode,
 		isFolderSuspended,
+		isTaskKived,
 		showCapitalise
 	} from '$lib/shared/dtoHelpers';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -47,13 +48,13 @@
 		}) as TaskClientDto;
 
 		taskLabel = showCapitalise(findSvcTypeId(taskTargeted.svcTypeId));
-		taskYear = taskTargeted.svcYear;
+		taskYear = taskTargeted.svcYear.toString();
 
 		// console.log('tracing targeted', taskTargeted);
 	};
 	resetTask(data.taskId);
 
-	// console.log("tracing data", data, taskTargeted)
+	console.log('tracing data', data, taskTargeted);
 
 	// INTERACTIVITY: page
 	const getUrl = (data: PageData, taskId: number) =>
@@ -111,6 +112,38 @@
 	<ClientCo targetEntity={taskTargeted} />
 
 	<h3><u>Client Tasks, {taskYear}</u></h3>
+	{#if data.relatedTasks.length > 0}
+		<table class="border-all">
+			<thead>
+				<tr>
+					<th class="narrow">Year</th>
+					<th>Task Type</th>
+					<th>PIC Assigned</th>
+					<th>External SP</th>
+					<th>Task Status</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each data.relatedTasks as item, key}
+					<tr class={isTaskKived(item.taskStatusCode) ? 'gray-text' : ''}>
+						<td class="narrow"> {item.svcYear} </td>
+						<td> {findSvcTypeId(item.svcTypeId)} </td>
+						<td> {item.picName} </td>
+						<td> {item.svcProviderName} </td>
+						<td> {findTaskStatusCode(item.taskStatusCode)} </td>
+						<td>
+							<a href="/tasks/{item.svcYear}/{findSvcTypeId(item.svcTypeId)}?taskId={item.taskId}"
+								>Edit</a
+							>
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	{:else}
+		-- No related tasks --
+	{/if}
 
 	<h3><u>Folder Details</u></h3>
 	<div class="button-group">
@@ -145,8 +178,8 @@
 			<tr class={isFolderSuspended(taskTargeted.svcStatusCode) ? 'gray-text' : ''}>
 				<td class="narrow"> {taskTargeted.svcId} </td>
 				<td> {findSvcTypeId(taskTargeted.svcTypeId)} </td>
-				<td> {taskTargeted.picName} </td>
-				<td> {taskTargeted.svcProviderName} </td>
+				<td> {taskTargeted.defaultPicName} </td>
+				<td> {taskTargeted.defaultSvcProviderName} </td>
 				<td> {findSvcStatusCode(taskTargeted.svcStatusCode)} </td>
 			</tr>
 		</tbody>

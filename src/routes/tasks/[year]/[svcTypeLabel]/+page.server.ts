@@ -1,5 +1,5 @@
 import type { TaskClientDto } from "$lib/shared/dto/TaskDto";
-import { fetchJson, LIST_TASK_BY_YEAR_SVCTYPE } from "$lib/shared/ajax";
+import { fetchJson, LIST_CLIENT_TASK, LIST_TASK_BY_YEAR_SVCTYPE } from "$lib/shared/ajax";
 import { MySvcTypeId, type SvcTypeLabel } from "$lib/shared/dto/enums";
 import { error } from "@sveltejs/kit";
 import type { PageServerLoadEvent } from "./$types";
@@ -10,21 +10,31 @@ export const load = async (event: PageServerLoadEvent) => {
   const svcTypeId = MySvcTypeId[svcTypeLabel];
 
   let arrYears = [yyyy];
-  if(svcTypeId == MySvcTypeId.CP204) {
-    arrYears = [yyyy-1, yyyy, yyyy+1];
+  if (svcTypeId == MySvcTypeId.CP204) {
+    arrYears = [yyyy - 1, yyyy, yyyy + 1];
   }
   const arrSvcTypeId = [svcTypeId];
 
-  const q = new URLSearchParams();
-  q.append("listOfSvcTypeIds", arrSvcTypeId.join(","));
-  q.append("listOfYears", arrYears.join(","));
+  const q1 = new URLSearchParams();
+  q1.append("listOfSvcTypeIds", arrSvcTypeId.join(","));
+  q1.append("listOfYears", arrYears.join(","));
 
-  const respListTask = await fetchJson<TaskClientDto[]>(LIST_TASK_BY_YEAR_SVCTYPE + `?${q.toString()}`);
+  const respListTask = await fetchJson<TaskClientDto[]>(LIST_TASK_BY_YEAR_SVCTYPE + `?${q1.toString()}`);
   if (respListTask.result === null) {
     error(404, { message: respListTask.message })
   }
+
+  const q2 = new URLSearchParams();
+  q2.append("listOfYears", event.params.year);
+
+  const respRelatedTask = await fetchJson<TaskClientDto[]>(LIST_TASK_BY_YEAR_SVCTYPE + `?${q2.toString()}`);
+  if (respRelatedTask.result === null) {
+    error(404, { message: respRelatedTask.message })
+  }
+
   return {
     tasks: respListTask.result,
+    relatedTasks: respRelatedTask.result,
     year: yyyy,
     svcTypeLabel,
     svcTypeId,

@@ -49,7 +49,12 @@ export interface TaskDto {
     remarks: RemarksDto[]; // required
 }
 
-type xtraAssignment = { picName: string, svcProviderName: string };
+type xtraAssignment = { 
+    picName: string, 
+    svcProviderName: string 
+    defaultPicName: string, 
+    defaultSvcProviderName: string 
+};
 export type TaskClientDto = TaskDto & ServiceDto & ClientCoDto & xtraAssignment
 
 export interface TaskFilterDto {

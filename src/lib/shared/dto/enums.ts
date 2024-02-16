@@ -100,9 +100,10 @@ export const MyPaymentStatusCode = {
 } as const
 
 export const MyWorkflowStatusCode = {
-    UN_INIITATED: 0,
-    TASK_INITIATED: 10,
-    DOCS_PENDING: 20,
+    KICKSTARTED: 1,
+    WORK_IN_PROGRESS: 10,
+    COMPLETED: 20,
+    PAID: 30,
 } as const
 
 // *************************

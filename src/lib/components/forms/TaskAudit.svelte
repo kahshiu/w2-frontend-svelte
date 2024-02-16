@@ -132,11 +132,17 @@
 		</div>
 
 		<div class="form-field">
-			<label class="field-label" for="dateLate">Late Filing:</label>
+			<label class="field-label" for="lateFiling">Late Filing:</label>
 			<RadioGroup
 				fieldName="isLateFiling"
 				options={storeGet('yesNo')}
 				selectedItem={isLateFiling}
+			/>
+			<input
+				type="date"
+				name="dateLateFiling"
+				id="dateLateFiling"
+				placeholder="Date late filing here"
 			/>
 		</div>
 	</fieldset>
@@ -148,11 +154,6 @@
 </div>
 
 <!--
-	<div class="form-field">
-		<label class="field-label" for="feeType">Date submitted:</label>
-    <input type="date" name="dateSubmitted" id="dateSubmitted" placeholder="Date submitted here"  />
-	</div>
-
 <div class="form-field">
 	<label class="field-label" for="workflowStatusCode">Workflow Status:</label>
 	<RadioGroup

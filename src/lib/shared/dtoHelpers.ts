@@ -1,5 +1,6 @@
 import type { ContactDto } from "./dto/JsonDto";
 import type { ServiceEngagedDto } from "./dto/ServiceDto";
+import type { TaskDto } from "./dto/TaskDto";
 import { store, type EnumStore, type DefinitionDto2, type DefinitionDto, MySvcTypeId, MySvcStatusCode, MyTaskStatusCode } from "./dto/enums";
 
 // ***********
@@ -149,3 +150,10 @@ export const formulateIndicators = (item: ServiceEngagedDto) => {
 
   return `${accText} | ${formcText} | ${formeText} | ${cp204Text} | ${auditText} | ${cosecText}`;
 }
+
+export const isTaskHidden = (item: TaskDto) => {
+  return (
+    item.svcTypeId == MySvcTypeId.CP204 &&
+    (item.taskStatusCode === null || item.taskStatusCode === undefined)
+  );
+};

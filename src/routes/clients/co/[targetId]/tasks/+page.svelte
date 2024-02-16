@@ -9,6 +9,7 @@
 		findTaskStatusCode,
 		isFolderSuspended,
 		isSelected,
+		isTaskHidden,
 		isTaskKived,
 		sortedSvcTypeId
 	} from '$lib/shared/dtoHelpers';
@@ -202,18 +203,20 @@
 			</thead>
 			<tbody>
 				{#each data.tasks as item, key}
-					<tr class={isTaskKived(item.taskStatusCode) ? 'gray-text' : ''}>
-						<td class="narrow"> {item.svcYear} </td>
-						<td> {findSvcTypeId(item.svcTypeId)} </td>
-						<td> {findHomePic(data.svcProviders, item.picId)} </td>
-						<td> {findSvcProvider(data.svcProviders, item.svcProviderId)} </td>
-						<td> {findTaskStatusCode(item.taskStatusCode)} </td>
-						<td>
-							<a href="/tasks/{item.svcYear}/{findSvcTypeId(item.svcTypeId)}?taskId={item.taskId}"
-								>Edit</a
-							>
-						</td>
-					</tr>
+					{#if !isTaskHidden(item)}
+						<tr class={isTaskKived(item.taskStatusCode) ? 'gray-text' : ''}>
+							<td class="narrow"> {item.svcYear} </td>
+							<td> {findSvcTypeId(item.svcTypeId)} </td>
+							<td> {findHomePic(data.svcProviders, item.picId)} </td>
+							<td> {findSvcProvider(data.svcProviders, item.svcProviderId)} </td>
+							<td> {findTaskStatusCode(item.taskStatusCode)} </td>
+							<td>
+								<a href="/tasks/{item.svcYear}/{findSvcTypeId(item.svcTypeId)}?taskId={item.taskId}"
+									>Edit</a
+								>
+							</td>
+						</tr>
+					{/if}
 				{/each}
 			</tbody>
 		</table>

@@ -9,10 +9,7 @@ export const load = async (event: PageServerLoadEvent) => {
   const svcTypeLabel = event.params.svcTypeLabel as SvcTypeLabel;
   const svcTypeId = MySvcTypeId[svcTypeLabel];
 
-  let arrYears = [yyyy];
-  if (svcTypeId == MySvcTypeId.CP204) {
-    arrYears = [yyyy - 1, yyyy, yyyy + 1];
-  }
+  const arrYears = [yyyy];
   const arrSvcTypeId = [svcTypeId];
 
   const q1 = new URLSearchParams();

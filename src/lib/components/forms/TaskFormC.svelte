@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { RemarksDto } from '$lib/shared/dto/JsonDto';
-	import type { DefinitionDto2 } from '$lib/shared/dto/enums';
+	import { MyFeeType, type DefinitionDto2, MyInvoiceStatusCode } from '$lib/shared/dto/enums';
 	import { dtStrISO, showCapitalise, storeGet } from '$lib/shared/dtoHelpers';
 
 	import RadioGroup from './RadioGroup.svelte';
 	import RemarksHistory from './RemarksHistory.svelte';
 	import TaskAssignment from './TaskAssignment.svelte';
+	import TaskInvoice from './TaskInvoice.svelte';
 
+	const feeType = MyFeeType.TAX_AGENT_FEE
 	export let fee = '';
 	export let hasManagementAcc = 0;
 	export let dateManagementAcc = dtStrISO('');
@@ -22,7 +24,11 @@
 	export let dateTaxDraftFromReview = dtStrISO('');
 	export let dateTaxDraftToClient = dtStrISO('');
 	export let dateTaxDraftSignedBack = dtStrISO('');
-	export let dateSubmitted = dtStrISO('');
+	export let dateSubmission = dtStrISO('');
+
+	let dateManagementAccRequired = false;
+	let dateTaxDraft1Required = false;
+	let dateAuditDraftRequired = false;
 
 	// assignment props
 	export let homePic: DefinitionDto2[] = [];
@@ -32,18 +38,22 @@
 	export let svcProviderId: number = 0;
 	export let taskStatusCode: number = 100;
 
+  // invoice props
+	export let invoiceNo = '';
+	export let invoiceAmount = '';
+	export let invoiceDate = '';
+	export let paymentNote = '';
+	export let invoiceStatusCode = MyInvoiceStatusCode.TASK_IN_PROGRESS;
+
 	// remarks component
 	export let remarks: RemarksDto[] = [];
-
-	let dateManagementAccRequired = false;
-	let dateTaxDraft1Required = false;
-	let dateAuditDraftRequired = false;
 </script>
 
 <div class="form-col-2">
 	<fieldset>
 		<legend>{showCapitalise('FORM_C')}</legend>
 		<div class="form-field">
+			<input type="hidden" name="feeType" value={feeType}>
 			<label class="field-label" for="fee"> Tax agent fee: </label>
 			<input
 				type="text"
@@ -187,11 +197,12 @@
 		<div class="form-field">
 			<label class="field-label" for="fee"> Submission date </label>
 			<div class="field-description">Make sure copy saved in server</div>
-			<input type="date" name="dateSubmitted" id="dateSubmitted" bind:value={dateSubmitted} />
+			<input type="date" name="dateSubmission" id="dateSubmission" bind:value={dateSubmission} />
 		</div>
 	</fieldset>
 	<div>
 		<TaskAssignment {homePic} {svcProviders} {picId} {svcProviderId} {taskStatusCode} />
+		<TaskInvoice {invoiceNo} {invoiceAmount} {invoiceDate} {paymentNote} {invoiceStatusCode}/>
 	</div>
 </div>
 

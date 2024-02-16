@@ -48,7 +48,7 @@
 			placeholder="Payment note here"
 			bind:value={paymentNote}
 		></textarea>
-		<input type="date" name="paymentAmount" id="paymentAmoount" placeholder="Payment amount here" />
+		<input type="date" name="paymentAmount" id="paymentAmount" placeholder="Payment amount here" />
 	</div>
 
 	<div class="form-field">

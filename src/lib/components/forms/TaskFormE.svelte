@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { MyInvoiceStatusCode, type DefinitionDto2 } from '$lib/shared/dto/enums';
+	import { MyInvoiceStatusCode, type DefinitionDto2, MyFeeType } from '$lib/shared/dto/enums';
 	import { dtStrISO, storeGet } from '$lib/shared/dtoHelpers';
 	import RadioGroup from './RadioGroup.svelte';
 	import RemarksHistory from './RemarksHistory.svelte';
 	import TaskAssignment from './TaskAssignment.svelte';
 	import TaskInvoice from './TaskInvoice.svelte';
 
+	const feeType = MyFeeType.TAX_AGENT_FEE
 	export let fee = '';
 	export let accountByUs: number = 0;
 	export let dateDocsIn: string = dtStrISO('');
@@ -36,6 +37,7 @@
 		<legend>Form E</legend>
 
 		<div class="form-field">
+			<input type="hidden" name="feeType" value={feeType}>
 			<label class="field-label" for="fee">Tax agent fee:</label>
 			<input
 				type="text"

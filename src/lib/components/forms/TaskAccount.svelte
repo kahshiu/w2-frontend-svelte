@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RemarksHistory from './RemarksHistory.svelte';
 	import TaskAssignment from './TaskAssignment.svelte';
-	import type { DefinitionDto2 } from '$lib/shared/dto/enums';
+	import { MyFeeType, type DefinitionDto2, MyTaskStatusCode } from '$lib/shared/dto/enums';
 
 	export let fee = '';
 	export let engagementType = '';
@@ -11,7 +11,8 @@
 
 	export let picId: number = 0;
 	export let svcProviderId: number = 0;
-	export let taskStatusCode: number = 100;
+	export let taskStatusCode: number = MyTaskStatusCode.ACTIVE;
+
 </script>
 
 <div class="form-col-2">
@@ -20,6 +21,7 @@
 
 		<div class="form-field">
 			<label class="field-label" for="fee">Monthly fee:</label>
+			<input type="hidden" name="feeType" value={MyFeeType.ACC_MONTHLY} />
 			<input
 				type="text"
 				class="field-spacing"

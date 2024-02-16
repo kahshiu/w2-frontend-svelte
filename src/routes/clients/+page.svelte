@@ -1,7 +1,11 @@
 <script lang="ts">
 	import NavMain from '$lib/components/NavMain.svelte';
 	import type { ClientCoServices } from '$lib/shared/dto/ProfileDto';
-	import { findEntityStatus, showPrimaryContact, formulateIndicators } from '$lib/shared/dtoHelpers';
+	import {
+		findEntityStatus,
+		showPrimaryContact,
+		formulateIndicators
+	} from '$lib/shared/dtoHelpers';
 
 	export let data;
 	const clients: ClientCoServices[] = data.clients;
@@ -23,16 +27,14 @@
 				<th>Primary Contact</th>
 				<th style="text-align: center">
 					Engaged Services
-					<pre>{
-						formulateIndicators({
-							accStatusCode: 1
-							, formcStatusCode: 1
-							, formeStatusCode: 1
-							, cp204StatusCode: 1
-							, auditStatusCode: 1
-							, cosecStatusCode: 1
-						})
-					}</pre>
+					<pre>{formulateIndicators({
+							accStatusCode: 1,
+							formcStatusCode: 1,
+							formeStatusCode: 1,
+							cp204StatusCode: 1,
+							auditStatusCode: 1,
+							cosecStatusCode: 1
+						})}</pre>
 				</th>
 				<th>Co. Status</th>
 				<th>Actions</th>

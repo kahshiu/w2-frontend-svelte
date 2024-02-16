@@ -29,8 +29,13 @@ export const sortByCode = <T extends DefinitionDto2>(storeItem: T[]) => {
 // ***********
 // util object 
 // ***********
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isEmptyObj = (obj: any) => Object.keys(obj).length === 0;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const filledObj = (obj: any) => !isEmptyObj(obj);
+
 
 // **********
 // util dates 

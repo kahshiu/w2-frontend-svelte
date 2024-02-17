@@ -132,6 +132,10 @@ export type TaskAssignmentDto = {
     svcId: number,
     svcTypeId: SvcTypeId,
 
+    taskStatusCode: TaskStatusCode,
+    workflowStatus: WorkflowStatusCode,
+    MyInvoiceStatusCode: InvoiceStatusCode,
+
     entityId: number
     entitySubtype: EntitySubtype
     entityName: string

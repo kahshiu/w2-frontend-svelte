@@ -24,6 +24,7 @@ export const SAVE_INDI_CLIENT = `${WAY_BACKEND}/profiles/clients/indi`;
 
 export const LIST_TASK_BY_YEAR_SVCTYPE = `${WAY_BACKEND}/tasks/year/svc-type-id/list`;
 export const LIST_CLIENT_TASK = `${WAY_BACKEND}/tasks/client/list`;
+export const LIST_TASK_ASSIGNMENT = `${WAY_BACKEND}/tasks/assignment/list`;
 export const GET_CLIENT_TASK = `${WAY_BACKEND}/tasks/client`;
 export const UPSERT_CLIENT_TASK = `${WAY_BACKEND}/tasks/client`;
 export const UPDATE_TASK = `${WAY_BACKEND}/tasks`;
@@ -59,4 +60,12 @@ export const fetchListCoClient = async () => {
     error(404, { message: respClients.message })
   }
   return respClients.result;
+}
+
+export const fetchTaskAssignment = async (searchParams: URLSearchParams) => {
+  const respAssignments = await fetchJson<TaskAssignment[]>(LIST_TASK_ASSIGNMENT + `?${searchParams.toString()}`);
+  if (respAssignments.result === null) {
+    error(404, { message: respAssignments.message })
+  }
+  return respAssignments.result;
 }

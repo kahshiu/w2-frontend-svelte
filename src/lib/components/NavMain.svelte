@@ -13,8 +13,9 @@
 			<li>
 				<div>Task</div>
 				<ul>
-					<li><a href="/tasks">Browse Tasks</a></li>
-					<li><a href="/tasks/mass-tasks">Task Creation</a></li>
+					<li><a href="/tasks/browse/folders">Browse by Folder</a></li>
+					<li><a href="/tasks/browse/pics">Browse by Pic</a></li>
+					<li><a href="/tasks">Task Creation</a></li>
 				</ul>
 			</li>
 			<li><a href="/reports">Reports</a></li>

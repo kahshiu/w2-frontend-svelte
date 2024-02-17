@@ -95,6 +95,7 @@ export const findEntityType = (value: number) => storeFind("entityType", value);
 export const findEntityClass = (value: number) => storeFind("entityClass", value);
 export const findEntitySubtype = (value: number) => storeFind("entitySubtype", value);
 export const findContactType = (value: number) => storeFind("contactType", value);
+export const findMonth = (value: number) => storeFind("month", value);
 export const findEntityStatus = (value: number) => storeFind("entityStatus", value);
 export const findProfileStatus = (value: number) => storeFind("profileStatus", value);
 export const findRelationType = (value: number) => storeFind("relationType", value);

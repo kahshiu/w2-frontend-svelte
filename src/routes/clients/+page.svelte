@@ -1,10 +1,14 @@
 <script lang="ts">
 	import NavMain from '$lib/components/NavMain.svelte';
+	import ClientTooltip from '$lib/components/display/clientTooltip.svelte';
 	import type { ClientCoServices } from '$lib/shared/dto/ProfileDto';
 	import {
 		findEntityStatus,
 		showPrimaryContact,
-		formulateIndicators
+		formulateIndicators,
+		dtStrFormatter,
+		defaultFormatOptions,
+		findMonth
 	} from '$lib/shared/dtoHelpers';
 
 	export let data;
@@ -44,7 +48,13 @@
 			{#each clients as item, index}
 				<tr>
 					<td class="narrow">{index + 1}. </td>
-					<td>ID: {item.entityId}, {item.entityName} </td>
+					<td>
+						<ClientTooltip {item}>
+							<a href="/clients/co/{item.entityId}">
+								ID: {item.entityId}, {item.entityName}
+							</a>
+						</ClientTooltip>
+					</td>
 					<td>{showPrimaryContact(item)}</td>
 					<td style="white-space: nowrap">
 						<pre>{formulateIndicators(item)}</pre>
@@ -60,11 +70,18 @@
 			<tr>
 				<td colspan="5">
 					<div class="field-description mt-med">
+						Note: <br />
+						<b>Mouse over</b> company name to peek its details
+						<br />
+						<br />
 						Indicators: <br />
-						Active Folder will register a tick on engaged services
+						Active Folder will register as engaged service
 					</div>
 				</td>
 			</tr>
 		</tfoot>
 	</table>
 </main>
+
+<style>
+</style>

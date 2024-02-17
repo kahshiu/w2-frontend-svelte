@@ -1,6 +1,7 @@
 import { error } from "@sveltejs/kit";
 import type { ClientCoServices, SvcProviderCoDto } from "./dto/ProfileDto";
 import { config } from "./globals";
+import type { TaskAssignmentDto } from "./dto/TaskDto";
 
 export const WAY_FRONTEND = `http://localhost:5173`;
 export const WAY_BACKEND = `http://${config.backend.host}:${config.backend.port}/api`;
@@ -63,7 +64,7 @@ export const fetchListCoClient = async () => {
 }
 
 export const fetchTaskAssignment = async (searchParams: URLSearchParams) => {
-  const respAssignments = await fetchJson<TaskAssignment[]>(LIST_TASK_ASSIGNMENT + `?${searchParams.toString()}`);
+  const respAssignments = await fetchJson<TaskAssignmentDto[]>(LIST_TASK_ASSIGNMENT + `?${searchParams.toString()}`);
   if (respAssignments.result === null) {
     error(404, { message: respAssignments.message })
   }

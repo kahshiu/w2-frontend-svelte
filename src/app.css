@@ -612,7 +612,7 @@ button.reset {
 }
 
 .button-group * {
-  margin-right: var(--spacing-x-small);
+  margin-right: var(--spacing-3x-small);
 }
 
 /** tooltip **/

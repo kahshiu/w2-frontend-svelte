@@ -70,8 +70,8 @@ export const dtStrFormatter = (str: undefined | null | string, options = dtrStrF
   return dtFormatter(new Date(str), options);
 };
 
-export const dtStrISO = (isoStr: string) => {
-  if (isoStr === "") return "";
+export const dtStrISO = (isoStr: string | null) => {
+  if (isoStr === null || isoStr === "") return "";
   const date = new Date(isoStr);
   return date.getFullYear() + '-' + strPadded2(date.getMonth() + 1) + '-' + strPadded2(date.getDate());
 }

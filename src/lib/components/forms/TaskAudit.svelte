@@ -1,11 +1,24 @@
 <script lang="ts">
+	import type { RemarksDto } from '$lib/shared/dto/JsonDto';
 	import { MyInvoiceStatusCode, type DefinitionDto2 } from '$lib/shared/dto/enums';
 	import { storeGet } from '$lib/shared/dtoHelpers';
 	import RadioGroup from './RadioGroup.svelte';
+	import RemarksHistory from './RemarksHistory.svelte';
 	import TaskAssignment from './TaskAssignment.svelte';
 	import TaskInvoice from './TaskInvoice.svelte';
 
 	export let closingStock = 0;
+	export let dateAuditDue = ''
+	export let dateReadyAudit = ''
+	export let dateQueriesReceived = ''
+	export let dateQueriesReplied = ''
+	export let dateAuditPageSigned = ''
+	export let dateTaxPageSigned = ''
+	export let dateCosecAccPageSigned = ''
+	export let dateSendbackClient = ''
+	export let dateSendbackAuditor = ''
+	export let dateReportScanned = ''
+	export let dateLateFiling = ''
 	export let isLateFiling = 0;
 
 	export let workflowStatusCode = 0;
@@ -24,6 +37,8 @@
 	export let invoiceDate = '';
 	export let paymentNote = '';
 	export let invoiceStatusCode = MyInvoiceStatusCode.TASK_IN_PROGRESS;
+
+	export let remarks: RemarksDto[] = []
 </script>
 
 <div class="form-col-2">
@@ -41,12 +56,24 @@
 
 		<div class="form-field">
 			<label class="field-label" for="dateAuditDue">AUDIT due date:</label>
-			<input type="date" name="dateAuditDue" id="dateAuditDue" placeholder="Audit due date here" />
+			<input
+				type="date"
+				name="dateAuditDue"
+				id="dateAuditDue"
+				placeholder="Audit due date here"
+				bind:value={dateAuditDue}
+			/>
 		</div>
 
 		<div class="form-field">
 			<label class="field-label" for="dateReadyAudit">Date ready for AUDIT:</label>
-			<input type="date" name="dateReadyAudit" id="dateReadyAudit" placeholder="Date ready here" />
+			<input
+				type="date"
+				name="dateReadyAudit"
+				id="dateReadyAudit"
+				placeholder="Date ready here"
+				bind:value={dateReadyAudit}
+			/>
 		</div>
 
 		<div class="form-field">
@@ -56,6 +83,7 @@
 				name="dateQueriesReceived"
 				id="dateQueriesReceived"
 				placeholder="Date queries here"
+				bind:value={dateQueriesReceived}
 			/>
 		</div>
 
@@ -66,6 +94,7 @@
 				name="dateQueriesReplied"
 				id="dateQueriesReplied"
 				placeholder="Date queries replied here"
+				bind:value={dateQueriesReplied}
 			/>
 		</div>
 
@@ -76,6 +105,7 @@
 				name="dateAuditPageSigned"
 				id="dateAuditPageSigned"
 				placeholder="Date audit page here"
+				bind:value={dateAuditPageSigned}
 			/>
 		</div>
 
@@ -86,6 +116,7 @@
 				name="dateTaxPageSigned"
 				id="dateTaxPageSigned"
 				placeholder="Date tax page signed here"
+				bind:value={dateTaxPageSigned}
 			/>
 		</div>
 
@@ -98,6 +129,7 @@
 				name="dateCosecAccPageSigned"
 				id="dateCosecAccPageSigned"
 				placeholder="Date co. sec. acc. page here"
+				bind:value={dateCosecAccPageSigned}
 			/>
 		</div>
 
@@ -108,6 +140,7 @@
 				name="dateSendbackClient"
 				id="dateSendbackClient"
 				placeholder="Date sendback client here"
+				bind:value={dateSendbackClient}
 			/>
 		</div>
 
@@ -118,6 +151,7 @@
 				name="dateSendbackAuditor"
 				id="dateSendbackAuditor"
 				placeholder="Date sendback auditor here"
+				bind:value={dateSendbackAuditor}
 			/>
 		</div>
 
@@ -128,6 +162,7 @@
 				name="dateReportScanned"
 				id="dateReportScanned"
 				placeholder="Date report scanned here"
+				bind:value={dateReportScanned}
 			/>
 		</div>
 
@@ -138,12 +173,16 @@
 				options={storeGet('yesNo')}
 				selectedItem={isLateFiling}
 			/>
-			<input
-				type="date"
-				name="dateLateFiling"
-				id="dateLateFiling"
-				placeholder="Date late filing here"
-			/>
+			<div class="tooltip-anchor">
+				<span class="tooltip">Date late filing</span>
+				<input
+					type="date"
+					name="dateLateFiling"
+					id="dateLateFiling"
+					placeholder="Date late filing here"
+					bind:value={dateLateFiling}
+				/>
+			</div>
 		</div>
 	</fieldset>
 
@@ -152,6 +191,8 @@
 		<TaskInvoice {invoiceNo} {invoiceAmount} {invoiceDate} {paymentNote} {invoiceStatusCode} />
 	</div>
 </div>
+
+<RemarksHistory title={'Audit'} allRemarks={[...remarks]} />
 
 <!--
 <div class="form-field">

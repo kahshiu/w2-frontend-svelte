@@ -8,10 +8,12 @@
 	import TaskCosec from '$lib/components/forms/TaskCosec.svelte';
 	import TaskFormC from '$lib/components/forms/TaskFormC.svelte';
 	import TaskFormE from '$lib/components/forms/TaskFormE.svelte';
-	import type { ClientCoDto } from '$lib/shared/dto/ProfileDto';
-	import type { TaskClientDto } from '$lib/shared/dto/TaskDto';
-	import { MyEntityType, MySvcTypeId } from '$lib/shared/dto/enums';
+	import type { ClientCoDto, ProfileDto } from '$lib/shared/dto/ProfileDto';
+	import type { TaskClientDto, TaskWithRemarksDto, cp204Years } from '$lib/shared/dto/TaskDto';
+	import { MyEntityType, MySvcTypeId, type DefinitionDto2 } from '$lib/shared/dto/enums';
 	import {
+		dtStrFormatter,
+		dtStrISO,
 		findSvcStatusCode,
 		findSvcTypeId,
 		findTaskStatusCode,
@@ -22,11 +24,14 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+	console.log('tracing data', data);
 
-	let tasksFiltered: TaskClientDto[] = data.tasks;
+	let tasksFiltered = data.tasks;
 	let taskTargeted: TaskClientDto;
 	let taskYear: string;
 	let taskLabel: string;
+	let picOptions: DefinitionDto2[];
+	let spOptions: DefinitionDto2[];
 
 	// INTERACTIVITY: side menu
 	const filterHandler = (event: Event) => {
@@ -50,12 +55,14 @@
 
 		taskLabel = showCapitalise(findSvcTypeId(taskTargeted.svcTypeId));
 		taskYear = taskTargeted.svcYear.toString();
+		picOptions = data.svcProviders[0].staff.map((s) => ({ label: s.staffName, code: s.entityId }));
+		spOptions = data.svcProviders.slice(1).map((s) => ({ label: s.entityName, code: s.entityId }));
 
 		// console.log('tracing targeted', taskTargeted);
 	};
 	resetTask(data.taskId);
 
-	// console.log('tracing data', data, taskTargeted);
+	// DISPLAY: options
 
 	// INTERACTIVITY: page
 	const getUrl = (data: PageData, taskId: number) =>
@@ -144,7 +151,7 @@
 			<tfoot>
 				<div class="mt-med">
 					<Abbrev></Abbrev>
-				</div> 
+				</div>
 			</tfoot>
 		</table>
 	{:else}
@@ -195,21 +202,142 @@
 
 	<form method="POST" action="?/save">
 		<input type="hidden" readonly name="taskId" value={taskTargeted.taskId} />
+		<input type="hidden" readonly name="svcYear" value={taskTargeted.svcYear} />
 		<input type="hidden" readonly name="svcId" value={taskTargeted.svcId} />
+		<input type="hidden" readonly name="svcTypeId" value={taskTargeted.svcTypeId} />
 		<input type="hidden" readonly name="ownerId" value={taskTargeted.ownerId} />
 
 		{#if taskTargeted.svcTypeId === MySvcTypeId.ACCOUNT}
-			<TaskAccount />
+			<TaskAccount
+				fee={taskTargeted.fee}
+				engagementType={taskTargeted.engagementType}
+				homePic={picOptions}
+				svcProviders={spOptions}
+				picId={taskTargeted.picId}
+				svcProviderId={taskTargeted.svcProviderId}
+				taskStatusCode={taskTargeted.taskStatusCode}
+				remarks={taskTargeted.remarks ?? []}
+			/>
 		{:else if taskTargeted.svcTypeId === MySvcTypeId.AUDIT}
-			<TaskAudit />
+			<TaskAudit
+				closingStock={taskTargeted.closingStock}
+				dateAuditDue={dtStrISO(taskTargeted.dateAuditDue)}
+				dateReadyAudit={dtStrISO(taskTargeted.dateReadyAudit)}
+				dateQueriesReceived={dtStrISO(taskTargeted.dateQueriesReceived)}
+				dateQueriesReplied={dtStrISO(taskTargeted.dateQueriesReplied)}
+				dateAuditPageSigned={dtStrISO(taskTargeted.dateAuditPageSigned)}
+				dateTaxPageSigned={dtStrISO(taskTargeted.dateTaxPageSigned)}
+				dateCosecAccPageSigned={dtStrISO(taskTargeted.dateCosecAccPageSigned)}
+				dateSendbackClient={dtStrISO(taskTargeted.dateSendbackClient)}
+				dateSendbackAuditor={dtStrISO(taskTargeted.dateSendbackAuditor)}
+				dateReportScanned={dtStrISO(taskTargeted.dateReportScanned)}
+				dateLateFiling={dtStrISO(taskTargeted.dateLateFiling)}
+				isLateFiling={taskTargeted.isLateFiling}
+				homePic={picOptions}
+				svcProviders={spOptions}
+				picId={taskTargeted.picId}
+				svcProviderId={taskTargeted.svcProviderId}
+				taskStatusCode={taskTargeted.taskStatusCode}
+				invoiceNo={taskTargeted.invoiceNo}
+				invoiceAmount={taskTargeted.invoiceAmount}
+				invoiceDate={dtStrISO(taskTargeted.invoiceDate)}
+				paymentNote={taskTargeted.paymentNote}
+				paymentDate={dtStrISO(taskTargeted.paymentDate)}
+				invoiceStatusCode={taskTargeted.invoiceStatusCode}
+				remarks={taskTargeted.remarks ?? []}
+			/>
 		{:else if taskTargeted.svcTypeId === MySvcTypeId.COSEC}
-			<TaskCosec />
+			<TaskCosec 
+				homePic={picOptions}
+				svcProviders={spOptions}
+				picId={taskTargeted.picId}
+				svcProviderId={taskTargeted.svcProviderId}
+				taskStatusCode={taskTargeted.taskStatusCode}
+				remarks={taskTargeted.remarks ?? []}
+			/>
 		{:else if taskTargeted.svcTypeId === MySvcTypeId.FORM_C}
-			<TaskFormC />
+			<TaskFormC
+				fee={taskTargeted.fee}
+				hasManagementAcc={taskTargeted.hasManagementAcc}
+				dateManagementAcc={dtStrISO(taskTargeted.dateManagementAcc)}
+				hasTaxDraft1={taskTargeted.hasTaxDraft1}
+				dateTaxDraft1={dtStrISO(taskTargeted.dateTaxDraft1)}
+				hasAuditDraft={taskTargeted.hasAuditDraft}
+				dateAuditDraft={dtStrISO(taskTargeted.dateAuditDraft)}
+				dateTaxDraftWip={dtStrISO(taskTargeted.dateTaxDraftWip)}
+				dateTaxDraftToReview={dtStrISO(taskTargeted.dateTaxDraftToReview)}
+				dateTaxDraftFromReview={dtStrISO(taskTargeted.dateTaxDraftFromReview)}
+				dateTaxDraftToClient={dtStrISO(taskTargeted.dateTaxDraftToClient)}
+				dateTaxDraftSignedBack={dtStrISO(taskTargeted.dateTaxDraftSignedBack)}
+				dateSubmission={dtStrISO(taskTargeted.dateSubmission)}
+				homePic={picOptions}
+				svcProviders={spOptions}
+				picId={taskTargeted.picId}
+				svcProviderId={taskTargeted.svcProviderId}
+				taskStatusCode={taskTargeted.taskStatusCode}
+				invoiceNo={taskTargeted.invoiceNo}
+				invoiceAmount={taskTargeted.invoiceAmount}
+				invoiceDate={dtStrISO(taskTargeted.invoiceDate)}
+				paymentNote={taskTargeted.paymentNote}
+				paymentDate={dtStrISO(taskTargeted.paymentDate)}
+				invoiceStatusCode={taskTargeted.invoiceStatusCode}
+				remarks={taskTargeted.remarks ?? []}
+			/>
 		{:else if taskTargeted.svcTypeId === MySvcTypeId.FORM_E}
-			<TaskFormE />
+			<TaskFormE
+				fee={taskTargeted.fee}
+				accountByUs={taskTargeted.accountByUs}
+				dateDocsIn={dtStrISO(taskTargeted.dateDocsIn)}
+				dateDraftReview={dtStrISO(taskTargeted.dateDraftReview)}
+				dateDraftReturn={dtStrISO(taskTargeted.dateDraftReturn)}
+				dateClientSigned={dtStrISO(taskTargeted.dateClientSigned)}
+				isFeePaid={taskTargeted.isFeePaid}
+				dateSubmission={dtStrISO(taskTargeted.dateSubmission)}
+				homePic={picOptions}
+				svcProviders={spOptions}
+				picId={taskTargeted.picId}
+				svcProviderId={taskTargeted.svcProviderId}
+				taskStatusCode={taskTargeted.taskStatusCode}
+				invoiceNo={taskTargeted.invoiceNo}
+				invoiceAmount={taskTargeted.invoiceAmount}
+				invoiceDate={dtStrISO(taskTargeted.invoiceDate)}
+				paymentNote={taskTargeted.paymentNote}
+				paymentDate={dtStrISO(taskTargeted.paymentDate)}
+				invoiceStatusCode={taskTargeted.invoiceStatusCode}
+				remarks={taskTargeted.remarks ?? []}
+			/>
 		{:else if taskTargeted.svcTypeId === MySvcTypeId.CP204}
-			<TaskCP204 />
+			<TaskCP204
+				svcId={taskTargeted.svcId}
+				svcTypeId={taskTargeted.svcTypeId}
+				svcYear={taskTargeted.svcYear}
+				submission1={taskTargeted.submission1}
+				revision1={taskTargeted.revision1}
+				revision2={taskTargeted.revision2}
+				revisionMth11={taskTargeted.revisionMth11}
+				svcYearPrev={taskTargeted.svcYearPrev}
+				submission1Prev={taskTargeted.submission1Prev}
+				revision1Prev={taskTargeted.revision1Prev}
+				revision2Prev={taskTargeted.revision2Prev}
+				revisionMth11Prev={taskTargeted.revisionMth11Prev}
+				svcYearNext={taskTargeted.svcYearNext}
+				submission1Next={taskTargeted.submission1Next}
+				revision1Next={taskTargeted.revision1Next}
+				revision2Next={taskTargeted.revision2Next}
+				revisionMth11Next={taskTargeted.revisionMth11Next}
+				homePic={picOptions}
+				svcProviders={spOptions}
+				picId={taskTargeted.picId}
+				svcProviderId={taskTargeted.svcProviderId}
+				taskStatusCode={taskTargeted.taskStatusCode}
+				invoiceNo={taskTargeted.invoiceNo}
+				invoiceAmount={taskTargeted.invoiceAmount}
+				invoiceDate={dtStrISO(taskTargeted.invoiceDate)}
+				paymentNote={taskTargeted.paymentNote}
+				paymentDate={dtStrISO(taskTargeted.paymentDate)}
+				invoiceStatusCode={taskTargeted.invoiceStatusCode}
+				remarks={taskTargeted.remarks ?? []}
+			/>
 		{/if}
 
 		<div class="form-actions">

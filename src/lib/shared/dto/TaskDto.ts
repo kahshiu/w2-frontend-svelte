@@ -1,4 +1,4 @@
-import type { RemarksDto } from "./JsonDto";
+import type { RemarksDto, newRemarks } from "./JsonDto";
 import type { ClientCoDto } from "./ProfileDto";
 import type { ServiceDto } from "./ServiceDto";
 import type { FeeType, InvoiceStatusCode, SvcTypeId, SvcTypeLabel, TaskStatusCode, WorkflowStatusCode, YesNo } from "./enums";
@@ -58,7 +58,7 @@ export interface TaskDto {
     invoiceAmount: number,
     invoiceDate: string | null,
     paymentNote: string,
-    paymentAmount: number,
+    paymentDate: string | null,
     invoiceStatusCode: InvoiceStatusCode,
     remarks: RemarksDto[],
 }
@@ -70,7 +70,7 @@ type xtraAssignment = {
     defaultSvcProviderName: string 
 };
 
-export type TaskClientDto = TaskDto & ServiceDto & ClientCoDto & xtraAssignment
+export type TaskClientDto = TaskDto & ServiceDto & ClientCoDto & xtraAssignment & cp204Years;
 
 export interface TaskFilterDto {
     listOfSvcTypeIds: SvcTypeId[];
@@ -87,14 +87,18 @@ export type TaskCreationDto = {
     service: Record<SvcTypeLabel, TaskCreationEntry>
 }
 
-export type cp204Year = {
-    cp204Year: number;
-    submission1: string,
-    revision1: string,
-    revision2: string,
-    revisionMth11: string,
-}
-
 export type cp204Years = {
-    years: cp204Year[]
+    svcYearNext: number;
+    svcTypeIdNext: SvcTypeId,
+    submission1Next: string,
+    revision1Next: string,
+    revision2Next: string,
+    revisionMth11Next: string,
+
+    svcYearPrev: number;
+    svcTypeIdPrev: SvcTypeId,
+    submission1Prev: string,
+    revision1Prev: string,
+    revision2Prev: string,
+    revisionMth11Prev: string,
 }

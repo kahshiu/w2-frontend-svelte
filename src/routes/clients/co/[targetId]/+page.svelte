@@ -87,6 +87,8 @@
 			coRegNoNew={targetEntity.coRegNoNew}
 			dateIncorp={dtStrISO(targetEntity.dateIncorp ?? '')}
 			dateCommence={dtStrISO(targetEntity.dateCommence ?? '')}
+			yearEndMth={targetEntity.yearEndMth}
+			arDueMth={targetEntity.arDueMth}
 			incomeTaxBranch={targetEntity.incomeTaxBranch}
 			incomeTaxNo={targetEntity.incomeTaxNo}
 			employerNo={targetEntity.employerNo}

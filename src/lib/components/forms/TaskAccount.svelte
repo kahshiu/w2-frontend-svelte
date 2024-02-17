@@ -2,6 +2,7 @@
 	import RemarksHistory from './RemarksHistory.svelte';
 	import TaskAssignment from './TaskAssignment.svelte';
 	import { MyFeeType, type DefinitionDto2, MyTaskStatusCode } from '$lib/shared/dto/enums';
+	import type { RemarksDto } from '$lib/shared/dto/JsonDto';
 
 	export let fee = '';
 	export let engagementType = '';
@@ -12,6 +13,7 @@
 	export let picId: number = 0;
 	export let svcProviderId: number = 0;
 	export let taskStatusCode: number = MyTaskStatusCode.ACTIVE;
+	export let remarks: RemarksDto[] = []
 
 </script>
 
@@ -46,4 +48,4 @@
 	<TaskAssignment {homePic} {svcProviders} {picId} {svcProviderId} {taskStatusCode} />
 </div>
 
-<RemarksHistory title={'Account'} allRemarks={[]} />
+<RemarksHistory title={'Account'} allRemarks={[...remarks]} />

@@ -135,6 +135,7 @@ export const store = {
     entityClass: enumToObj(MyEntityClass),
     entitySubtype: enumToObj(MyEntitySubtype),
     contactType: enumToObj(MyContactType),
+    month: enumToObj(MyMonth),
     entityStatus: enumToObj(MyEntityStatus),
     profileStatus: enumToObj(MyProfileStatus),
     relationType: enumToObj(MyRelationType),

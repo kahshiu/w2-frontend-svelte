@@ -2,7 +2,7 @@
 import {
   GET_CO_CLIENT_SERVICES,
   LIST_CLIENT_TASK,
-  SAVE_CLIENT_TASK,
+  UPSERT_CLIENT_TASK,
   fetchJson,
   fetchListCoClient,
   fetchListSvcProvider
@@ -43,7 +43,7 @@ export const actions: Actions = {
     const { request } = event;
     const formData = await request.formData();
 
-    await fetchJson<TaskDto>(SAVE_CLIENT_TASK, {
+    await fetchJson<TaskDto>(UPSERT_CLIENT_TASK, {
       method: "POST",
       body: formData,
     })

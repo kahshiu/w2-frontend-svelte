@@ -14,6 +14,8 @@ export interface ProfileDto {
     coRegNoNew: string
     dateIncorp: string | null // Date
     dateCommence: string | null // Date
+    yearEndMth: number;
+    arDueMth: number;
     incomeTaxBranch: string
     incomeTaxNo: string
     employerNo: string

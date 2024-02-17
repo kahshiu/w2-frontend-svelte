@@ -30,11 +30,15 @@
 			{@const fnameRemarks = getFieldName(index, 'remarks')}
 			{@const formattedDate = dtFormatter(new Date(item.date))}
 			<tr>
-				<td class="wide">
+				<td class="small">
 					{formattedDate}
 					<input type="hidden" name={fnameDate} value={item.date} />
 				</td>
-				<td><textarea name={fnameRemarks} rows="4" value={item.remarks}></textarea></td>
+				<td>
+					<div class="form-field" style="align-items: stretch;">
+						<textarea name={fnameRemarks} rows="4" value={item.remarks}></textarea>
+					</div>
+				</td>
 				<td><input type="button" on:click={() => removeRemarks(item, index)} value="Remove" /></td>
 			</tr>
 		{/each}
@@ -45,7 +49,7 @@
 				Type into textbox and save the entire form
 			</td>
 			<td>
-				<div class="form-field">
+				<div class="form-field" style="align-items: stretch;">
 					<label class="field-label" for="newRemarks"></label>
 					<textarea name={getNewFieldName()} rows="4"></textarea>
 				</div>
@@ -53,3 +57,9 @@
 		</tr>
 	</tbody>
 </table>
+
+<style>
+	.wide {
+		width: 60%;
+	}
+</style>

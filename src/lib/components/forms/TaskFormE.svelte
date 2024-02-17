@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { RemarksDto } from '$lib/shared/dto/JsonDto';
 	import { MyInvoiceStatusCode, type DefinitionDto2, MyFeeType } from '$lib/shared/dto/enums';
 	import { dtStrISO, storeGet } from '$lib/shared/dtoHelpers';
 	import RadioGroup from './RadioGroup.svelte';
@@ -29,7 +30,9 @@
 	export let invoiceAmount = '';
 	export let invoiceDate = '';
 	export let paymentNote = '';
+	export let paymentDate = '';
 	export let invoiceStatusCode = MyInvoiceStatusCode.TASK_IN_PROGRESS;
+	export let remarks: RemarksDto[] = []
 </script>
 
 <div class="form-col-2">
@@ -110,7 +113,7 @@
 				class="field-spacing"
 				name="dateSubmission"
 				id="dateSubmission"
-				placeholder="Submission 1 here"
+				placeholder="Submission here"
 				bind:value={dateSubmission}
 			/>
 			<div class="field-description">*Make sure save in server</div>
@@ -118,8 +121,8 @@
 	</fieldset>
 	<div>
 		<TaskAssignment {homePic} {svcProviders} {picId} {svcProviderId} {taskStatusCode} />
-		<TaskInvoice {invoiceNo} {invoiceAmount} {invoiceDate} {paymentNote} {invoiceStatusCode}/>
+		<TaskInvoice {invoiceNo} {invoiceAmount} {invoiceDate} {paymentNote} {paymentDate} {invoiceStatusCode}/>
 	</div>
 </div>
 
-<RemarksHistory title={'FORM_E'} allRemarks={[]} />
+<RemarksHistory title={'FORM_E'} allRemarks={[...remarks]} />

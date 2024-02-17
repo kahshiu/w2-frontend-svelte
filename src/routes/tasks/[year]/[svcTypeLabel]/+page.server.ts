@@ -1,8 +1,8 @@
 import type { TaskClientDto } from "$lib/shared/dto/TaskDto";
-import { fetchJson, LIST_TASK_BY_YEAR_SVCTYPE } from "$lib/shared/ajax";
+import { fetchJson, fetchListSvcProvider, LIST_TASK_BY_YEAR_SVCTYPE, UPDATE_TASK, WAY_FRONTEND } from "$lib/shared/ajax";
 import { MySvcTypeId, type SvcTypeLabel } from "$lib/shared/dto/enums";
-import { error } from "@sveltejs/kit";
-import type { PageServerLoadEvent } from "./$types";
+import { error, redirect } from "@sveltejs/kit";
+import type { Actions, PageServerLoadEvent } from "./$types";
 
 export const load = async (event: PageServerLoadEvent) => {
   const yyyy = Number(event.params.year);
@@ -15,6 +15,8 @@ export const load = async (event: PageServerLoadEvent) => {
   const q1 = new URLSearchParams();
   q1.append("listOfSvcTypeIds", arrSvcTypeId.join(","));
   q1.append("listOfYears", arrYears.join(","));
+
+
 
   const respListTask = await fetchJson<TaskClientDto[]>(LIST_TASK_BY_YEAR_SVCTYPE + `?${q1.toString()}`);
   if (respListTask.result === null) {
@@ -29,9 +31,12 @@ export const load = async (event: PageServerLoadEvent) => {
     error(404, { message: respRelatedTask.message })
   }
 
+  const spResult = await fetchListSvcProvider();
+
   return {
     tasks: respListTask.result,
     relatedTasks: respRelatedTask.result,
+    svcProviders: spResult,
     year: yyyy,
     svcTypeLabel,
     svcTypeId,
@@ -39,19 +44,19 @@ export const load = async (event: PageServerLoadEvent) => {
 }
 
 // TODO: error handling
-/*
 export const actions: Actions = {
   save: async (event) => {
-    const { request } = event;
-    const formData = await request.formData();
-    const entityId = formData.get("entityId") as number | null;
-    const method = entityId !== null && entityId > 0 ? "PATCH" : "POST";
+    const svcYear = event.params.year
+    const svcTypeLabel = event.params.svcTypeLabel
 
-    const resp = await fetchJson<ProfileDto[]>(SAVE_CO_CLIENT, {
-      method,
+    const formData = await event.request.formData();
+    const taskId = formData.get("taskId") ?? "0";
+    await fetchJson(UPDATE_TASK, {
+      method: "PATCH",
       body: formData,
-    })
-    redirect(303, `${WAY_FRONTEND}/clients/co/${resp.result}`)
+    });
+
+    const nextUrl = `${WAY_FRONTEND}/tasks/${svcYear}/${svcTypeLabel}?taskId=${taskId}`;
+    redirect(303, nextUrl);
   }
 }
-*/

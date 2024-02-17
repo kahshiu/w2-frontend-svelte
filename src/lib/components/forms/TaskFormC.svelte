@@ -8,27 +8,31 @@
 	import TaskAssignment from './TaskAssignment.svelte';
 	import TaskInvoice from './TaskInvoice.svelte';
 
-	const feeType = MyFeeType.TAX_AGENT_FEE
+	const feeType = MyFeeType.TAX_AGENT_FEE;
 	export let fee = '';
 	export let hasManagementAcc = 0;
-	export let dateManagementAcc = dtStrISO('');
+	export let dateManagementAcc = '';
 
 	export let hasTaxDraft1 = 0;
-	export let dateTaxDraft1 = dtStrISO('');
+	export let dateTaxDraft1 = '';
 
 	export let hasAuditDraft = 0;
-	export let dateAuditDraft = dtStrISO('');
+	export let dateAuditDraft = '';
 
-	export let dateTaxDraftWip = dtStrISO('');
-	export let dateTaxDraftToReview = dtStrISO('');
-	export let dateTaxDraftFromReview = dtStrISO('');
-	export let dateTaxDraftToClient = dtStrISO('');
-	export let dateTaxDraftSignedBack = dtStrISO('');
-	export let dateSubmission = dtStrISO('');
+	export let dateTaxDraftWip = '';
+	export let dateTaxDraftToReview = '';
+	export let dateTaxDraftFromReview = '';
+	export let dateTaxDraftToClient = '';
+	export let dateTaxDraftSignedBack = '';
+	export let dateSubmission = '';
+
+	console.log("tracing dateManagementAcc", dateManagementAcc)
 
 	let dateManagementAccRequired = false;
 	let dateTaxDraft1Required = false;
 	let dateAuditDraftRequired = false;
+
+	console.log("tracing dateManagementAcc", dateManagementAcc)
 
 	// assignment props
 	export let homePic: DefinitionDto2[] = [];
@@ -38,7 +42,7 @@
 	export let svcProviderId: number = 0;
 	export let taskStatusCode: number = 100;
 
-  // invoice props
+	// invoice props
 	export let invoiceNo = '';
 	export let invoiceAmount = '';
 	export let invoiceDate = '';
@@ -53,7 +57,7 @@
 	<fieldset>
 		<legend>{showCapitalise('FORM_C')}</legend>
 		<div class="form-field">
-			<input type="hidden" name="feeType" value={feeType}>
+			<input type="hidden" name="feeType" value={feeType} />
 			<label class="field-label" for="fee"> Tax agent fee: </label>
 			<input
 				type="text"
@@ -80,14 +84,17 @@
 					dateManagementAccRequired = value == 1;
 				}}
 			/>
-			<input
-				type="date"
-				class="field-spacing"
-				name="dateManagementAcc"
-				id="dateManagementAcc"
-				required={dateManagementAccRequired}
-				bind:value={dateManagementAcc}
-			/>
+			<div class="tooltip-anchor">
+				<span class="tooltip">Date mgmt. acc. received</span>
+				<input
+					type="date"
+					class="field-spacing"
+					name="dateManagementAcc"
+					id="dateManagementAcc"
+					required={dateManagementAccRequired}
+					bind:value={dateManagementAcc}
+				/>
+			</div>
 		</div>
 
 		<div class="form-field">
@@ -102,14 +109,17 @@
 					dateTaxDraft1Required = value == 1;
 				}}
 			/>
-			<input
-				type="date"
-				class="field-spacing"
-				name="dateTaxDraft1"
-				id="dateTaxDraft1"
-				required={dateTaxDraft1Required}
-				bind:value={dateTaxDraft1}
-			/>
+			<div class="tooltip-anchor">
+				<span class="tooltip">Date 1st draft to auditor</span>
+				<input
+					type="date"
+					class="field-spacing"
+					name="dateTaxDraft1"
+					id="dateTaxDraft1"
+					required={dateTaxDraft1Required}
+					bind:value={dateTaxDraft1}
+				/>
+			</div>
 		</div>
 
 		<div class="form-field">
@@ -124,14 +134,18 @@
 					dateAuditDraftRequired = value == 1;
 				}}
 			/>
-			<input
-				type="date"
-				class="field-spacing"
-				name="dateAuditDraft"
-				id="dateAuditDraft"
-				required={dateAuditDraftRequired}
-				bind:value={dateAuditDraft}
-			/>
+
+			<div class="tooltip-anchor">
+				<span class="tooltip">Date received draft AUDIT</span>
+				<input
+					type="date"
+					class="field-spacing"
+					name="dateAuditDraft"
+					id="dateAuditDraft"
+					required={dateAuditDraftRequired}
+					bind:value={dateAuditDraft}
+				/>
+			</div>
 		</div>
 
 		<div class="form-field">
@@ -202,7 +216,7 @@
 	</fieldset>
 	<div>
 		<TaskAssignment {homePic} {svcProviders} {picId} {svcProviderId} {taskStatusCode} />
-		<TaskInvoice {invoiceNo} {invoiceAmount} {invoiceDate} {paymentNote} {invoiceStatusCode}/>
+		<TaskInvoice {invoiceNo} {invoiceAmount} {invoiceDate} {paymentNote} {invoiceStatusCode} />
 	</div>
 </div>
 

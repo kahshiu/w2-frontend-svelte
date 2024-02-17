@@ -61,6 +61,7 @@
 					<input
 						type="text"
 						name={getFieldName(index, 'name')}
+						placeholder="Contact person"
 						required
 						bind:value={contact.name}
 					/>
@@ -85,17 +86,24 @@
 							<option value={item.code.toString()}>{item.label}</option>
 						{/each}
 					</select>
-					<input
-						class="field-spacing"
-						type="text"
-						name={getFieldName(index, 'contact')}
-						required
-						bind:value={contact.contact}
-					/>
+					<div class="tooltip-anchor">
+						<span class="tooltip">Contact Details</span>
+						<input
+							class="field-spacing"
+							type="text"
+							name={getFieldName(index, 'contact')}
+							placeholder="Contact"
+							required
+							bind:value={contact.contact}
+						/>
+					</div>
 				</td>
 				<td>
-					<textarea name={getFieldName(index, 'note')} rows="4" bind:value={contact.note}
-					></textarea>
+					<div class="tooltip-anchor">
+						<span class="tooltip">Contact Notes</span>
+						<textarea name={getFieldName(index, 'note')} rows="4" bind:value={contact.note}
+						></textarea>
+					</div>
 				</td>
 				<td
 					><input
@@ -111,7 +119,7 @@
 		<tr class="row-add">
 			<td class="narrow"></td>
 			<td>
-				<input type="text" name="newContactName" bind:value={newName} />
+				<input type="text" name="newContactName" placeholder="Contact person" bind:value={newName} />
 			</td>
 			<td>
 				<select class="field-spacing" name="newContactType" bind:value={newType}>
@@ -119,10 +127,10 @@
 						<option value={item.code.toString()}>{item.label}</option>
 					{/each}
 				</select>
-				<input type="text" class="field-spacing" name="newContact" bind:value={newContact} />
+				<input type="text" class="field-spacing" name="newContact" placeholder="Contact" bind:value={newContact} />
 			</td>
 			<td>
-				<textarea name="newNote" rows="4" bind:value={newNote}></textarea>
+				<textarea name="newNote" rows="4" bind:value={newNote} placeholder="Contact Notes"></textarea>
 			</td>
 			<td
 				><input

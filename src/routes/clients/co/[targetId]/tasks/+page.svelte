@@ -152,6 +152,14 @@
 				goto(`/clients/co/${data.targetId}/services`);
 			}}
 		/>
+		<input
+			type="button"
+			class="small"
+			value="Folders Remarks"
+			on:click={() => {
+				goto(`/clients/co/${data.targetId}/remarks`);
+			}}
+		/>
 	</div>
 	{#if data.services.length > 0}
 		<table class="border-all">

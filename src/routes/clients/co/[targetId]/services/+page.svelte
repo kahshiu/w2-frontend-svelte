@@ -107,6 +107,14 @@
 		<input
 			type="button"
 			class="small"
+			value="Folder Remarks"
+			on:click={() => {
+				goto(`/clients/co/${data.targetId}/remarks`);
+			}}
+		/>
+		<input
+			type="button"
+			class="small"
 			value="Create Tasks"
 			on:click={() => {
 				goto(`/clients/co/${data.targetId}/tasks`);

@@ -24,7 +24,7 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.log('tracing data', data);
+	// console.log('tracing data', data);
 
 	let tasksFiltered = data.tasks;
 	let taskTargeted: TaskClientDto;
@@ -53,8 +53,8 @@
 			return t.taskId == targetId;
 		}) as TaskClientDto;
 
-		taskLabel = showCapitalise(findSvcTypeId(taskTargeted.svcTypeId));
-		taskYear = taskTargeted.svcYear.toString();
+		taskLabel = showCapitalise(findSvcTypeId(taskTargeted?.svcTypeId));
+		taskYear = taskTargeted?.svcYear.toString();
 		picOptions = data.svcProviders[0].staff.map((s) => ({ label: s.staffName, code: s.entityId }));
 		spOptions = data.svcProviders.slice(1).map((s) => ({ label: s.entityName, code: s.entityId }));
 
@@ -65,8 +65,11 @@
 	// DISPLAY: options
 
 	// INTERACTIVITY: page
-	const getUrl = (data: PageData, taskId: number) =>
-		`/tasks/${data.year}/${data.svcTypeLabel}?taskId=${taskId}`;
+	const getUrl = (data: PageData, taskId: number) => {
+		const qs = new URLSearchParams();
+		qs.append("taskId", taskId.toString());
+		return `/tasks/${data.year}/${data.svcTypeLabel}?${qs.toString()}`;
+	}
 
 	const getClientUrl = (client: ClientCoDto) => {
 		let url = '';
@@ -75,6 +78,11 @@
 		return url;
 	};
 
+	const getTaskUrl = (item: TaskClientDto) => {
+		const qs = new URLSearchParams();
+		qs.append("taskId", item.taskId.toString());
+		return `/tasks/${item.svcYear}/${findSvcTypeId(item.svcTypeId)}?${qs.toString()}`
+	}
 	/*
 	const getFolderUrl = (client: ClientCoDto) => {
 		let url = '';
@@ -106,7 +114,15 @@
 <main>
 	<nav class="breadcrumb">
 		<ul>
-			<li><a href="/tasks">Tasks</a></li>
+			<li>
+				<details style="display: inline-block">
+					<summary> Browse </summary>
+					<div style="margin-top: var(--spacing-medium); padding-top">
+						<div> <a href="/tasks/browse/pics">Browse by PIC</a> </div>
+						<div> <a href="/tasks/browse/folders">Browse by Folders</a> </div>
+					</div>
+				</details>
+			</li>
 			<li>Edit Task [ID: {data.taskId}]</li>
 		</ul>
 	</nav>
@@ -134,16 +150,14 @@
 			</thead>
 			<tbody>
 				{#each data.relatedTasks as item, key}
+					{@const nextUrl = getTaskUrl(item)}
 					<tr class={isTaskKived(item.taskStatusCode) ? 'gray-text' : ''}>
 						<td class="narrow"> {item.svcYear} </td>
 						<td> {findSvcTypeId(item.svcTypeId)} </td>
 						<td> {item.picName} </td>
 						<td> {item.svcProviderName} </td>
 						<td> {findTaskStatusCode(item.taskStatusCode)} </td>
-						<td>
-							<a href="/tasks/{item.svcYear}/{findSvcTypeId(item.svcTypeId)}?taskId={item.taskId}"
-								>Edit</a
-							>
+						<td> <a href={nextUrl}>Edit</a >
 						</td>
 					</tr>
 				{/each}

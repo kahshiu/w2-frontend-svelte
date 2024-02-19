@@ -92,6 +92,12 @@
 	$: picSelected, processAssignments();
 	$: years, processAssignments();
 	$: viewAllYears, processAssignments();
+
+	const getPicLink = (item: TaskAssignmentDto, svcTypeLabel: string) => {
+		const qs = new URLSearchParams();
+		qs.append("taskId", item.taskId.toString());
+		return `/tasks/${item.svcYear}/${svcTypeLabel}?${qs.toString()}`
+	}
 </script>
 
 <div>
@@ -197,7 +203,7 @@
 						<td class="narrow">{findTaskStatusCode(item.taskStatusCode)}</td>
 						<td class="narrow">{findWorkflowStatusCode(item.workflowStatus)}</td>
 						<td>
-							<a href="/tasks/{item.svcYear}/{svcTypeLabel}?taskId={item.taskId}">Edit</a>
+							<a href={getPicLink(item, svcTypeLabel)}>Edit</a>
 						</td>
 					</tr>
 				{/each}

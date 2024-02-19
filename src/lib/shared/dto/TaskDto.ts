@@ -153,6 +153,7 @@ export type TaskAssignmentDto = {
     entityStatus: EntityStatus
     profileStatus: ProfileStatus
 
+    picId: number,
     picName: string, 
     picContacts: ContactDto[],
     spName: string 

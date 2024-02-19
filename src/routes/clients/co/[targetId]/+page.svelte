@@ -54,7 +54,7 @@
 <main>
 	<nav class="breadcrumb">
 		<ul>
-			<li><a href="/clients">Clients</a></li>
+			<li><a href="/clients">List of Clients</a></li>
 			<li>{targetEntity?.entityName}</li>
 		</ul>
 	</nav>

@@ -6,7 +6,7 @@
 			<li>
 				<div>Profiler</div>
 				<ul>
-					<li><a href="/clients">Clients</a></li>
+					<li><a href="/clients">List of Clients</a></li>
 					<li><a href="/svc-providers">Service Provider</a></li>
 				</ul>
 			</li>

@@ -32,6 +32,7 @@
 	let taskLabel: string;
 	let picOptions: DefinitionDto2[];
 	let spOptions: DefinitionDto2[];
+	let relatedTasks: TaskClientDto[];
 
 	// INTERACTIVITY: side menu
 	const filterHandler = (event: Event) => {
@@ -57,6 +58,9 @@
 		taskYear = taskTargeted?.svcYear.toString();
 		picOptions = data.svcProviders[0].staff.map((s) => ({ label: s.staffName, code: s.entityId }));
 		spOptions = data.svcProviders.slice(1).map((s) => ({ label: s.entityName, code: s.entityId }));
+		relatedTasks = data.relatedTasks.filter((r) => {
+			return r.ownerId == taskTargeted.ownerId;
+		});
 
 		// console.log('tracing targeted', taskTargeted);
 	};
@@ -67,9 +71,9 @@
 	// INTERACTIVITY: page
 	const getUrl = (data: PageData, taskId: number) => {
 		const qs = new URLSearchParams();
-		qs.append("taskId", taskId.toString());
+		qs.append('taskId', taskId.toString());
 		return `/tasks/${data.year}/${data.svcTypeLabel}?${qs.toString()}`;
-	}
+	};
 
 	const getClientUrl = (client: ClientCoDto) => {
 		let url = '';
@@ -80,9 +84,9 @@
 
 	const getTaskUrl = (item: TaskClientDto) => {
 		const qs = new URLSearchParams();
-		qs.append("taskId", item.taskId.toString());
-		return `/tasks/${item.svcYear}/${findSvcTypeId(item.svcTypeId)}?${qs.toString()}`
-	}
+		qs.append('taskId', item.taskId.toString());
+		return `/tasks/${item.svcYear}/${findSvcTypeId(item.svcTypeId)}?${qs.toString()}`;
+	};
 	/*
 	const getFolderUrl = (client: ClientCoDto) => {
 		let url = '';
@@ -118,8 +122,8 @@
 				<details style="display: inline-block">
 					<summary> Browse </summary>
 					<div style="margin-top: var(--spacing-medium); padding-top">
-						<div> <a href="/tasks/browse/pics">Browse by PIC</a> </div>
-						<div> <a href="/tasks/browse/folders">Browse by Folders</a> </div>
+						<div><a href="/tasks/browse/pics">Browse by PIC</a></div>
+						<div><a href="/tasks/browse/folders">Browse by Folders</a></div>
 					</div>
 				</details>
 			</li>
@@ -136,7 +140,7 @@
 	<ClientCo targetEntity={taskTargeted} />
 
 	<h3><u>Client Tasks, {taskYear}</u></h3>
-	{#if data.relatedTasks.length > 0}
+	{#if relatedTasks.length > 0}
 		<table class="border-all">
 			<thead>
 				<tr>
@@ -149,7 +153,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each data.relatedTasks as item, key}
+				{#each relatedTasks as item, key}
 					{@const nextUrl = getTaskUrl(item)}
 					<tr class={isTaskKived(item.taskStatusCode) ? 'gray-text' : ''}>
 						<td class="narrow"> {item.svcYear} </td>
@@ -157,8 +161,7 @@
 						<td> {item.picName} </td>
 						<td> {item.svcProviderName} </td>
 						<td> {findTaskStatusCode(item.taskStatusCode)} </td>
-						<td> <a href={nextUrl}>Edit</a >
-						</td>
+						<td> <a href={nextUrl}>Edit</a> </td>
 					</tr>
 				{/each}
 			</tbody>
@@ -261,7 +264,7 @@
 				remarks={taskTargeted.remarks ?? []}
 			/>
 		{:else if taskTargeted.svcTypeId === MySvcTypeId.COSEC}
-			<TaskCosec 
+			<TaskCosec
 				homePic={picOptions}
 				svcProviders={spOptions}
 				picId={taskTargeted.picId}

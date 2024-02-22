@@ -76,10 +76,6 @@
 			{/each}
 		</ul>
 		<input type="submit" value="Create for ALL" />
-
-		<br />
-		<br />
-		<input type="text" name="listOfEntityIds" value="22" />
 	</form>
 
 	<!---

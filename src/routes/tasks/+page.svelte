@@ -13,6 +13,33 @@
 
 	export let data;
 	const clients: ClientCoServices[] = data.clients;
+
+	let years: number[] = [];
+	let yearText = '';
+
+	$: yearsJoined = years.join(',');
+
+	const autoAddHandler = (e: Event) => {
+		const el = e.target as HTMLInputElement;
+		const { value } = el;
+
+		const MIN_LENGTH = 4;
+		let filtered = value.replace(/[^0-9]/, '');
+
+		if (filtered.length >= MIN_LENGTH) {
+			const validYear = filtered.slice(0, MIN_LENGTH);
+			years = [...years, Number(validYear)];
+			filtered = filtered.slice(MIN_LENGTH);
+		}
+		yearText = filtered;
+
+		// console.log(value, "")
+	};
+
+	const removeYear = (index: number) => {
+		years.splice(index, 1);
+		years = [...years];
+	};
 </script>
 
 <NavMain></NavMain>
@@ -21,12 +48,42 @@
 	<hr />
 
 	<h3>1. Mass creation:</h3>
-	<form method="POST" action="?/all">
-    <p>Create for all clients. System will guarantee one task created for each engaged service for every client</p>
-		<a class="button" href="/clients/co/new">Create for ALL</a>
-	</form>
-	<hr />
+	<form method="POST" action="?/create">
+		<p>
+			Create for all clients. System will guarantee one task created for each engaged service for
+			every client
+		</p>
+		<h4>Years</h4>
+		<div class="row-add">
+			<input
+				type="text"
+				name="yearText"
+				id="yearText"
+				bind:value={yearText}
+				on:input={autoAddHandler}
+			/>
+			<label for="yearText">
+				Type into textbox YEAR. Years will populate on every 4th digit.
+			</label>
+		</div>
+		<ul class="years-field">
+			<input type="hidden" name="listOfYears" bind:value={yearsJoined} />
+			{#each years as item, key}
+				<li>
+					{item}
+					<input type="button" class="small" on:click={(e) => removeYear(key)} value="Remove" />
+				</li>
+			{/each}
+		</ul>
+		<input type="submit" value="Create for ALL" />
 
+		<br />
+		<br />
+		<input type="text" name="listOfEntityIds" value="22" />
+	</form>
+
+	<!---
+	<hr />
 	<h3>2. Selective creation:</h3>
 	<ul>
 		<li>Key in the <b><i>Year</i></b> to create tasks for.</li>
@@ -90,6 +147,7 @@
 			<a class="button" href="/clients/co/new">Create for Selected</a>
 		</div>
 	</form>
+	-->
 </main>
 
 <style>

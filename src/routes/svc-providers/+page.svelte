@@ -12,7 +12,7 @@
 	<h2>List of Service Providers</h2>
 
 	<div class="button-group">
-    <a class="button" href="/svc-providers/co/new">New Company Service Provider</a>
+		<a class="button" href="/svc-providers/co/new">New Company Service Provider</a>
 	</div>
 
 	<table class="border-all">

@@ -31,6 +31,7 @@ export const LIST_TASK_ASSIGNMENT = `${WAY_BACKEND}/tasks/assignment/list`;
 export const GET_CLIENT_TASK = `${WAY_BACKEND}/tasks/client`;
 export const UPSERT_CLIENT_TASK = `${WAY_BACKEND}/tasks/client`;
 export const UPDATE_TASK = `${WAY_BACKEND}/tasks`;
+export const YEARLY_TASK_CREATION = `${WAY_BACKEND}/tasks/year/create`;
 
 interface IResponseJson<TResult> {
 	result: TResult | null;

@@ -119,6 +119,8 @@
 	<nav class="breadcrumb">
 		<ul>
 			<li>
+				<a href="/tasks/browse/pics">Browse by PIC</a>
+				OR
 				<details style="display: inline-block">
 					<summary> Browse </summary>
 					<div style="margin-top: var(--spacing-medium); padding-top">

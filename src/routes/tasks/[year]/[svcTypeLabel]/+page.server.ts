@@ -16,16 +16,17 @@ export const load = async (event: PageServerLoadEvent) => {
   q1.append("listOfSvcTypeIds", arrSvcTypeId.join(","));
   q1.append("listOfYears", arrYears.join(","));
 
-
-
   const respListTask = await fetchJson<TaskClientDto[]>(LIST_TASK_BY_YEAR_SVCTYPE + `?${q1.toString()}`);
   if (respListTask.result === null) {
     error(404, { message: respListTask.message })
   }
 
+  // const ownerId = respListTask.result[0].ownerId;
   const q2 = new URLSearchParams();
   q2.append("listOfYears", event.params.year);
+  // q2.append("ownerId", ownerId.toString());
 
+  console.log("tracing run")
   const respRelatedTask = await fetchJson<TaskClientDto[]>(LIST_TASK_BY_YEAR_SVCTYPE + `?${q2.toString()}`);
   if (respRelatedTask.result === null) {
     error(404, { message: respRelatedTask.message })
